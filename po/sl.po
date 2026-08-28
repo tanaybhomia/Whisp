@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: whisp main\n"
 "Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
 "POT-Creation-Date: 2026-08-26 14:08+0000\n"
-"PO-Revision-Date: 2026-08-27 17:30+0200\n"
+"PO-Revision-Date: 2026-08-28 09:09+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -69,34 +69,28 @@ msgid "Random alphanumeric"
 msgstr "Naključno alfanumerično"
 
 #: src/whisp/editor.py:453
-#, fuzzy
 msgid "Insert a random inspirational quote"
-msgstr "Vstavi navedek"
+msgstr "Vstavi naključni navdihujoč citat"
 
 #: src/whisp/editor.py:454
-#, fuzzy
 msgid "Open a random Wikipedia page"
-msgstr "Wikipedija"
+msgstr "Odpri naključno stran na Wikipediji"
 
 #: src/whisp/editor.py:455
-#, fuzzy
 msgid "Ask the Magic 8-Ball"
-msgstr "Magic Lantern"
+msgstr "Vprašaj čarobno kroglo 8"
 
 #: src/whisp/editor.py:456
-#, fuzzy
 msgid "Insert standard placeholder text"
-msgstr "<text>Besedilo ograde</text>"
+msgstr "Vstavi standardno nadomestno besedilo"
 
 #: src/whisp/editor.py:457
-#, fuzzy
 msgid "Generate a secure 16-char password"
-msgstr "Ustvari naključno geslo"
+msgstr "Ustvari varno geslo z 16 znaki"
 
 #: src/whisp/editor.py:458
-#, fuzzy
 msgid "Generate a standard developer UUID"
-msgstr "UUID:"
+msgstr "Ustvari standardni UUID za razvijalce"
 
 #: src/whisp/editor.py:459
 #, fuzzy
@@ -114,22 +108,18 @@ msgid "Roll 4 d6 dice"
 msgstr "Kotaljenje"
 
 #: src/whisp/editor.py:462
-#, fuzzy
 msgid "Convert document to uppercase"
-msgstr "Pretvori besedilo v velike črke"
+msgstr "Pretvori dokument v velike črke"
 
 #: src/whisp/editor.py:463
-#, fuzzy
 msgid "Convert document to lowercase"
-msgstr "Pretvori besedilo v male črke"
+msgstr "Pretvori dokument v male črke"
 
 #: src/whisp/editor.py:464
-#, fuzzy
 msgid "Convert document to sentence case"
-msgstr "Stavčni zapis"
+msgstr "Pretvori dokument v velike začetnice"
 
 #: src/whisp/editor.py:465
-#, fuzzy
 msgid "Convert document to title case"
 msgstr "Pretvori izbor besedila v besede z veliko začetnico"
 
@@ -427,12 +417,11 @@ msgstr "Obnovitev iz slike je spodletela"
 #: src/whisp/window.py:233
 #, fuzzy
 msgid "Whisp (Development)"
-msgstr "Razvoj"
+msgstr "Snopič (razvoj)"
 
 #: src/whisp/window.py:432
-#, fuzzy
 msgid "Export Current Note…"
-msgstr "Izvozi trenutne nastavitve v sta_rem zapisu ..."
+msgstr "Izvozi trenutni zapisek ..."
 
 #: src/whisp/window.py:436
 msgid "Keyboard Shortcuts"
@@ -443,24 +432,20 @@ msgid "Preferences"
 msgstr "Nastavitve"
 
 #: src/whisp/window.py:438
-#, fuzzy
 msgid "About Whisp"
-msgstr "O programu Whisp"
+msgstr "O programu Snopič"
 
 #: src/whisp/window.py:442
-#, fuzzy
 msgid "Donate to Whisp"
-msgstr "Donirajte"
+msgstr "Donirajte Snopiču"
 
 #: src/whisp/window.py:608
-#, fuzzy
 msgid "Export Note"
-msgstr "Opomba"
+msgstr "Izvozi zapisek"
 
 #: src/whisp/window.py:629
-#, fuzzy
 msgid "Markdown File"
-msgstr "Odpri datoteko Markdown"
+msgstr "Datoteka Markdown"
 
 #: src/whisp/window.py:647
 msgid "Note exported successfully"
@@ -498,7 +483,7 @@ msgid "Note Unpinned"
 msgstr "%s je odstranjen iz pripetih programov"
 
 #: src/whisp/window.py:952
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "# 👋 Welcome to Whisp!\n"
 "\n"
@@ -525,6 +510,31 @@ msgid ""
 "\n"
 "🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
 msgstr ""
+"# 👋 Dobrodošli v Snopiču!\n"
+"\n"
+"Snopič je brezhibna proti-zapiskar. Tukaj ni gumbov za shranjevanje ali "
+"datotek za upravljanje.\n"
+"\n"
+"## Krmarjenje\n"
+"👉 **Podrsajte levo in desno** na sledilni ploščici (ali uporabite `krmilka+"
+"[` in `krmilka+]`) za preklapljanje med zapiski.\n"
+"➕ Če želite ustvariti nov zapisek, preprosto podrsnite mimo zadnjega "
+"zapiska!\n"
+"\n"
+"## Funkcije\n"
+"☑ **Kontrolni seznami**: Pritisnite `krmilka+S` v kateri koli vrstici, da "
+"takoj ustvarite ali preklopite potrditveno polje.\n"
+"🔗 **Pametne povezave**: Prilepite poljuben dolg URL in program ga bo "
+"samodejno skrajšal, da bodo vaši zapiski čisti.\n"
+"📋 **Navadno lepljenje**: Uporabite `krmilka+dvigalka+V` za čisto lepljenje "
+"besedila brez čudnega oblikovanja.\n"
+"🎨 **Teme**: Odprite Nastavitve (`krmilka+`), da izberete ozadje papirja "
+"(kot je mreža ali pikasto) in barvno shemo.\n"
+"\n"
+"📖 **Priročnik**: Za celoten seznam funkcij si oglejte [Uporabniški "
+"priročnik]({url})\n"
+"\n"
+"🗑️ Pritisnite `krmilka+D`, da izbrišete za zapisek, ko ste ga prebrali!"
 
 #: src/whisp/window.py:1055
 #, fuzzy
@@ -794,9 +804,8 @@ msgid "Ask for confirmation when deleting a note"
 msgstr "_Vprašaj za potrditev ob brisanju predmetov"
 
 #: src/whisp/window.py:1884
-#, fuzzy
 msgid "Show Command Confirmations"
-msgstr "Potrjevanje"
+msgstr "Pokaži potrditve ukazov"
 
 #: src/whisp/window.py:1885
 #, fuzzy
@@ -818,9 +827,8 @@ msgstr "Vedno zaženi Snopič neposredno v načinu klape"
 
 #. --- Running Group ---
 #: src/whisp/window.py:1918
-#, fuzzy
 msgid "Running"
-msgstr "Ne teče"
+msgstr "V teku"
 
 #: src/whisp/window.py:1921
 #, fuzzy
@@ -842,9 +850,8 @@ msgid "Automatically launch the application when you log in"
 msgstr "Programi, zagnani samodejno ob prijavi uporabnika v sistem."
 
 #: src/whisp/window.py:1945
-#, fuzzy
 msgid "Start Hidden"
-msgstr "_Skrito"
+msgstr "Zaženi skrito"
 
 #: src/whisp/window.py:1946
 #, fuzzy

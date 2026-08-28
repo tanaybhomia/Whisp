@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: whisp main\n"
 "Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
 "POT-Creation-Date: 2026-08-26 14:08+0000\n"
-"PO-Revision-Date: 2026-08-28 09:09+0200\n"
+"PO-Revision-Date: 2026-08-28 09:54+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -742,7 +742,6 @@ msgstr ""
 "vendar jih je še vedno mogoče v celoti iskati s kombinacijo tipk krmilka+F."
 
 #: src/whisp/window.py:1831
-#, fuzzy
 msgid "Never"
 msgstr "Nikoli"
 
@@ -775,26 +774,22 @@ msgstr ""
 "ostanejo povsem iskljivi."
 
 #: src/whisp/window.py:1853
-#, fuzzy
 msgid "10 Notes"
-msgstr "10"
+msgstr "10 zapiskov"
 
 #: src/whisp/window.py:1853
-#, fuzzy
 msgid "25 Notes"
-msgstr "25"
+msgstr "25 zapiskov"
 
 #: src/whisp/window.py:1853
-#, fuzzy
 msgid "50 Notes"
-msgstr "50"
+msgstr "50 zapiskov"
 
 #: src/whisp/window.py:1853
 msgid "Unlimited"
 msgstr "Neomejeno"
 
 #: src/whisp/window.py:1872
-#, fuzzy
 msgid "Confirm Before Deleting"
 msgstr "Potrdi pred brisanjem"
 
@@ -868,32 +863,28 @@ msgid "Application"
 msgstr "Program"
 
 #: src/whisp/window.py:1967
-#, fuzzy
 msgid "New Note"
-msgstr "Novo sporočilce"
+msgstr "Nov zapisek"
 
 #: src/whisp/window.py:1968
-#, fuzzy
 msgid "Search Notes"
-msgstr "Iščite po beležkah"
+msgstr "Išči po zapiskih"
 
 #: src/whisp/window.py:1970
 msgid "Show Shortcuts"
 msgstr "Pokaži tipkovne bližnjice‫"
 
 #: src/whisp/window.py:1971
-#, fuzzy
 msgid "Toggle Slate Mode"
-msgstr "Pre&klopi način prikaza izbora"
+msgstr "Preklopi način klape"
 
 #: src/whisp/window.py:1972
 msgid "Quit Application"
 msgstr "Izhod iz programa"
 
 #: src/whisp/window.py:1974
-#, fuzzy
 msgid "Note Management"
-msgstr "Opomba"
+msgstr "Upravljanje zapiskov"
 
 #: src/whisp/window.py:1975
 msgid "Delete Note"
@@ -904,48 +895,40 @@ msgid "Undo Delete"
 msgstr "Razveljavi brisanje"
 
 #: src/whisp/window.py:1977
-#, fuzzy
 msgid "Pin Note"
-msgstr "Koda PIN"
+msgstr "Pripni zapisek"
 
 #: src/whisp/window.py:1978
-#, fuzzy
 msgid "Move Note to Front"
-msgstr "Premakni v ospredje"
+msgstr "Premakni zapisek v ospredje"
 
 #: src/whisp/window.py:1979
-#, fuzzy
 msgid "Copy Note"
-msgstr "Izjema med izdelavo kopije sporočilca"
+msgstr "Kopiraj zapisek"
 
 #: src/whisp/window.py:1980
-#, fuzzy
 msgid "Toggle WYSIWYG"
-msgstr "Preklop"
+msgstr "Preklopi WYSIWYG"
 
 #: src/whisp/window.py:1982
 msgid "Navigation"
 msgstr "Krmarjenje"
 
 #: src/whisp/window.py:1983
-#, fuzzy
 msgid "Previous Note"
-msgstr "Odpri prejšnjo beležko"
+msgstr "Prejšnji zapisek"
 
 #: src/whisp/window.py:1984
-#, fuzzy
 msgid "Next Note"
-msgstr "Skoči na naslednjo opombo"
+msgstr "Naslednji zapisek"
 
 #: src/whisp/window.py:1985
-#, fuzzy
 msgid "First Note"
-msgstr "Opomba"
+msgstr "Prvi zapisek"
 
 #: src/whisp/window.py:1986
-#, fuzzy
 msgid "Last Note"
-msgstr "Opomba"
+msgstr "Zadnji zapisek"
 
 #: src/whisp/window.py:2001
 msgid "Disabled"
@@ -966,18 +949,16 @@ msgid "Data Location"
 msgstr "Kraj podatkov"
 
 #: src/whisp/window.py:2037
-#, fuzzy
 msgid "Notes Directory"
-msgstr "Uskladi sporočilca Gnote s spletno mapo"
+msgstr "Mapa zapiskov"
 
 #: src/whisp/window.py:2047
 msgid "Change…"
 msgstr "Spremeni …"
 
 #: src/whisp/window.py:2221
-#, fuzzy
 msgid "Select Notes Directory"
-msgstr "Izberite mapo"
+msgstr "Izberite mapo zapiskov"
 
 #: src/whisp/window.py:2361
 #, fuzzy

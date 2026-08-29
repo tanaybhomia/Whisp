@@ -89,6 +89,7 @@ class SearchProviderService(Gio.Application):
             return []
         previous = set(previous) if previous is not None else None
         results = []
+        config.load()
         for entry in self.note_index.load_dir(config.data_dir):
             if not match_all_terms(entry, terms):
                 continue
@@ -169,6 +170,7 @@ class SearchProviderService(Gio.Application):
             path = Path(note_id).resolve()
         except (OSError, ValueError):
             return None
+        config.load()
         data_dir = Path(config.data_dir).resolve()
         if path.parent != data_dir or path.suffix != ".md" or not path.is_file():
             return None

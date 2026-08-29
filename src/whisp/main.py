@@ -114,7 +114,7 @@ class WhispApp(Adw.Application):
         if hasattr(self, 'start_hidden') and self.start_hidden:
             self.start_hidden = False
         else:
-            if win and not win.is_visible():
+            if win and not win.is_visible() and not getattr(self, '_opening_files', False):
                 from whisp.config import config
                 if config.get("startup_behavior", "last_note") == "empty_note":
                     win.ensure_empty_note_at_end()
@@ -122,6 +122,7 @@ class WhispApp(Adw.Application):
             win.present()
 
     def do_open(self, files, n_files, hint):
+        self._opening_files = True
         windows = self.get_windows()
         win = windows[0] if windows else None
         
@@ -141,13 +142,26 @@ class WhispApp(Adw.Application):
                 continue
             path = file.get_path()
             if path:
+                from pathlib import Path
+                target_path = Path(path)
                 # Check if it's already in the carousel
                 found = False
                 n_pages = win.carousel.get_n_pages()
                 for i in range(n_pages):
                     editor = win.carousel.get_nth_page(i)
-                    if str(editor.file_path) == path:
-                        win.carousel.scroll_to(editor, True)
+                    if editor.file_path and Path(editor.file_path).name == target_path.name:
+                        def do_scroll(ed=editor):
+                            if win.carousel.get_width() == 0:
+                                do_scroll.attempts = getattr(do_scroll, 'attempts', 0) + 1
+                                if do_scroll.attempts < 20:
+                                    return True
+                            win.carousel.scroll_to(ed, False)
+                            ed.textview.grab_focus()
+                            return False
+                        
+                        from gi.repository import GLib
+                        GLib.timeout_add(50, do_scroll)
+                        GLib.timeout_add(150, do_scroll)
                         found = True
                         break
                 
@@ -167,6 +181,12 @@ class WhispApp(Adw.Application):
         win.present()
         if search_terms:
             win.open_search(search_terms)
+            
+        from gi.repository import GLib
+        def reset_flag():
+            self._opening_files = False
+            return False
+        GLib.timeout_add(1000, reset_flag)
 
 def main():
     if '--search-provider' in sys.argv:

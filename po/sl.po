@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: whisp main\n"
 "Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
 "POT-Creation-Date: 2026-08-27 06:12+0000\n"
-"PO-Revision-Date: 2026-08-29 15:40+0200\n"
+"PO-Revision-Date: 2026-08-29 16:21+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -93,19 +93,16 @@ msgid "Generate a standard developer UUID"
 msgstr "Ustvari standardni UUID za razvijalce"
 
 #: src/whisp/editor.py:460
-#, fuzzy
 msgid "Roll a 20-sided die"
 msgstr "Vrzi 20-stransko kocko"
 
 #: src/whisp/editor.py:461
-#, fuzzy
 msgid "Roll a d20 die"
-msgstr "Vrzi d20-kocko"
+msgstr "Vrzi kocko d20"
 
 #: src/whisp/editor.py:462
-#, fuzzy
 msgid "Roll 4 d6 dice"
-msgstr "Vrzi 4 d6-kocke"
+msgstr "Vrzi 4 kocke d6"
 
 #: src/whisp/editor.py:463
 msgid "Convert document to uppercase"
@@ -124,9 +121,8 @@ msgid "Convert document to title case"
 msgstr "Pretvori izbor besedila v besede z veliko začetnico"
 
 #: src/whisp/editor.py:467
-#, fuzzy
 msgid "Capitalize first letter"
-msgstr "Prve črke spremeni v velike začetnice"
+msgstr "Prve črke v velike začetnice"
 
 #: src/whisp/editor.py:468
 msgid "Strip surrounding quotes"
@@ -213,14 +209,12 @@ msgid "Remove all checked items"
 msgstr "Odstrani vse potrjene predmete"
 
 #: src/whisp/editor.py:991
-#, fuzzy
 msgid "It is certain."
 msgstr "To je gotovo."
 
 #: src/whisp/editor.py:991
-#, fuzzy
 msgid "It is decidedly so."
-msgstr "Gotovo je tako."
+msgstr "Zatrdno je tako."
 
 #: src/whisp/editor.py:991
 msgid "Without a doubt."
@@ -235,9 +229,8 @@ msgid "You may rely on it."
 msgstr "Lahko se zanesete na to."
 
 #: src/whisp/editor.py:991
-#, fuzzy
 msgid "As I see it, yes."
-msgstr "Kot sam to vidim, da."
+msgstr "Kot lahko vidimo, da."
 
 #: src/whisp/editor.py:991
 msgid "Most likely."
@@ -252,12 +245,10 @@ msgid "Yes."
 msgstr "Da."
 
 #: src/whisp/editor.py:991
-#, fuzzy
 msgid "Signs point to yes."
-msgstr "Vse kaže proti da."
+msgstr "Vse kaže na: da."
 
 #: src/whisp/editor.py:991
-#, fuzzy
 msgid "Reply hazy, try again."
 msgstr "Odgovor nejasen, poskusite znova."
 
@@ -294,9 +285,8 @@ msgid "Outlook not so good."
 msgstr "Ne kaže dobro."
 
 #: src/whisp/editor.py:991
-#, fuzzy
 msgid "Very doubtful."
-msgstr "Hudo dvomljivo."
+msgstr "Hudo vprašljivo."
 
 #: src/whisp/editor.py:1060
 msgid "Converted to uppercase"
@@ -315,9 +305,8 @@ msgid "Converted to Sentence case"
 msgstr "Pretvorjeno v stavčni zapis"
 
 #: src/whisp/editor.py:1076
-#, fuzzy
 msgid "Capitalized first letter"
-msgstr "Prva črka je postala velika začetnica"
+msgstr "Prva črka spremenjena v veliko začetnico"
 
 #: src/whisp/editor.py:1080
 msgid "Stripped quotes"
@@ -444,7 +433,7 @@ msgid "Note Unpinned"
 msgstr "Zapisek odpet"
 
 #: src/whisp/window.py:963
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "# 👋 Welcome to Whisp!\n"
 "\n"
@@ -473,7 +462,7 @@ msgid ""
 msgstr ""
 "# 👋 Dobrodošli v Snopiču!\n"
 "\n"
-"Snopič je brezhiben proti-zapiskar. Tukaj ni gumbov za shranjevanje ali "
+"Snopič je brezhiben proti-zapisnikar. Tukaj ni gumbov za shranjevanje ali "
 "datotek za upravljanje.\n"
 "\n"
 "## Krmarjenje\n"
@@ -506,7 +495,6 @@ msgid "Changelogs"
 msgstr "Seznam sprememb"
 
 #: src/whisp/window.py:1075
-#, fuzzy
 msgid ""
 "<b>Export and Better OCR</b>\n"
 "\n"
@@ -523,7 +511,7 @@ msgstr ""
 "\n"
 "• Trenutni zapisek lahko takoj izvozite z novim gumbom »Izvozi zapisek« v "
 "glavnem meniju.\n"
-"• Elementi seznama se zdaj brez težav ustvarjajo s standardno skladnjo "
+"• Postavke seznama se zdaj brez težav ustvarjajo s standardno skladnjo "
 "Markdown.\n"
 "• Odpravljene so bile težave s fiksnimi zamiki pri izpisovanju besedila s "
 "pomočjo funkcije »Pametno lepljenje z OCR«.\n"
@@ -627,7 +615,6 @@ msgstr "Privzeta sistemska"
 
 #. Theme Snippets Group
 #: src/whisp/window.py:1766
-#, fuzzy
 msgid "Paper Theme"
 msgstr "Papirna tema"
 
@@ -647,7 +634,6 @@ msgid "Workflow"
 msgstr "Potek dela"
 
 #: src/whisp/window.py:1822
-#, fuzzy
 msgid "WYSIWYG Scope"
 msgstr "Doseg WYSIWYG"
 
@@ -770,9 +756,8 @@ msgid "Keep Running in Background"
 msgstr "Še naprej izvajaj v ozadju"
 
 #: src/whisp/window.py:1945
-#, fuzzy
 msgid "Hides the application when closed instead of terminating"
-msgstr "Ohrani delovanje programa v ozadju ob zaprtju namesto ustavitve"
+msgstr "Skrije program ob zaprtju namesto ustavitve"
 
 #: src/whisp/window.py:1956
 msgid "Run on Startup"

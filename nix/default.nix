@@ -11,11 +11,14 @@
 , gobject-introspection
 , gettext
 , desktop-file-utils
+, tesseract
 }:
 
 let
   pythonEnv = python3.withPackages (ps: with ps; [
     pygobject3
+    pytesseract
+    pillow
   ]);
 in
 stdenv.mkDerivation rec {
@@ -40,6 +43,15 @@ stdenv.mkDerivation rec {
     gtk4
     libadwaita
   ];
+
+  dontWrapGApps = true;
+
+  preFixup = ''
+    makeWrapperArgs+=(
+      "''${gappsWrapperArgs[@]}"
+      --prefix PATH : "${lib.makeBinPath [ tesseract ]}"
+    )
+  '';
 
   meta = {
     homepage = "https://github.com/tanaybhomia/Whisp";

@@ -24,6 +24,7 @@ whisp_sources = [
   'whisp/text_search.py',
   'whisp/notes.py',
   'whisp/search_provider.py',
+  'whisp/stats.py',
 ]
 
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())

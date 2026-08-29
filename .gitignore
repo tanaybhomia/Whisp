@@ -22,3 +22,4 @@ builddir/
 
 # pytest
 .pytest_cache/
+/result

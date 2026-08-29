@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: whisp main\n"
 "Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
 "POT-Creation-Date: 2026-08-27 06:12+0000\n"
-"PO-Revision-Date: 2026-08-28 22:30+0200\n"
+"PO-Revision-Date: 2026-08-29 15:40+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -95,17 +95,17 @@ msgstr "Ustvari standardni UUID za razvijalce"
 #: src/whisp/editor.py:460
 #, fuzzy
 msgid "Roll a 20-sided die"
-msgstr "Kotaljenje"
+msgstr "Vrzi 20-stransko kocko"
 
 #: src/whisp/editor.py:461
 #, fuzzy
 msgid "Roll a d20 die"
-msgstr "Kotaljenje"
+msgstr "Vrzi d20-kocko"
 
 #: src/whisp/editor.py:462
 #, fuzzy
 msgid "Roll 4 d6 dice"
-msgstr "Kotaljenje"
+msgstr "Vrzi 4 d6-kocke"
 
 #: src/whisp/editor.py:463
 msgid "Convert document to uppercase"
@@ -126,12 +126,11 @@ msgstr "Pretvori izbor besedila v besede z veliko začetnico"
 #: src/whisp/editor.py:467
 #, fuzzy
 msgid "Capitalize first letter"
-msgstr "_Pismo"
+msgstr "Prve črke spremeni v velike začetnice"
 
 #: src/whisp/editor.py:468
-#, fuzzy
 msgid "Strip surrounding quotes"
-msgstr "Trak %d"
+msgstr "Odstrani objemajoče narekovaje"
 
 #: src/whisp/editor.py:469
 msgid "Add text to the end of every line"
@@ -170,19 +169,16 @@ msgid "Remove lines not containing text"
 msgstr "Odstrani vrstice, ki ne vsebujejo besedila"
 
 #: src/whisp/editor.py:478
-#, fuzzy
 msgid "Keep only lines containing text"
-msgstr "Ohrani le izbrane besedilne predmete"
+msgstr "Ohrani le vrstice, ki vsebujejo besedilo"
 
 #: src/whisp/editor.py:479
-#, fuzzy
 msgid "Keep only lines not containing text"
-msgstr "Ohrani le izbrane besedilne predmete"
+msgstr "Ohrani le vrstice, ki ne vsebujejo besedila"
 
 #: src/whisp/editor.py:480
-#, fuzzy
 msgid "Trim whitespace from all lines"
-msgstr "Med shranjevanjem bodo končni presledni znaki vrstic obrezani"
+msgstr "Obreži končne presledne znake v vseh vrsticah"
 
 #: src/whisp/editor.py:481
 msgid "Remove duplicate lines"
@@ -193,28 +189,24 @@ msgid "Find and group duplicate lines"
 msgstr "Poišči in združi podvojene vrstice"
 
 #: src/whisp/editor.py:483
-#, fuzzy
 msgid "Convert comma-separated items to list"
-msgstr "Pretvori seznam vrednosti, ločenih z vejico, v seznam"
+msgstr "Pretvori seznam elementov, ločenih z vejico, v seznam"
 
 #: src/whisp/editor.py:484
 msgid "Convert commas to custom delimiter"
 msgstr "Pretvori vejice v ločilo po meri"
 
 #: src/whisp/editor.py:485
-#, fuzzy
 msgid "Convert lines to comma-separated"
-msgstr "Pretvori črte v z vejico ločen seznam"
+msgstr "Pretvori vrstice v z vejico ločen seznam"
 
 #: src/whisp/editor.py:486
-#, fuzzy
 msgid "Convert lines to custom delimiter"
 msgstr "Pretvori vrstice v ločilo po meri"
 
 #: src/whisp/editor.py:487
-#, fuzzy
 msgid "Move checked items to bottom"
-msgstr "Pomakni območje v ozadje"
+msgstr "Premakni potrjene postavke na dno"
 
 #: src/whisp/editor.py:488
 msgid "Remove all checked items"
@@ -223,7 +215,7 @@ msgstr "Odstrani vse potrjene predmete"
 #: src/whisp/editor.py:991
 #, fuzzy
 msgid "It is certain."
-msgstr "To je zagotovljeno."
+msgstr "To je gotovo."
 
 #: src/whisp/editor.py:991
 #, fuzzy
@@ -239,7 +231,6 @@ msgid "Yes definitely."
 msgstr "Da, seveda."
 
 #: src/whisp/editor.py:991
-#, fuzzy
 msgid "You may rely on it."
 msgstr "Lahko se zanesete na to."
 
@@ -326,22 +317,19 @@ msgstr "Pretvorjeno v stavčni zapis"
 #: src/whisp/editor.py:1076
 #, fuzzy
 msgid "Capitalized first letter"
-msgstr "_Pismo"
+msgstr "Prva črka je postala velika začetnica"
 
 #: src/whisp/editor.py:1080
-#, fuzzy
 msgid "Stripped quotes"
-msgstr "Oznani _navedke v načinu polne izgovorjave"
+msgstr "Narekovaji so obrezani"
 
 #: src/whisp/editor.py:1112
-#, fuzzy
 msgid "Sorted lines alphabetically"
-msgstr "Nerazvrščeno"
+msgstr "Vrstice razvrščene po abecedi"
 
 #: src/whisp/editor.py:1119
-#, fuzzy
 msgid "Sorted lines numerically"
-msgstr "razvrščeno"
+msgstr "Vrstice razvrščene po številih"
 
 #: src/whisp/editor.py:1122
 msgid "Reversed line order"
@@ -352,60 +340,50 @@ msgid "Removed empty lines"
 msgstr "Odstranjene prazne vrstice"
 
 #: src/whisp/editor.py:1144
-#, fuzzy
 msgid "Trimmed whitespace from all lines"
-msgstr "Med shranjevanjem bodo končni presledni znaki vrstic obrezani"
+msgstr "Končni presledni znaki so obrezani v vseh vrsticah"
 
 #: src/whisp/editor.py:1153
-#, fuzzy
 msgid "Removed duplicate lines"
-msgstr "Odstranjenih je bilo %d dvojnikov"
+msgstr "Podvojene vrstice odstranjene"
 
 #: src/whisp/editor.py:1164
-#, fuzzy
 msgid "Found duplicate lines"
-msgstr "Podvojenih sporočil ni mogoče najti."
+msgstr "Najdene podvojene vrstice"
 
 #: src/whisp/editor.py:1166
 msgid "No duplicates found"
 msgstr "Ni mogoče najti dvojnikov"
 
 #: src/whisp/editor.py:1170
-#, fuzzy
 msgid "Converted commas to list"
-msgstr "Domene iskanja morajo biti ločene z vejicami"
+msgstr "Vejice pretvorjene v seznam"
 
 #: src/whisp/editor.py:1178
-#, fuzzy
 msgid "Converted lines to comma-separated"
-msgstr "Z vejico ločen seznam vrednosti (CSV)"
+msgstr "Vrstice pretvorjene v z vejico ločen seznam"
 
 #: src/whisp/editor.py:1194
-#, fuzzy
 msgid "Moved checked items to bottom"
-msgstr "potrjeno"
+msgstr "Potrjene postavke so prestavljene na dno"
 
 #: src/whisp/editor.py:1200
-#, fuzzy
 msgid "Removed all checked items"
-msgstr "izbrani so vsi predmeti"
+msgstr "Odstranjene so bile vse potrjene postavke"
 
 #: src/whisp/editor.py:1526
-#, fuzzy
 msgid "Extracting text from image…"
-msgstr "Izvlečenje besedila iz slike …"
+msgstr "Izpisovanje besedila iz slike…"
 
 #: src/whisp/editor.py:1547
 msgid "No text found in image"
 msgstr "Na sliki ni razpoznanega besedila"
 
 #: src/whisp/editor.py:1559
-#, fuzzy
 msgid "Failed to extract text from image"
-msgstr "Obnovitev iz slike je spodletela"
+msgstr "Iz slike ni bilo mogoče izvleči besedila"
 
 #: src/whisp/window.py:240
-#, fuzzy
 msgid "Whisp (Development)"
 msgstr "Snopič (razvoj)"
 
@@ -495,7 +473,7 @@ msgid ""
 msgstr ""
 "# 👋 Dobrodošli v Snopiču!\n"
 "\n"
-"Snopič je brezhibna proti-zapiskar. Tukaj ni gumbov za shranjevanje ali "
+"Snopič je brezhiben proti-zapiskar. Tukaj ni gumbov za shranjevanje ali "
 "datotek za upravljanje.\n"
 "\n"
 "## Krmarjenje\n"
@@ -573,9 +551,8 @@ msgid "Note moved to front"
 msgstr "Zapisek pomaknjen v ospredje"
 
 #: src/whisp/window.py:1246
-#, fuzzy
 msgid "Cannot delete the default empty note"
-msgstr "Privzetega sloga ni mogoče izbrisati."
+msgstr "Privzetega zapiska ni mogoče izbrisati"
 
 #: src/whisp/window.py:1257
 msgid "Delete Note?"
@@ -602,15 +579,14 @@ msgid "Note deleted"
 msgstr "Beležka izbrisana"
 
 #: src/whisp/window.py:1305
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Permanent delete fallback (Error: {error})"
-msgstr ""
-"Napaka: '--permanent-only' in '--permanent' ni možno uporabljati skupaj."
+msgstr "Rezervna možnost trajnega brisanja (napaka: {error})"
 
 #: src/whisp/window.py:1307
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to delete completely: {error}"
-msgstr "Naslov URI %s bo izpuščen; razširjanje je povsem spodletelo: %s"
+msgstr "Izbris ni bil v celoti uspešen: {error}"
 
 #: src/whisp/window.py:1598
 msgid "Set Shortcut"
@@ -653,7 +629,7 @@ msgstr "Privzeta sistemska"
 #: src/whisp/window.py:1766
 #, fuzzy
 msgid "Paper Theme"
-msgstr "Papir"
+msgstr "Papirna tema"
 
 #. Line Spacing
 #: src/whisp/window.py:1796
@@ -682,33 +658,28 @@ msgstr ""
 "posebej za vsak zapisek."
 
 #: src/whisp/window.py:1825
-#, fuzzy
 msgid "Global"
 msgstr "Globalno"
 
 #: src/whisp/window.py:1825
-#, fuzzy
 msgid "Per Note"
-msgstr "Opomba"
+msgstr "Na zapisek"
 
 #: src/whisp/window.py:1837
 msgid "Startup Behavior"
 msgstr "Vedenje ob zagonu"
 
 #: src/whisp/window.py:1838
-#, fuzzy
 msgid "Restore last active note"
-msgstr "Zastavica za obnovitev zadnjega pogleda"
+msgstr "Obnovi zadnji dejavni zapisek"
 
 #: src/whisp/window.py:1838
-#, fuzzy
 msgid "Start with empty note"
-msgstr "Sporočilce začnite tukaj"
+msgstr "Začni s praznim zapiskom"
 
 #: src/whisp/window.py:1851
-#, fuzzy
 msgid "Auto-Archive Inactive Notes"
-msgstr "Nedejavno"
+msgstr "Samodejno arhiviraj nedejavne zapiske"
 
 #: src/whisp/window.py:1852
 msgid ""
@@ -727,28 +698,24 @@ msgid "1 Week"
 msgstr "1 teden"
 
 #: src/whisp/window.py:1854
-#, fuzzy
 msgid "1 Month"
-msgstr "1 mesec nazaj"
+msgstr "1 mesec"
 
 #: src/whisp/window.py:1854
-#, fuzzy
 msgid "1 Year"
-msgstr "1 leto nazaj"
+msgstr "1 leto"
 
 #: src/whisp/window.py:1873
-#, fuzzy
 msgid "Max Carousel Size"
-msgstr "Največja velikost prikazne datoteke"
+msgstr "Največja velikost vrtiljaka"
 
 #: src/whisp/window.py:1874
-#, fuzzy
 msgid ""
 "Limit the number of notes loaded into the swipable carousel. Older notes "
 "remain fully searchable."
 msgstr ""
-"Omejite število zapiskov, naloženih v drsni vrtiljak. Starejši zapiski "
-"ostanejo povsem iskljivi."
+"Omejite število zapiskov, naloženih v drsni vrtiljak. Po starejših zapiskih "
+"lahko še vedno iščete."
 
 #: src/whisp/window.py:1876
 msgid "10 Notes"
@@ -779,20 +746,17 @@ msgid "Show Command Confirmations"
 msgstr "Pokaži potrditve ukazov"
 
 #: src/whisp/window.py:1908
-#, fuzzy
 msgid ""
 "Display a small confirmation message when you use a text manipulation command"
 msgstr ""
-"Prikaži majhno potrditveno sporočilo, ko se uporabi ukaz za spreminjanje "
+"Prikaži majhno potrditveno sporočilo, ko se uporabi ukaz za obravnavo "
 "besedila"
 
 #: src/whisp/window.py:1923
-#, fuzzy
 msgid "Enable Slate Mode on Startup"
-msgstr "Omogoči način prostega pisanja"
+msgstr "Omogoči način klape ob zagonu"
 
 #: src/whisp/window.py:1924
-#, fuzzy
 msgid "Always launch Whisp directly into Slate Mode"
 msgstr "Vedno zaženi Snopič neposredno v načinu klape"
 
@@ -808,25 +772,23 @@ msgstr "Še naprej izvajaj v ozadju"
 #: src/whisp/window.py:1945
 #, fuzzy
 msgid "Hides the application when closed instead of terminating"
-msgstr "Ohrani delovanje programa v ozadju ob zagonu in po zapiranju"
+msgstr "Ohrani delovanje programa v ozadju ob zaprtju namesto ustavitve"
 
 #: src/whisp/window.py:1956
 msgid "Run on Startup"
 msgstr "Zaženi ob zagonu"
 
 #: src/whisp/window.py:1957
-#, fuzzy
 msgid "Automatically launch the application when you log in"
-msgstr "Programi, zagnani samodejno ob prijavi uporabnika v sistem."
+msgstr "Program zaženi samodejno ob prijavi uporabnika v sistem"
 
 #: src/whisp/window.py:1968
 msgid "Start Hidden"
 msgstr "Zaženi skrito"
 
 #: src/whisp/window.py:1969
-#, fuzzy
 msgid "Launch in the background without opening a window"
-msgstr "Zmanjša prekrivnost okna ozadja"
+msgstr "Zaženi v ozadju brez odpiranja oken"
 
 #. --- Shortcuts Page ---
 #: src/whisp/window.py:1984
@@ -936,14 +898,9 @@ msgid "Select Notes Directory"
 msgstr "Izberite mapo zapiskov"
 
 #: src/whisp/window.py:2385
-#, fuzzy
 msgid "Entered Slate mode"
-msgstr "Skrilasto modra"
+msgstr "Vstop v način klape"
 
 #: src/whisp/window.py:2385
-#, fuzzy
 msgid "Exited Slate mode"
-msgstr "Program je končan"
-
-#~ msgid "Export Current Note…"
-#~ msgstr "Izvozi trenutni zapisek ..."
+msgstr "Izhod iz načina klape"

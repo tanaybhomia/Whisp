@@ -90,10 +90,10 @@ def match_all_terms(entry, terms):
     t_len = len(title_low)
     
     # Ultra-fast math heuristic: Calculate the maximum possible ratio based purely on length difference.
-    # If the max possible ratio is mathematically < 0.55, skip difflib entirely! (O(1) instead of O(N^2))
+    # If the max possible ratio is mathematically < 0.75, skip difflib entirely! (O(1) instead of O(N^2))
     max_ratio = (2.0 * min(q_len, t_len)) / (q_len + t_len) if (q_len + t_len) > 0 else 0
-    if max_ratio > 0.55:
-        if difflib.SequenceMatcher(None, query, title_low).ratio() > 0.55:
+    if max_ratio > 0.75:
+        if difflib.SequenceMatcher(None, query, title_low).ratio() > 0.75:
             return True
             
     # Same ultra-fast math heuristic for the space-stripped version
@@ -101,8 +101,8 @@ def match_all_terms(entry, terms):
     qc_len = len(query_clean)
     tc_len = len(title_clean)
     max_ratio_clean = (2.0 * min(qc_len, tc_len)) / (qc_len + tc_len) if (qc_len + tc_len) > 0 else 0
-    if max_ratio_clean > 0.65:
-        if difflib.SequenceMatcher(None, query_clean, title_clean).ratio() > 0.65:
+    if max_ratio_clean > 0.85:
+        if difflib.SequenceMatcher(None, query_clean, title_clean).ratio() > 0.85:
             return True
             
     return False

@@ -57,6 +57,19 @@
   <content_rating type="oars-1.1" />
 
   <releases>
+    <release version="1.5.0" date="2026-08-30">
+      <description>
+        <p><em>GNOME Search Integration and Keyboard Shortcuts</em></p>
+        <p>This major release deeply integrates Whisp into your desktop, allowing you to find your notes faster than ever, This release also lets you customize the keyboard shortcuts inside the app</p>
+        <p><em>New Features</em></p>
+        <ul>
+          <li>GNOME Search Integration: Whisp now integrates natively with GNOME Shell! Press Super and type the name of any note to instantly search your Whisp notes alongside your system apps.</li>
+          <li>Whisp note search is fuzzy by implementation so that you dont have to remember exact note titles or content</li>
+          <li>Keyboard Shortcuts: You can now customize keyboard shortcuts inside the app by going to Preferences &gt; Keyboard Shortcuts.</li>
+          <li>Also added a default shortcut for exporting the current note using Shift+Ctrl+S</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.4.1" date="2026-08-20">
       <description>
         <p><em>Export and Better OCR</em></p>

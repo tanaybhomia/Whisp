@@ -4,8 +4,8 @@ from pathlib import Path
 
 from whisp.text_search import iter_body_match_offsets
 
-TITLE_RE = re.compile(r'^#+\s*')
-TAG_RE = re.compile(r'#(\w+)')
+TITLE_RE = re.compile(r"^#+\s*")
+TAG_RE = re.compile(r"#(\w+)")
 DEFAULT_TITLE = "New Note"
 
 
@@ -25,19 +25,21 @@ class NoteIndex:
         if cached is not None and cached["mtime"] == mtime:
             return cached
         try:
-            content = path.read_text(encoding='utf-8')
+            content = path.read_text(encoding="utf-8")
         except OSError:
             return None
-        first_line = content.split('\n', 1)[0].strip()
-        title = TITLE_RE.sub('', first_line) if first_line else DEFAULT_TITLE
+        first_line = content.split("\n", 1)[0].strip()
+        title = TITLE_RE.sub("", first_line) if first_line else DEFAULT_TITLE
         tags = set(TAG_RE.findall(content))
+        low_content = content.lower()
+        tag_str = " ".join(f"#{t}" for t in tags)
         entry = {
             "path": path,
             "mtime": mtime,
             "content": content,
-            "low_content": content.lower(),
+            "low_content": low_content,
             "title": title,
-            "tag_str": " ".join(f"#{t}" for t in tags),
+            "tag_str": tag_str,
             "blank": not content.strip(),
         }
         self._cache[path] = entry
@@ -61,51 +63,19 @@ class NoteIndex:
 
 
 def match_all_terms(entry, terms):
-    """True if terms match (supports exact, fzf-subsequence, and typo-fuzzy matching)."""
-    import difflib
-    
-    query = " ".join(t for t in terms if t).lower()
-    if not query:
+    """Determine whether all non-empty search terms match the note entry."""
+    valid_terms = [t.lower().strip() for t in terms if t and t.strip()]
+    if not valid_terms:
         return True
-        
-    low = entry["low_content"]
-    
-    # 1. Exact substring match (Original fast behavior)
-    if query in low:
+
+    content_low = entry["low_content"]
+    tag_str_low = entry.get("tag_str", "").lower()
+    full_query = " ".join(valid_terms)
+
+    if full_query in content_low or full_query in tag_str_low:
         return True
-        
-    # 2. All terms exist somewhere in the document (Original fallback)
-    if all(t.lower() in low for t in terms if t):
-        return True
-        
-    # 3. FZF style subsequence match (letters appear in order anywhere)
-    query_clean = query.replace(" ", "")
-    it = iter(low)
-    if all(c in it for c in query_clean):
-        return True
-        
-    # 4. Typo tolerance on the title (using difflib)
-    title_low = entry["title"].lower()
-    q_len = len(query)
-    t_len = len(title_low)
-    
-    # Ultra-fast math heuristic: Calculate the maximum possible ratio based purely on length difference.
-    # If the max possible ratio is mathematically < 0.75, skip difflib entirely! (O(1) instead of O(N^2))
-    max_ratio = (2.0 * min(q_len, t_len)) / (q_len + t_len) if (q_len + t_len) > 0 else 0
-    if max_ratio > 0.75:
-        if difflib.SequenceMatcher(None, query, title_low).ratio() > 0.75:
-            return True
-            
-    # Same ultra-fast math heuristic for the space-stripped version
-    title_clean = title_low.replace(" ", "")
-    qc_len = len(query_clean)
-    tc_len = len(title_clean)
-    max_ratio_clean = (2.0 * min(qc_len, tc_len)) / (qc_len + tc_len) if (qc_len + tc_len) > 0 else 0
-    if max_ratio_clean > 0.85:
-        if difflib.SequenceMatcher(None, query_clean, title_clean).ratio() > 0.85:
-            return True
-            
-    return False
+
+    return all((t in content_low or t in tag_str_low) for t in valid_terms)
 
 
 def first_match_offset(content, low_content, terms):
@@ -124,7 +94,7 @@ def build_snippet(content, term, idx, pre=12, post=60):
     """Plain-text snippet around a match, for use as a result description."""
     start = max(0, idx - pre)
     end = min(len(content), idx + len(term) + post)
-    snippet = re.sub(r'\s+', ' ', content[start:end]).strip()
+    snippet = re.sub(r"\s+", " ", content[start:end]).strip()
     prefix = "…" if start > 0 else ""
     suffix = "…" if end < len(content) else ""
     return prefix + snippet + suffix
@@ -132,8 +102,8 @@ def build_snippet(content, term, idx, pre=12, post=60):
 
 def body_excerpt(content, max_len=120):
     """First body line(s) collapsed onto one line; empty if only a title."""
-    body = content.split('\n', 1)[1] if '\n' in content else ""
-    text = re.sub(r'\s+', ' ', body).strip()
+    body = content.split("\n", 1)[1] if "\n" in content else ""
+    text = re.sub(r"\s+", " ", body).strip()
     if len(text) > max_len:
         text = text[:max_len].rstrip() + "…"
     return text

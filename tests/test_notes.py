@@ -114,5 +114,15 @@ class TestMatching(unittest.TestCase):
         self.assertEqual(body_excerpt("# T"), "")
 
 
+    def test_unrelated_fuzzy_queries_do_not_match(self):
+        self.assertFalse(match_all_terms(self.entry, ["cat"]))
+        self.assertFalse(match_all_terms(self.entry, ["dog"]))
+        self.assertFalse(match_all_terms(self.entry, ["pizza"]))
+        self.assertFalse(match_all_terms(self.entry, ["unrelatedquery"]))
+
+    def test_typo_and_prefix_matching(self):
+        self.assertTrue(match_all_terms(self.entry, ["groc"]))
+        self.assertFalse(match_all_terms(self.entry, ["grocry"]))
+
 if __name__ == '__main__':
     unittest.main()

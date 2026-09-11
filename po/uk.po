@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: whisp main\n"
 "Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
 "POT-Creation-Date: 2026-08-29 08:05+0000\n"
-"PO-Revision-Date: 2026-09-10 20:45+0300\n"
+"PO-Revision-Date: 2026-09-11 21:30+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -29,7 +29,7 @@ msgstr "Записник"
 
 #: data/io.github.tanaybhomia.Whisp.desktop.in:4
 msgid "A minimalist note taking widget application"
-msgstr ""
+msgstr "Мінімалістична програма-віджет для роботи з нотатками"
 
 #: src/whisp/editor.py:442 src/whisp/editor.py:446
 msgid "Current date"
@@ -37,15 +37,15 @@ msgstr "Поточна дата"
 
 #: src/whisp/editor.py:443 src/whisp/editor.py:447
 msgid "Date offset (+/- days)"
-msgstr ""
+msgstr "Зсув дати (+/- днів)"
 
 #: src/whisp/editor.py:444
 msgid "Tomorrow's date"
-msgstr ""
+msgstr "Завтрашня дата"
 
 #: src/whisp/editor.py:445
 msgid "Yesterday's date"
-msgstr ""
+msgstr "Вчорашня дата"
 
 #: src/whisp/editor.py:448
 msgid "Current date and time"
@@ -61,63 +61,63 @@ msgstr "Випадкові числа"
 
 #: src/whisp/editor.py:452
 msgid "Random letters"
-msgstr ""
+msgstr "Випадкові літери"
 
 #: src/whisp/editor.py:453
 msgid "Random alphanumeric"
-msgstr ""
+msgstr "Випадкові цифри і літери"
 
 #: src/whisp/editor.py:454
 msgid "Insert a random inspirational quote"
-msgstr ""
+msgstr "Вставити випадкову цитату для натхнення"
 
 #: src/whisp/editor.py:455
 msgid "Open a random Wikipedia page"
-msgstr ""
+msgstr "Відкрити випадкову сторінку Вікіпедії"
 
 #: src/whisp/editor.py:456
 msgid "Ask the Magic 8-Ball"
-msgstr ""
+msgstr "Запитати магічну кулю-вісімку"
 
 #: src/whisp/editor.py:457
 msgid "Insert standard placeholder text"
-msgstr ""
+msgstr "Вставити текст стандартного замінника"
 
 #: src/whisp/editor.py:458
 msgid "Generate a secure 16-char password"
-msgstr ""
+msgstr "Створити безпечний 16-символьний пароль"
 
 #: src/whisp/editor.py:459
 msgid "Generate a standard developer UUID"
-msgstr ""
+msgstr "Створити стандартний UUID розробника"
 
 #: src/whisp/editor.py:460
 msgid "Roll a 20-sided die"
-msgstr ""
+msgstr "Кинути 20-бічну кістку"
 
 #: src/whisp/editor.py:461
 msgid "Roll a d20 die"
-msgstr ""
+msgstr "Кинути кістку d20"
 
 #: src/whisp/editor.py:462
 msgid "Roll 4 d6 dice"
-msgstr ""
+msgstr "Кинути 4 кістки 4 d6"
 
 #: src/whisp/editor.py:463
 msgid "Convert document to uppercase"
-msgstr ""
+msgstr "Перетворити символи документа на великі літери"
 
 #: src/whisp/editor.py:464
 msgid "Convert document to lowercase"
-msgstr ""
+msgstr "Перетворити символи документа на малі літери"
 
 #: src/whisp/editor.py:465
 msgid "Convert document to sentence case"
-msgstr ""
+msgstr "Перетворити першу літеру кожного речення документа на велику"
 
 #: src/whisp/editor.py:466
 msgid "Convert document to title case"
-msgstr ""
+msgstr "Перетворити першу літеру кожного слова документа на велику"
 
 #: src/whisp/editor.py:467
 msgid "Capitalize first letter"
@@ -125,15 +125,15 @@ msgstr "Велика перша літера"
 
 #: src/whisp/editor.py:468
 msgid "Strip surrounding quotes"
-msgstr ""
+msgstr "Прибрати лапки"
 
 #: src/whisp/editor.py:469
 msgid "Add text to the end of every line"
-msgstr ""
+msgstr "Додати текст у кінці кожного рядка"
 
 #: src/whisp/editor.py:470
 msgid "Add text to the beginning of every line"
-msgstr ""
+msgstr "Додати текст на початку кожного рядка"
 
 #: src/whisp/editor.py:471
 msgid "Find and replace text"
@@ -141,15 +141,15 @@ msgstr "Знайти і замінити текст"
 
 #: src/whisp/editor.py:472
 msgid "Sort lines alphabetically"
-msgstr ""
+msgstr "Упорядкувати рядки за абеткою"
 
 #: src/whisp/editor.py:473
 msgid "Sort lines by first number"
-msgstr ""
+msgstr "Упорядкувати рядки за першою цифрою"
 
 #: src/whisp/editor.py:474
 msgid "Reverse line order"
-msgstr ""
+msgstr "Зворотний порядок рядків"
 
 #: src/whisp/editor.py:475
 msgid "Remove empty lines"
@@ -157,23 +157,23 @@ msgstr "Вилучити порожні рядки"
 
 #: src/whisp/editor.py:476
 msgid "Remove lines containing text"
-msgstr ""
+msgstr "Вилучити рядки, які містять текст"
 
 #: src/whisp/editor.py:477
 msgid "Remove lines not containing text"
-msgstr ""
+msgstr "Вилучити рядки, які не містять тексту"
 
 #: src/whisp/editor.py:478
 msgid "Keep only lines containing text"
-msgstr ""
+msgstr "Зберегти лише рядки, які містять текст"
 
 #: src/whisp/editor.py:479
 msgid "Keep only lines not containing text"
-msgstr ""
+msgstr "Зберегти лише рядки, які не містять тексту"
 
 #: src/whisp/editor.py:480
 msgid "Trim whitespace from all lines"
-msgstr ""
+msgstr "Обрізати початкові і кінцеві пробіли з усіх рядків"
 
 #: src/whisp/editor.py:481
 msgid "Remove duplicate lines"
@@ -181,63 +181,63 @@ msgstr "Вилучити рядки-дублікати"
 
 #: src/whisp/editor.py:482
 msgid "Find and group duplicate lines"
-msgstr ""
+msgstr "Знайти і згрупувати рядки-дублікати"
 
 #: src/whisp/editor.py:483
 msgid "Convert comma-separated items to list"
-msgstr ""
+msgstr "Перетворити відокремлені комами записи на список"
 
 #: src/whisp/editor.py:484
 msgid "Convert commas to custom delimiter"
-msgstr ""
+msgstr "Перетворити коми на нетиповий роздільник"
 
 #: src/whisp/editor.py:485
 msgid "Convert lines to comma-separated"
-msgstr ""
+msgstr "Перетворити рядки на рядок з відокремлених комами записів"
 
 #: src/whisp/editor.py:486
 msgid "Convert lines to custom delimiter"
-msgstr ""
+msgstr "Перетворити рядки на рядок з нетиповим роздільником записів"
 
 #: src/whisp/editor.py:487
 msgid "Move checked items to bottom"
-msgstr ""
+msgstr "Пересунути позначені пункти у кінець"
 
 #: src/whisp/editor.py:488
 msgid "Remove all checked items"
-msgstr ""
+msgstr "Вилучити усі позначені пункти"
 
 #: src/whisp/editor.py:991
 msgid "It is certain."
-msgstr ""
+msgstr "Це очевидно."
 
 #: src/whisp/editor.py:991
 msgid "It is decidedly so."
-msgstr ""
+msgstr "Це має бути так."
 
 #: src/whisp/editor.py:991
 msgid "Without a doubt."
-msgstr ""
+msgstr "Без сумніву."
 
 #: src/whisp/editor.py:991
 msgid "Yes definitely."
-msgstr ""
+msgstr "Так, безперечно."
 
 #: src/whisp/editor.py:991
 msgid "You may rely on it."
-msgstr ""
+msgstr "Ви можете на це покластися."
 
 #: src/whisp/editor.py:991
 msgid "As I see it, yes."
-msgstr ""
+msgstr "Як мені здається, так."
 
 #: src/whisp/editor.py:991
 msgid "Most likely."
-msgstr ""
+msgstr "Найімовірніше."
 
 #: src/whisp/editor.py:991
 msgid "Outlook good."
-msgstr ""
+msgstr "Перспективи добрі."
 
 #: src/whisp/editor.py:991
 msgid "Yes."
@@ -245,51 +245,51 @@ msgstr "Так."
 
 #: src/whisp/editor.py:991
 msgid "Signs point to yes."
-msgstr ""
+msgstr "Усе вказує на «так»."
 
 #: src/whisp/editor.py:991
 msgid "Reply hazy, try again."
-msgstr ""
+msgstr "Відповідь нечітка, спробуйте ще раз."
 
 #: src/whisp/editor.py:991
 msgid "Ask again later."
-msgstr ""
+msgstr "Запитайте пізніше."
 
 #: src/whisp/editor.py:991
 msgid "Better not tell you now."
-msgstr ""
+msgstr "Не варто вам зараз говорити."
 
 #: src/whisp/editor.py:991
 msgid "Cannot predict now."
-msgstr ""
+msgstr "Зараз передбачити неможливо."
 
 #: src/whisp/editor.py:991
 msgid "Concentrate and ask again."
-msgstr ""
+msgstr "Сконцентруйтеся і спробуйте відповісти знову."
 
 #: src/whisp/editor.py:991
 msgid "Don't count on it."
-msgstr ""
+msgstr "Не розраховуйте на це."
 
 #: src/whisp/editor.py:991
 msgid "My reply is no."
-msgstr ""
+msgstr "Моя відповідь — «ні»."
 
 #: src/whisp/editor.py:991
 msgid "My sources say no."
-msgstr ""
+msgstr "Мої джерела кажуть «ні»."
 
 #: src/whisp/editor.py:991
 msgid "Outlook not so good."
-msgstr ""
+msgstr "Перспективи не надто райдужні."
 
 #: src/whisp/editor.py:991
 msgid "Very doubtful."
-msgstr ""
+msgstr "Дуже сумнівно."
 
 #: src/whisp/editor.py:1060
 msgid "Converted to uppercase"
-msgstr ""
+msgstr "Перетворено на великі літери"
 
 #: src/whisp/editor.py:1063
 msgid "Converted to lowercase"
@@ -309,35 +309,35 @@ msgstr "Велика перша літера"
 
 #: src/whisp/editor.py:1080
 msgid "Stripped quotes"
-msgstr ""
+msgstr "Обрізано лапки"
 
 #: src/whisp/editor.py:1112
 msgid "Sorted lines alphabetically"
-msgstr ""
+msgstr "Рядки упорядковано за абеткою"
 
 #: src/whisp/editor.py:1119
 msgid "Sorted lines numerically"
-msgstr ""
+msgstr "Рядки упорядковано за порядком чисел"
 
 #: src/whisp/editor.py:1122
 msgid "Reversed line order"
-msgstr ""
+msgstr "Порядок рядків змінено на зворотний"
 
 #: src/whisp/editor.py:1125
 msgid "Removed empty lines"
-msgstr ""
+msgstr "Вилучено порожні рядки"
 
 #: src/whisp/editor.py:1144
 msgid "Trimmed whitespace from all lines"
-msgstr ""
+msgstr "Обрізано початкові і кінцеві пробіли з усіх рядків"
 
 #: src/whisp/editor.py:1153
 msgid "Removed duplicate lines"
-msgstr ""
+msgstr "Вилучено рядки-дублікати"
 
 #: src/whisp/editor.py:1164
 msgid "Found duplicate lines"
-msgstr ""
+msgstr "Знайдено рядки-дублікати"
 
 #: src/whisp/editor.py:1166
 msgid "No duplicates found"
@@ -345,15 +345,15 @@ msgstr "Дублікатів не знайдено"
 
 #: src/whisp/editor.py:1170
 msgid "Converted commas to list"
-msgstr ""
+msgstr "Відокремлені комами записи перетворено на список"
 
 #: src/whisp/editor.py:1178
 msgid "Converted lines to comma-separated"
-msgstr ""
+msgstr "Рядки перетворено на відокремлені комами записи"
 
 #: src/whisp/editor.py:1194
 msgid "Moved checked items to bottom"
-msgstr ""
+msgstr "Позначені пункти пересунуто у кінець"
 
 #: src/whisp/editor.py:1200
 msgid "Removed all checked items"
@@ -425,7 +425,7 @@ msgstr "Підтримати фінансово"
 
 #: src/whisp/window.py:917
 msgid "Note Pinned to front"
-msgstr ""
+msgstr "Нотатку пришпилено на передньому плані"
 
 #: src/whisp/window.py:947
 msgid "Note Unpinned"
@@ -459,6 +459,32 @@ msgid ""
 "\n"
 "🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
 msgstr ""
+"# 👋 Вітаємо у Whisp!\n"
+"\n"
+"Whisp — це інструмент для нотаток, який не потребує зайвих дій. Тут немає"
+"кнопок збереження чи файлів, якими треба керувати.\n"
+"\n"
+"## Навігація\n"
+"👉 **Гортайте ліворуч і праворуч** на сенсорній панелі (або використовуйте `C"
+"trl+[` та `Ctrl+]`),"
+"щоб перемикатися між нотатками.\n"
+"➕ Щоб створити нову нотатку, просто гортайте далі після останньої нотатки!\n"
+"\n"
+"## Можливості\n"
+"☑ **Списки**: натисніть `Ctrl+S` на будь-якому рядку, щоб миттєво створити"
+"або перемкнути стан позначення.\n"
+"🔗 **Розумні посилання**: вставте будь-яку довгу адресу, і Whisp"
+"автоматично скоротить її, щоб ваші нотатки виглядали охайно.\n"
+"📋 **Вставлення без форматування**: скористайтеся `Ctrl+Shift+V`, щоб вставит"
+"и"
+"текст без зайвого форматування.\n"
+"🎨 **Теми**: відкрийте налаштування (`Ctrl+,`), щоб вибрати фон (наприклад,"
+"у клітинку чи крапку) та схему кольорів.\n"
+"\n"
+"📖 **Інструкція**: повний перелік можливостей наведено у [Підручнику користув"
+"ача]({url})\n"
+"\n"
+"🗑️ Натисніть `Ctrl+D`, щоб вилучити цю нотатку, коли закінчите читати!"
 
 #: src/whisp/window.py:1066
 msgid "Whisp just got better!"
@@ -481,6 +507,20 @@ msgid ""
 "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full "
 "changelog</a>"
 msgstr ""
+"<b>Експорт і покращене розпізнавання тексту</b>\n"
+"\n"
+"• Миттєво експортуйте поточну нотатку за допомогою нової кнопки «Експортувати"
+" нотатку» у"
+"головному меню.\n"
+"• Без проблем створюйте елементи списку, використовуючи стандартний синтаксис"
+" Markdown.\n"
+"• Виправлено проблеми з жорсткими відступами під час видобування тексту за до"
+"помогою Smart Paste OCR.\n"
+"• Виправлено проблему з обрізанням вікна налаштувань при вузькому розмірі вік"
+"на програми.\n"
+"\n"
+"<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Переглянути увесь ж"
+"урнал змін</a>"
 
 #: src/whisp/window.py:1090
 #, python-brace-format
@@ -493,15 +533,15 @@ msgstr "Підтримати Whisp ❤️"
 
 #: src/whisp/window.py:1189
 msgid "Note Copied"
-msgstr ""
+msgstr "Нотатку скопійовано"
 
 #: src/whisp/window.py:1212
 msgid "Note moved to front"
-msgstr ""
+msgstr "Нотатку пересунуто на передній план"
 
 #: src/whisp/window.py:1246
 msgid "Cannot delete the default empty note"
-msgstr ""
+msgstr "Не можна вилучати типову порожню нотатку"
 
 #: src/whisp/window.py:1257
 msgid "Delete Note?"
@@ -512,6 +552,8 @@ msgstr "Вилучити нотатку?"
 msgid ""
 "“{title}” will be moved to the trash. You can undo this with Ctrl+Shift+T."
 msgstr ""
+"«{title}» буде пересунуто до смітника. Скасувати вилучення можна за допомогою"
+" Ctrl+Shift+T."
 
 #: src/whisp/window.py:1260 src/whisp/window.py:1634
 msgid "Cancel"
@@ -528,12 +570,12 @@ msgstr "Нотатку вилучено"
 #: src/whisp/window.py:1305
 #, python-brace-format
 msgid "Permanent delete fallback (Error: {error})"
-msgstr ""
+msgstr "Резервне остаточне вилучення (Помилка: {error})"
 
 #: src/whisp/window.py:1307
 #, python-brace-format
 msgid "Failed to delete completely: {error}"
-msgstr ""
+msgstr "Не вдалося повністю вилучити: {error}"
 
 #: src/whisp/window.py:1598
 msgid "Set Shortcut"
@@ -541,11 +583,12 @@ msgstr "Встановити скорочення"
 
 #: src/whisp/window.py:1599
 msgid "Recording Shortcut for <b>{}</b>"
-msgstr ""
+msgstr "Записування скорочення для дії <b>{}</b>"
 
 #: src/whisp/window.py:1610
 msgid "<span foreground='gray' size='small'>press backspace to disable</span>"
 msgstr ""
+"<span foreground='gray' size='small'>натисніть Backspace, що вимкнути</span>"
 
 #. Use a clean static string to guarantee it renders perfectly
 #: src/whisp/window.py:1689
@@ -592,11 +635,13 @@ msgstr "Процес"
 
 #: src/whisp/window.py:1822
 msgid "WYSIWYG Scope"
-msgstr ""
+msgstr "Область візуального редагування"
 
 #: src/whisp/window.py:1823
 msgid "Apply Live Formatting globally to all notes, or remember it per note."
 msgstr ""
+"Застосовувати динамічне форматування до всіх нотаток загалом або налаштовуват"
+"и його окремо для кожної нотатки."
 
 #: src/whisp/window.py:1825
 msgid "Global"
@@ -612,21 +657,24 @@ msgstr "Поведінка при запуску"
 
 #: src/whisp/window.py:1838
 msgid "Restore last active note"
-msgstr ""
+msgstr "Відновлювати останню активну нотатку"
 
 #: src/whisp/window.py:1838
 msgid "Start with empty note"
-msgstr ""
+msgstr "Починати з порожньої нотатки"
 
 #: src/whisp/window.py:1851
 msgid "Auto-Archive Inactive Notes"
-msgstr ""
+msgstr "Автоматично архівувати неактивні нотатки"
 
 #: src/whisp/window.py:1852
 msgid ""
 "Notes are not deleted. They are simply hidden from the app to reduce "
 "clutter, but remain fully searchable via Ctrl+F."
 msgstr ""
+"Нотатки не буде вилучено. Їх буде просто приховано у програмі, щоб не захаращ"
+"увати інтерфейс, але вони лишаться доступними для пошуку за допомогою комбіна"
+"ції клавіш Ctrl+F."
 
 #: src/whisp/window.py:1854
 msgid "Never"
@@ -653,6 +701,8 @@ msgid ""
 "Limit the number of notes loaded into the swipable carousel. Older notes "
 "remain fully searchable."
 msgstr ""
+"Обмежте кількість нотаток, що завантажуються у карусель із можливістю гортанн"
+"я. Старі нотатки залишаються доступними для повноцінного пошуку."
 
 #: src/whisp/window.py:1876
 msgid "10 Notes"
@@ -680,20 +730,22 @@ msgstr "Просити підтвердження при вилученні но
 
 #: src/whisp/window.py:1907
 msgid "Show Command Confirmations"
-msgstr ""
+msgstr "Показувати запит щодо підтвердження команди"
 
 #: src/whisp/window.py:1908
 msgid ""
 "Display a small confirmation message when you use a text manipulation command"
 msgstr ""
+"Показувати невеличке повідомлення із проханням про підтвердження, коли ви кор"
+"истуєтеся командою роботи з текстом"
 
 #: src/whisp/window.py:1923
 msgid "Enable Slate Mode on Startup"
-msgstr ""
+msgstr "Увімкнути після запуску режим планшета"
 
 #: src/whisp/window.py:1924
 msgid "Always launch Whisp directly into Slate Mode"
-msgstr ""
+msgstr "Завжди запускати Whisp безпосередньо у режимі планшета"
 
 #. --- Running Group ---
 #: src/whisp/window.py:1941
@@ -722,7 +774,7 @@ msgstr "Запускати прихованою"
 
 #: src/whisp/window.py:1969
 msgid "Launch in the background without opening a window"
-msgstr ""
+msgstr "Запускати у фоновому режимі без відкриття вікна"
 
 #. --- Shortcuts Page ---
 #: src/whisp/window.py:1984
@@ -747,7 +799,7 @@ msgstr "Показати скорочення"
 
 #: src/whisp/window.py:1994
 msgid "Toggle Slate Mode"
-msgstr ""
+msgstr "Увімкнути або вимкнути режим планшета"
 
 #: src/whisp/window.py:1995
 msgid "Quit Application"
@@ -833,8 +885,8 @@ msgstr "Вибір каталогу нотаток"
 
 #: src/whisp/window.py:2385
 msgid "Entered Slate mode"
-msgstr ""
+msgstr "Увімкнено режим планшета"
 
 #: src/whisp/window.py:2385
 msgid "Exited Slate mode"
-msgstr ""
+msgstr "Вимкнено режим планшета"

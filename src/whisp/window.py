@@ -577,7 +577,9 @@ class WhispWindow(Adw.ApplicationWindow):
                         description_text += f"<span size='large' weight='bold'>v{version}</span>\n"
                     
                     desc_node = release.find("description")
+                    raw_xml = ""
                     if desc_node is not None:
+                        raw_xml = "".join(ET.tostring(child, encoding="unicode").strip() for child in desc_node)
                         for child in desc_node:
                             if child.tag == "p":
                                 text = "".join(child.itertext()).strip()
@@ -595,7 +597,7 @@ class WhispWindow(Adw.ApplicationWindow):
                                         release_desc += f"• {escaped}\n"
                                 release_desc += "\n"
                                 
-                    releases_list.append({"version": version, "date": date, "description": release_desc.strip()})
+                    releases_list.append({"version": version, "date": date, "raw_xml": raw_xml, "description": release_desc.strip()})
                     description_text += release_desc
                     
                 if as_list:
@@ -735,28 +737,9 @@ class WhispWindow(Adw.ApplicationWindow):
             if releases_list:
                 rel = releases_list[0]
                 about.set_release_notes_version(rel.get("version", version))
-                
-                desc = rel.get("description", "")
-                markup = ""
-                in_list = False
-                for line in desc.split('\n'):
-                    line = line.strip()
-                    if not line:
-                        continue
-                    if line.startswith("• "):
-                        if not in_list:
-                            markup += "<ul>\n"
-                            in_list = True
-                        markup += f"<li>{line[2:]}</li>\n"
-                    else:
-                        if in_list:
-                            markup += "</ul>\n"
-                            in_list = False
-                        markup += f"<p>{line}</p>\n"
-                if in_list:
-                    markup += "</ul>\n"
-                
-                about.set_release_notes(markup)
+                raw_xml = rel.get("raw_xml", "")
+                if raw_xml:
+                    about.set_release_notes(raw_xml)
                 
         about.present(self)
         if open_page:

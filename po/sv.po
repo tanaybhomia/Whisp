@@ -1,0 +1,862 @@
+# Swedish translation for whisp.
+# Copyright © 2026 whisp's COPYRIGHT HOLDER
+# This file is distributed under the same license as the whisp package.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: whisp main\n"
+"Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
+"POT-Creation-Date: 2026-09-12 07:29+0000\n"
+"PO-Revision-Date: 2026-09-13 14:46+0200\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:2
+msgid "Whisp"
+msgstr "Whisp"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:3
+msgid "Note Taker"
+msgstr "Anteckningsverktyg"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:4
+msgid "A minimalist note taking widget application"
+msgstr "Ett litet, minimalistiskt program för anteckningar"
+
+#: src/whisp/editor.py:442 src/whisp/editor.py:446
+msgid "Current date"
+msgstr "Aktuellt datum"
+
+#: src/whisp/editor.py:443 src/whisp/editor.py:447
+msgid "Date offset (+/- days)"
+msgstr "Datumförskjutning (+/- dagar)"
+
+#: src/whisp/editor.py:444
+msgid "Tomorrow's date"
+msgstr "Morgondagens datum"
+
+#: src/whisp/editor.py:445
+msgid "Yesterday's date"
+msgstr "Gårdagens datum"
+
+#: src/whisp/editor.py:448
+msgid "Current date and time"
+msgstr "Aktuellt datum och tid"
+
+#: src/whisp/editor.py:449 src/whisp/editor.py:450
+msgid "Current time"
+msgstr "Aktuell tid"
+
+#: src/whisp/editor.py:451
+msgid "Random numbers"
+msgstr "Slumpmässiga siffror"
+
+#: src/whisp/editor.py:452
+msgid "Random letters"
+msgstr "Slumpmässiga bokstäver"
+
+#: src/whisp/editor.py:453
+msgid "Random alphanumeric"
+msgstr "Slumpmässiga alfanumeriska"
+
+#: src/whisp/editor.py:454
+msgid "Insert a random inspirational quote"
+msgstr "Infoga ett slumpmässigt inspirerande citat"
+
+#: src/whisp/editor.py:455
+msgid "Open a random Wikipedia page"
+msgstr "Öppna en slumpmässig Wikipedia-sida"
+
+#: src/whisp/editor.py:456
+msgid "Ask the Magic 8-Ball"
+msgstr "Fråga den magiska 8-biljardbollen"
+
+#: src/whisp/editor.py:457
+msgid "Insert standard placeholder text"
+msgstr "Infoga standardplatshållartext"
+
+#: src/whisp/editor.py:458
+msgid "Generate a secure 16-char password"
+msgstr "Generera ett säkert 16 teckens lösenord"
+
+#: src/whisp/editor.py:459
+msgid "Generate a standard developer UUID"
+msgstr "Generera ett standardutvecklar-UUID"
+
+#: src/whisp/editor.py:460
+msgid "Roll a 20-sided die"
+msgstr "Kasta en 20-sidig tärning"
+
+#: src/whisp/editor.py:461
+msgid "Roll a d20 die"
+msgstr "Kasta en t20-tärning"
+
+#: src/whisp/editor.py:462
+msgid "Roll 4 d6 dice"
+msgstr "Kasta fyra 6-sidiga tärningar"
+
+#: src/whisp/editor.py:463
+msgid "Convert document to uppercase"
+msgstr "Konvertera dokument till versaler"
+
+#: src/whisp/editor.py:464
+msgid "Convert document to lowercase"
+msgstr "Konvertera dokument till gemener"
+
+#: src/whisp/editor.py:465
+msgid "Convert document to sentence case"
+msgstr "Konvertera dokument till meningsversalisering"
+
+#: src/whisp/editor.py:466
+msgid "Convert document to title case"
+msgstr "Konvertera dokument till titelversalisering"
+
+#: src/whisp/editor.py:467
+msgid "Capitalize first letter"
+msgstr "Versalisera första bokstaven"
+
+#: src/whisp/editor.py:468
+msgid "Strip surrounding quotes"
+msgstr "Ta bort omkringliggande citattecken"
+
+#: src/whisp/editor.py:469
+msgid "Add text to the end of every line"
+msgstr "Lägg till text i slutet på varje rad"
+
+#: src/whisp/editor.py:470
+msgid "Add text to the beginning of every line"
+msgstr "Lägg till text i början på varje rad"
+
+#: src/whisp/editor.py:471
+msgid "Find and replace text"
+msgstr "Sök och ersätt text"
+
+#: src/whisp/editor.py:472
+msgid "Sort lines alphabetically"
+msgstr "Sortera rader alfabetiskt"
+
+#: src/whisp/editor.py:473
+msgid "Sort lines by first number"
+msgstr "Sortera rader efter nummerordning"
+
+#: src/whisp/editor.py:474
+msgid "Reverse line order"
+msgstr "Vänd på radordning"
+
+#: src/whisp/editor.py:475
+msgid "Remove empty lines"
+msgstr "Ta bort tomma rader"
+
+#: src/whisp/editor.py:476
+msgid "Remove lines containing text"
+msgstr "Ta bort rader som innehåller text"
+
+#: src/whisp/editor.py:477
+msgid "Remove lines not containing text"
+msgstr "Ta bort rader som inte innehåller text"
+
+#: src/whisp/editor.py:478
+msgid "Keep only lines containing text"
+msgstr "Behåll bara rader som innehåller text"
+
+#: src/whisp/editor.py:479
+msgid "Keep only lines not containing text"
+msgstr "Behåll bara rader som inte innehåller text"
+
+#: src/whisp/editor.py:480
+msgid "Trim whitespace from all lines"
+msgstr "Trimma blanksteg från alla rader"
+
+#: src/whisp/editor.py:481
+msgid "Remove duplicate lines"
+msgstr "Ta bort duplicerade rader"
+
+#: src/whisp/editor.py:482
+msgid "Find and group duplicate lines"
+msgstr "Hitta och gruppera duplicerade rader"
+
+#: src/whisp/editor.py:483
+msgid "Convert comma-separated items to list"
+msgstr "Konvertera kommaseparerade objekt till lista"
+
+#: src/whisp/editor.py:484
+msgid "Convert commas to custom delimiter"
+msgstr "Konvertera kommatecken till anpassad avgränsare"
+
+#: src/whisp/editor.py:485
+msgid "Convert lines to comma-separated"
+msgstr "Konvertera rader till kommaseparerade"
+
+#: src/whisp/editor.py:486
+msgid "Convert lines to custom delimiter"
+msgstr "Konvertera rader till anpassad avgränsare"
+
+#: src/whisp/editor.py:487
+msgid "Move checked items to bottom"
+msgstr "Flytta markerade objekt längst ner"
+
+#: src/whisp/editor.py:488
+msgid "Remove all checked items"
+msgstr "Ta bort alla markerade objekt"
+
+#: src/whisp/editor.py:991
+msgid "It is certain."
+msgstr "Det är solklart."
+
+#: src/whisp/editor.py:991
+msgid "It is decidedly so."
+msgstr "Det är onekligen så."
+
+#: src/whisp/editor.py:991
+msgid "Without a doubt."
+msgstr "Utan tvekan."
+
+#: src/whisp/editor.py:991
+msgid "Yes definitely."
+msgstr "Ja, definitivt."
+
+#: src/whisp/editor.py:991
+msgid "You may rely on it."
+msgstr "Du kan räkna med det."
+
+#: src/whisp/editor.py:991
+msgid "As I see it, yes."
+msgstr "Som jag ser det, ja."
+
+#: src/whisp/editor.py:991
+msgid "Most likely."
+msgstr "Mest troligt."
+
+#: src/whisp/editor.py:991
+msgid "Outlook good."
+msgstr "Ser lovande ut."
+
+#: src/whisp/editor.py:991
+msgid "Yes."
+msgstr "Ja."
+
+#: src/whisp/editor.py:991
+msgid "Signs point to yes."
+msgstr "Tecknen pekar på ja."
+
+#: src/whisp/editor.py:991
+msgid "Reply hazy, try again."
+msgstr "Luddigt svar, försök igen."
+
+#: src/whisp/editor.py:991
+msgid "Ask again later."
+msgstr "Fråga igen senare."
+
+#: src/whisp/editor.py:991
+msgid "Better not tell you now."
+msgstr "Bäst jag inte säger det nu."
+
+#: src/whisp/editor.py:991
+msgid "Cannot predict now."
+msgstr "Kan inte förutspå det nu."
+
+#: src/whisp/editor.py:991
+msgid "Concentrate and ask again."
+msgstr "Koncentrera dig och fråga igen."
+
+#: src/whisp/editor.py:991
+msgid "Don't count on it."
+msgstr "Räkna inte med det."
+
+#: src/whisp/editor.py:991
+msgid "My reply is no."
+msgstr "Mitt svar är nej."
+
+#: src/whisp/editor.py:991
+msgid "My sources say no."
+msgstr "Mina källor säger nej."
+
+#: src/whisp/editor.py:991
+msgid "Outlook not so good."
+msgstr "Ser inte så lovande ut."
+
+#: src/whisp/editor.py:991
+msgid "Very doubtful."
+msgstr "Mycket tveksamt."
+
+#: src/whisp/editor.py:1060
+msgid "Converted to uppercase"
+msgstr "Konverterade till versaler"
+
+#: src/whisp/editor.py:1063
+msgid "Converted to lowercase"
+msgstr "Konverterade till gemener"
+
+#: src/whisp/editor.py:1066
+msgid "Converted to Title Case"
+msgstr "Konverterade till titelversalisering"
+
+#: src/whisp/editor.py:1072
+msgid "Converted to Sentence case"
+msgstr "Konverterade till meningsversalisering"
+
+#: src/whisp/editor.py:1076
+msgid "Capitalized first letter"
+msgstr "Versaliserade första bokstaven"
+
+#: src/whisp/editor.py:1080
+msgid "Stripped quotes"
+msgstr "Tog bort citattecken"
+
+#: src/whisp/editor.py:1112
+msgid "Sorted lines alphabetically"
+msgstr "Sorterade rader alfabetiskt"
+
+#: src/whisp/editor.py:1119
+msgid "Sorted lines numerically"
+msgstr "Sorterade rader numeriskt"
+
+#: src/whisp/editor.py:1122
+msgid "Reversed line order"
+msgstr "Vände på radordning"
+
+#: src/whisp/editor.py:1125
+msgid "Removed empty lines"
+msgstr "Tog bort tomma rader"
+
+#: src/whisp/editor.py:1144
+msgid "Trimmed whitespace from all lines"
+msgstr "Trimmade blanksteg från alla rader"
+
+#: src/whisp/editor.py:1153
+msgid "Removed duplicate lines"
+msgstr "Tog bort duplicerade rader"
+
+#: src/whisp/editor.py:1164
+msgid "Found duplicate lines"
+msgstr "Hittade duplicerade rader"
+
+#: src/whisp/editor.py:1166
+msgid "No duplicates found"
+msgstr "Inga dubbletter hittades"
+
+#: src/whisp/editor.py:1170
+msgid "Converted commas to list"
+msgstr "Konverterade kommatecken till lista"
+
+#: src/whisp/editor.py:1178
+msgid "Converted lines to comma-separated"
+msgstr "Konverterade rader till kommaseparerade"
+
+#: src/whisp/editor.py:1194
+msgid "Moved checked items to bottom"
+msgstr "Flyttade markerade objekt längst ner"
+
+#: src/whisp/editor.py:1200
+msgid "Removed all checked items"
+msgstr "Tog bort markerade objekt"
+
+#: src/whisp/editor.py:1526
+msgid "Extracting text from image…"
+msgstr "Extraherar text från bild…"
+
+#: src/whisp/editor.py:1547
+msgid "No text found in image"
+msgstr "Ingen text hittades i bild"
+
+#: src/whisp/editor.py:1559
+msgid "Failed to extract text from image"
+msgstr "Misslyckades med att extrahera text från bild"
+
+#: src/whisp/window.py:240
+msgid "Whisp (Development)"
+msgstr "Whisp (utveckling)"
+
+#: src/whisp/window.py:439 src/whisp/window.py:622 src/whisp/window.py:1991
+msgid "Export Note"
+msgstr "Exportera anteckning"
+
+#: src/whisp/window.py:443
+msgid "Keyboard Shortcuts"
+msgstr "Tangentbordsgenvägar"
+
+#: src/whisp/window.py:444 src/whisp/window.py:1980
+msgid "Preferences"
+msgstr "Inställningar"
+
+#: src/whisp/window.py:445
+msgid "About Whisp"
+msgstr "Om Whisp"
+
+#: src/whisp/window.py:449
+msgid "Donate to Whisp"
+msgstr "Donera till Whisp"
+
+#: src/whisp/window.py:643
+msgid "Markdown File"
+msgstr "Markdown-fil"
+
+#: src/whisp/window.py:661
+msgid "Note exported successfully"
+msgstr "Anteckningen exporterades"
+
+#: src/whisp/window.py:684
+msgid "translator-credits"
+msgstr "Anders Jonsson <anders.jonsson@norsjovallen.se>"
+
+#: src/whisp/window.py:685
+msgid "Icon by"
+msgstr "Ikon av"
+
+#: src/whisp/window.py:688
+msgid "Manual"
+msgstr "Handbok"
+
+#: src/whisp/window.py:689
+msgid "Translate"
+msgstr "Översätt"
+
+#: src/whisp/window.py:690
+msgid "Donate"
+msgstr "Donera"
+
+#: src/whisp/window.py:905
+msgid "Note Pinned to front"
+msgstr "Anteckning nålad längst fram"
+
+#: src/whisp/window.py:935
+msgid "Note Unpinned"
+msgstr "Anteckning lösgjord"
+
+#: src/whisp/window.py:951
+#, python-brace-format
+msgid ""
+"# 👋 Welcome to Whisp!\n"
+"\n"
+"Whisp is the frictionless anti-note. There are no save buttons or files to "
+"manage here.\n"
+"\n"
+"## Navigation\n"
+"👉 **Swipe left and right** on your touchpad (or use `Ctrl+[` and `Ctrl+]`) "
+"to switch between notes.\n"
+"➕ To create a new note, simply swipe past the last note!\n"
+"\n"
+"## Features\n"
+"☑ **Checklists**: Press `Ctrl+S` on any line to instantly create or toggle a "
+"checkbox.\n"
+"🔗 **Smart Links**: Paste any long URL, and Whisp will automatically shorten "
+"it to keep your notes clean.\n"
+"📋 **Plain Paste**: Use `Ctrl+Shift+V` to paste text cleanly without weird "
+"formatting.\n"
+"🎨 **Themes**: Open Preferences (`Ctrl+,`) to pick a paper background (like "
+"Grid or Dotted) and color scheme.\n"
+"\n"
+"📖 **Manual**: For a full list of features, check out the [User Manual]"
+"({url})\n"
+"\n"
+"🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
+msgstr ""
+"# 👋 Välkommen till Whisp!\n"
+"\n"
+"Whisp är den friktionsfria antianteckningen. Det finns inga spara-knappar "
+"eller filer att hantera här.\n"
+"\n"
+"## Navigering\n"
+"👉 **Svep vänster och höger** på din styrplatta (eller använd `Ctrl+[` och "
+"`Ctrl+]`) för att växla mellan anteckningar.\n"
+"➕ För att skapa en ny anteckning, svep helt enkelt förbi den sista "
+"anteckningen!\n"
+"\n"
+"## Funktioner\n"
+"☑ **Krysslistor**: Tryck `Ctrl+S` på valfri rad för att omedelbart skapa "
+"eller markera/avmarkera en kryssruta.\n"
+"🔗 **Smarta länkar**: Klistra in valfri lång URL så kommer Whisp automatiskt "
+"förkorta den för att hålla anteckningarna rena.\n"
+"📋 **Vanlig inklistring**: Använd `Ctrl+Skift+V` för att klistra in ren text "
+"utan märklig formatering.\n"
+"🎨 **Teman**: Öppna inställningar (`Ctrl+,`) för att välja en "
+"pappersbakgrund (som rutnät eller punkt) och färgschema.\n"
+"\n"
+"📖 **Handbok**: För en fullständig funktionslista, se [användarhandboken]"
+"({url})\n"
+"\n"
+"🗑️ Tryck `Ctrl+D` för att ta bort denna anteckning då du har läst den!"
+
+#: src/whisp/window.py:1054
+msgid "Whisp just got better!"
+msgstr "Whisp blev just bättre!"
+
+#: src/whisp/window.py:1055
+msgid "Changelogs"
+msgstr "Ändringsloggar"
+
+#: src/whisp/window.py:1078
+#, python-brace-format
+msgid "What's New in v{version}"
+msgstr "Vad är nytt i v{version}"
+
+#: src/whisp/window.py:1081
+msgid "Support Whisp ❤️"
+msgstr "Stöd Whisp ❤️"
+
+#: src/whisp/window.py:1177
+msgid "Note Copied"
+msgstr "Anteckning kopierad"
+
+#: src/whisp/window.py:1200
+msgid "Note moved to front"
+msgstr "Anteckning flyttad längst fram"
+
+#: src/whisp/window.py:1234
+msgid "Cannot delete the default empty note"
+msgstr "Kan inte ta bort den tomma standardanteckningen"
+
+#: src/whisp/window.py:1245
+msgid "Delete Note?"
+msgstr "Ta bort anteckning?"
+
+#: src/whisp/window.py:1246
+#, python-brace-format
+msgid ""
+"“{title}” will be moved to the trash. You can undo this with Ctrl+Shift+T."
+msgstr ""
+"”{title}” kommer flyttas till papperskorgen. Du kan ångra detta med "
+"Ctrl+Skift+T."
+
+#: src/whisp/window.py:1248 src/whisp/window.py:1622
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: src/whisp/window.py:1249
+msgid "Delete"
+msgstr "Ta bort"
+
+#: src/whisp/window.py:1274
+msgid "Note deleted"
+msgstr "Anteckning borttagen"
+
+#: src/whisp/window.py:1293
+#, python-brace-format
+msgid "Permanent delete fallback (Error: {error})"
+msgstr "Reserv för permanent borttagning (Fel: {error})"
+
+#: src/whisp/window.py:1295
+#, python-brace-format
+msgid "Failed to delete completely: {error}"
+msgstr "Misslyckades med att ta bort fullständigt: {error}"
+
+#: src/whisp/window.py:1586
+msgid "Set Shortcut"
+msgstr "Ställ in kortkommando"
+
+#: src/whisp/window.py:1587
+msgid "Recording Shortcut for <b>{}</b>"
+msgstr "Spelar in kortkommando för <b>{}</b>"
+
+#: src/whisp/window.py:1598
+msgid "<span foreground='gray' size='small'>press backspace to disable</span>"
+msgstr ""
+"<span foreground='gray' size='small'>tryck backsteg för att inaktivera</span>"
+
+#. Use a clean static string to guarantee it renders perfectly
+#: src/whisp/window.py:1677
+msgid "This shortcut is already in use"
+msgstr "Detta kortkommando används redan"
+
+#. --- Appearance Page ---
+#: src/whisp/window.py:1709
+msgid "Appearance"
+msgstr "Utseende"
+
+#. Appearance Group
+#: src/whisp/window.py:1712
+msgid "Text"
+msgstr "Text"
+
+#: src/whisp/window.py:1713
+msgid "Editor Font"
+msgstr "Redigerartypsnitt"
+
+#: src/whisp/window.py:1734
+msgid "System Default"
+msgstr "Systemstandard"
+
+#. Theme Snippets Group
+#: src/whisp/window.py:1754
+msgid "Paper Theme"
+msgstr "Papperstema"
+
+#. Line Spacing
+#: src/whisp/window.py:1784
+msgid "Line Spacing"
+msgstr "Radavstånd"
+
+#. --- Behavior Page ---
+#: src/whisp/window.py:1804
+msgid "Behavior"
+msgstr "Beteende"
+
+#. Behavior Group
+#: src/whisp/window.py:1807
+msgid "Workflow"
+msgstr "Arbetsflöde"
+
+# What you see is what you get.
+#: src/whisp/window.py:1810
+msgid "WYSIWYG Scope"
+msgstr "WYSIWYG-räckvidd"
+
+#: src/whisp/window.py:1811
+msgid "Apply Live Formatting globally to all notes, or remember it per note."
+msgstr ""
+"Tillämpa direkt formatering globalt på alla anteckningar, eller kom ihåg det "
+"per anteckning."
+
+#: src/whisp/window.py:1813
+msgid "Global"
+msgstr "Globalt"
+
+#: src/whisp/window.py:1813
+msgid "Per Note"
+msgstr "Per anteckning"
+
+#: src/whisp/window.py:1825
+msgid "Startup Behavior"
+msgstr "Uppstartsbeteende"
+
+#: src/whisp/window.py:1826
+msgid "Restore last active note"
+msgstr "Återställ senast aktiva anteckning"
+
+#: src/whisp/window.py:1826
+msgid "Start with empty note"
+msgstr "Starta med en tom anteckning"
+
+#: src/whisp/window.py:1839
+msgid "Auto-Archive Inactive Notes"
+msgstr "Arkivera inaktiva anteckningar automatiskt"
+
+#: src/whisp/window.py:1840
+msgid ""
+"Notes are not deleted. They are simply hidden from the app to reduce "
+"clutter, but remain fully searchable via Ctrl+F."
+msgstr ""
+"Anteckningar tas inte bort. De döljs helt enkelt från programmet för att "
+"reducera brus, men förblir fullt sökbara genom Ctrl+F."
+
+#: src/whisp/window.py:1842
+msgid "Never"
+msgstr "Aldrig"
+
+#: src/whisp/window.py:1842
+msgid "1 Week"
+msgstr "1 vecka"
+
+#: src/whisp/window.py:1842
+msgid "1 Month"
+msgstr "1 månad"
+
+#: src/whisp/window.py:1842
+msgid "1 Year"
+msgstr "1 år"
+
+#: src/whisp/window.py:1861
+msgid "Max Carousel Size"
+msgstr "Maximal karusellstorlek"
+
+#: src/whisp/window.py:1862
+msgid ""
+"Limit the number of notes loaded into the swipable carousel. Older notes "
+"remain fully searchable."
+msgstr ""
+"Begränsa antalet anteckningar som kan läsas in i den svepbara karusellen. "
+"Äldre anteckningar förblir fullt sökbara."
+
+#: src/whisp/window.py:1864
+msgid "10 Notes"
+msgstr "10 anteckningar"
+
+#: src/whisp/window.py:1864
+msgid "25 Notes"
+msgstr "25 anteckningar"
+
+#: src/whisp/window.py:1864
+msgid "50 Notes"
+msgstr "50 anteckningar"
+
+#: src/whisp/window.py:1864
+msgid "Unlimited"
+msgstr "Obegränsat"
+
+#: src/whisp/window.py:1883
+msgid "Confirm Before Deleting"
+msgstr "Bekräfta före borttagning"
+
+#: src/whisp/window.py:1884
+msgid "Ask for confirmation when deleting a note"
+msgstr "Fråga om bekräftelse vid borttagning av en anteckning"
+
+#: src/whisp/window.py:1895
+msgid "Show Command Confirmations"
+msgstr "Visa bekräftelser för kommandon"
+
+#: src/whisp/window.py:1896
+msgid ""
+"Display a small confirmation message when you use a text manipulation command"
+msgstr ""
+"Visa ett litet bekräftelsemeddelande då du använder ett "
+"textmanipuleringskommando"
+
+#: src/whisp/window.py:1911
+msgid "Enable Slate Mode on Startup"
+msgstr "Aktivera distraktionsfritt läge vid uppstart"
+
+#: src/whisp/window.py:1912
+msgid "Always launch Whisp directly into Slate Mode"
+msgstr "Starta alltid Whisp direkt i distraktionsfritt läge"
+
+#. --- Running Group ---
+#: src/whisp/window.py:1929
+msgid "Running"
+msgstr "Kör"
+
+#: src/whisp/window.py:1932
+msgid "Keep Running in Background"
+msgstr "Fortsätt att köra i bakgrunden"
+
+#: src/whisp/window.py:1933
+msgid "Hides the application when closed instead of terminating"
+msgstr "Döljer programmet vid stängning i stället för att avsluta"
+
+#: src/whisp/window.py:1944
+msgid "Run on Startup"
+msgstr "Kör vid uppstart"
+
+#: src/whisp/window.py:1945
+msgid "Automatically launch the application when you log in"
+msgstr "Starta programmet automatiskt då du loggar in"
+
+#: src/whisp/window.py:1956
+msgid "Start Hidden"
+msgstr "Starta dolt"
+
+#: src/whisp/window.py:1957
+msgid "Launch in the background without opening a window"
+msgstr "Starta i bakgrunden utan att öppna ett fönster"
+
+#. --- Shortcuts Page ---
+#: src/whisp/window.py:1972
+msgid "Shortcuts"
+msgstr "Kortkommandon"
+
+#: src/whisp/window.py:1977
+msgid "Application"
+msgstr "Program"
+
+#: src/whisp/window.py:1978
+msgid "New Note"
+msgstr "Ny anteckning"
+
+#: src/whisp/window.py:1979
+msgid "Search Notes"
+msgstr "Sök anteckningar"
+
+#: src/whisp/window.py:1981
+msgid "Show Shortcuts"
+msgstr "Visa kortkommandon"
+
+#: src/whisp/window.py:1982
+msgid "Toggle Slate Mode"
+msgstr "Växla distraktionsfritt läge"
+
+#: src/whisp/window.py:1983
+msgid "Quit Application"
+msgstr "Avsluta program"
+
+#: src/whisp/window.py:1985
+msgid "Note Management"
+msgstr "Anteckningshantering"
+
+#: src/whisp/window.py:1986
+msgid "Delete Note"
+msgstr "Ta bort anteckning"
+
+#: src/whisp/window.py:1987
+msgid "Undo Delete"
+msgstr "Ångra borttagning"
+
+#: src/whisp/window.py:1988
+msgid "Pin Note"
+msgstr "Fäst anteckning"
+
+#: src/whisp/window.py:1989
+msgid "Move Note to Front"
+msgstr "Flytta anteckning längst fram"
+
+#: src/whisp/window.py:1990
+msgid "Copy Note"
+msgstr "Kopiera anteckning"
+
+#: src/whisp/window.py:1992
+msgid "Toggle WYSIWYG"
+msgstr "Växla WYSIWYG"
+
+#: src/whisp/window.py:1994
+msgid "Navigation"
+msgstr "Navigering"
+
+#: src/whisp/window.py:1995
+msgid "Previous Note"
+msgstr "Föregående anteckning"
+
+#: src/whisp/window.py:1996
+msgid "Next Note"
+msgstr "Nästa anteckning"
+
+#: src/whisp/window.py:1997
+msgid "First Note"
+msgstr "Första anteckning"
+
+#: src/whisp/window.py:1998
+msgid "Last Note"
+msgstr "Sista anteckning"
+
+#: src/whisp/window.py:2013
+msgid "Disabled"
+msgstr "Inaktiverad"
+
+#: src/whisp/window.py:2025 src/whisp/window.py:2055
+msgid "Reset to Default"
+msgstr "Återställ till standardvärden"
+
+#. --- Storage Page ---
+#: src/whisp/window.py:2044
+msgid "Storage"
+msgstr "Lagring"
+
+#. Storage Group
+#: src/whisp/window.py:2047
+msgid "Data Location"
+msgstr "Dataplats"
+
+#: src/whisp/window.py:2049
+msgid "Notes Directory"
+msgstr "Anteckningskatalog"
+
+#: src/whisp/window.py:2059
+msgid "Change…"
+msgstr "Ändra…"
+
+#: src/whisp/window.py:2233
+msgid "Select Notes Directory"
+msgstr "Välj anteckningskatalog"
+
+#: src/whisp/window.py:2373
+msgid "Entered Slate mode"
+msgstr "Gick in i distraktionsfritt läge"
+
+#: src/whisp/window.py:2373
+msgid "Exited Slate mode"
+msgstr "Lämnade distraktionsfritt läge"

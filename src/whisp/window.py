@@ -577,20 +577,27 @@ class WhispWindow(Adw.ApplicationWindow):
                         description_text += f"<span size='large' weight='bold'>v{version}</span>\n"
                     
                     desc_node = release.find("description")
+                    raw_xml = ""
                     if desc_node is not None:
+                        raw_xml = "".join(ET.tostring(child, encoding="unicode").strip() for child in desc_node)
                         for child in desc_node:
                             if child.tag == "p":
-                                text = get_inner_markup(child)
+                                text = "".join(child.itertext()).strip()
                                 if text:
-                                    release_desc += f"{text}\n\n"
+                                    escaped = GLib.markup_escape_text(text)
+                                    if child.find("em") is not None:
+                                        release_desc += f"<b>{escaped}</b>\n\n"
+                                    else:
+                                        release_desc += f"{escaped}\n\n"
                             elif child.tag == "ul":
                                 for li in child.findall("li"):
-                                    li_text = get_inner_markup(li)
+                                    li_text = "".join(li.itertext()).strip()
                                     if li_text:
-                                        release_desc += f"• {li_text}\n\n"
+                                        escaped = GLib.markup_escape_text(li_text)
+                                        release_desc += f"• {escaped}\n"
                                 release_desc += "\n"
                                 
-                    releases_list.append({"version": version, "date": date, "description": release_desc.strip()})
+                    releases_list.append({"version": version, "date": date, "raw_xml": raw_xml, "description": release_desc.strip()})
                     description_text += release_desc
                     
                 if as_list:
@@ -730,28 +737,9 @@ class WhispWindow(Adw.ApplicationWindow):
             if releases_list:
                 rel = releases_list[0]
                 about.set_release_notes_version(rel.get("version", version))
-                
-                desc = rel.get("description", "")
-                markup = ""
-                in_list = False
-                for line in desc.split('\n'):
-                    line = line.strip()
-                    if not line:
-                        continue
-                    if line.startswith("• "):
-                        if not in_list:
-                            markup += "<ul>\n"
-                            in_list = True
-                        markup += f"<li>{line[2:]}</li>\n"
-                    else:
-                        if in_list:
-                            markup += "</ul>\n"
-                            in_list = False
-                        markup += f"<p>{line}</p>\n"
-                if in_list:
-                    markup += "</ul>\n"
-                
-                about.set_release_notes(markup)
+                raw_xml = rel.get("raw_xml", "")
+                if raw_xml:
+                    about.set_release_notes(raw_xml)
                 
         about.present(self)
         if open_page:
@@ -1071,13 +1059,12 @@ class WhispWindow(Adw.ApplicationWindow):
                             def on_banner_clicked(btn):
                                 banner.set_revealed(False)
                                 
+                                rel_desc = releases_list[0].get("description", "") if releases_list else ""
+                                changelog_link = "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full changelog</a>"
+                                body_text = f"{rel_desc}\n\n{changelog_link}" if rel_desc else changelog_link
+                                
                                 body_label = Gtk.Label(
-                                    label=_("<b>Export and Better OCR</b>\n\n"
-                                           "• Export your current note instantly using the new 'Export Note' button in the main menu.\n"
-                                           "• Create list items seamlessly using standard markdown syntax.\n"
-                                           "• Fixed hard indentation issues when extracting text using Smart Paste OCR.\n"
-                                           "• Fixed Preferences dialog getting cut off on narrow window sizes.\n\n"
-                                           "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full changelog</a>"),
+                                    label=body_text,
                                     use_markup=True,
                                     wrap=True,
                                     justify=Gtk.Justification.LEFT,
@@ -1085,6 +1072,7 @@ class WhispWindow(Adw.ApplicationWindow):
                                     margin_top=12,
                                     margin_bottom=12
                                 )
+                                body_label.set_size_request(320, -1)
                                 
                                 dialog = Adw.MessageDialog(
                                     heading=_("What's New in v{version}").format(version=latest_version),

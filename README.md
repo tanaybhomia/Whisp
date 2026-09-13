@@ -1,19 +1,17 @@
 <div align="center">
   
-  <img src="data/icons/io.github.tanaybhomia.Whisp.svg" alt="Whisp Icon" width="128" height="128" style="vertical-align: middle;"> 
+  <img src="data/icons/io.github.tanaybhomia.Whisp.svg" alt="Whisp Icon" width="192" height="192" style="vertical-align: middle;"> 
   <h1>Whisp</h1>
-  <p><b>The Anti-Note for GNOME. A fluid, gesture-driven scratchpad designed for speed.</b></p>
+  <p><b>The Anti Note for GNOME</b></p>
 
   <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp">
-    <img src="https://flathub.org/api/badge?svg&locale=en" alt="Download on Flathub" height="50">
+    <img src="https://flathub.org/api/badge?svg&locale=en" alt="Download on Flathub" height="80">
   </a>
   <br><br>
-  
-  <a href="CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/CODE%20OF%20CONDUCT-GNOME-0AB3BB?labelColor=242424&style=flat-square" alt="Code of Conduct"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/LICENSE-GPL--3.0-0AB3BB?labelColor=242424&style=flat-square" alt="License: GPLv3"></a>
   <a href="#"><img src="https://img.shields.io/badge/BUILD-PASSING-3CB32A?labelColor=242424&style=flat-square" alt="Build Status"></a>
   <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp"><img src="https://img.shields.io/flathub/downloads/io.github.tanaybhomia.Whisp?style=flat-square&logo=flathub&labelColor=242424&color=0AB3BB" alt="Flathub Downloads"></a>
-  <br><br>
+  <a href="https://l10n.gnome.org/module/whisp/"><img src="https://img.shields.io/badge/TRANSLATED-GNOME%20L10N-0AB3BB?style=flat-square&logo=gnome&labelColor=242424" alt="Translation Status"></a>
 </div>
 
 <div align="center">

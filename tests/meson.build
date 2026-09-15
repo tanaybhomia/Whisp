@@ -11,3 +11,9 @@ test('Test notes.py',
   args: [join_paths(meson.current_source_dir(), 'test_notes.py')],
   env: ['PYTHONPATH=' + join_paths(meson.project_source_root(), 'src')]
 )
+
+test('Test highlighter.py',
+  python,
+  args: [join_paths(meson.current_source_dir(), 'test_highlighter.py')],
+  env: ['PYTHONPATH=' + join_paths(meson.project_source_root(), 'src')]
+)

@@ -44,11 +44,8 @@ stdenv.mkDerivation rec {
     libadwaita
   ];
 
-  dontWrapGApps = true;
-
   preFixup = ''
-    makeWrapperArgs+=(
-      "''${gappsWrapperArgs[@]}"
+    gappsWrapperArgs+=(
       --prefix PATH : "${lib.makeBinPath [ tesseract ]}"
     )
   '';

@@ -439,6 +439,7 @@ class NoteEditor(Gtk.Overlay):
                 self.autocomplete_list.remove(child)
                 
             suggestions = [
+                ("::count", _("Insert word count of current note")),
                 ("::today", _("Current date")),
                 ("::today(5)", _("Date offset (+/- days)")),
                 ("::tomorrow", _("Tomorrow's date")),
@@ -914,6 +915,17 @@ class NoteEditor(Gtk.Overlay):
             self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
             return True
             
+        # Check for ::count or ::words or ::word_count
+        m_count = re.match(r"^::(count|words|word_count)$", word, re.IGNORECASE)
+        if m_count:
+            self.buffer.delete(word_start, word_end)
+            full_text = self.buffer.get_text(self.buffer.get_start_iter(), self.buffer.get_end_iter(), False)
+            word_count = str(len(full_text.split()))
+            self.buffer.insert_at_cursor(word_count + insert_char)
+            self.autocomplete_box.set_visible(False)
+            self.textview.scroll_to_mark(self.buffer.get_insert(), 0.05, False, 0.0, 0.0)
+            return True
+
         # Check for ::time or ::now
         m_time = re.match(r'^::(time|now)$', word, re.IGNORECASE)
         if m_time:

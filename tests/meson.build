@@ -23,3 +23,9 @@ test('Test stats.py',
   args: [join_paths(meson.current_source_dir(), 'test_stats.py')],
   env: ['PYTHONPATH=' + join_paths(meson.project_source_root(), 'src')]
 )
+
+test('Test editor.py',
+  python,
+  args: [join_paths(meson.current_source_dir(), 'test_editor.py')],
+  env: ['PYTHONPATH=' + join_paths(meson.project_source_root(), 'src')]
+)

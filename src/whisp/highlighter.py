@@ -202,15 +202,16 @@ class MarkdownHighlighter:
                 apply_invisible(m, 1)
                 apply_invisible(m, 3)
             
-        # Apply checkboxes (☐ or ☑)
-        for m in re.finditer(r'^(\s*)([☐☑])\s*(.*)$', text, re.MULTILINE):
+        # Apply checkboxes (☐, ☑, - [ ], - [x])
+        for m in re.finditer(r"^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s*(.*)$", text, re.MULTILINE):
             box_start = self.buffer.get_iter_at_offset(m.start(2))
             box_end = self.buffer.get_iter_at_offset(m.end(2))
             line_end = self.buffer.get_iter_at_offset(m.end(3))
             
             self.buffer.apply_tag(self.tag_checkbox_icon, box_start, box_end)
             
-            if m.group(2) == '☑':
+            is_checked = m.group(2) == "☑" or "[x]" in m.group(2).lower()
+            if is_checked:
                 self.buffer.apply_tag(self.tag_checkbox_checked, box_start, line_end)
 
         # Apply link formatting for Markdown links [text](url)

@@ -254,6 +254,12 @@ class NoteEditor(Gtk.Overlay):
         
         # Add keyboard shortcuts (Bubble phase for normal shortcuts)
         key_ctrl_bubble = Gtk.EventControllerKey()
+        controllers = self.textview.observe_controllers()
+        for i in range(controllers.get_n_items()):
+            c = controllers.get_item(i)
+            if isinstance(c, Gtk.EventControllerKey) and c.get_im_context():
+                key_ctrl_bubble.set_im_context(c.get_im_context())
+                break
         key_ctrl_bubble.connect("key-pressed", self.on_key_pressed_bubble)
         key_ctrl_bubble.connect("key-released", self.on_key_released)
         self.textview.add_controller(key_ctrl_bubble)
@@ -391,7 +397,42 @@ class NoteEditor(Gtk.Overlay):
             self.textview.set_cursor(None)
             self.is_pointer_cursor = False
 
+    def convert_markdown_checkboxes(self):
+        if getattr(self, "_converting_checkboxes", False):
+            return
+        
+        start_iter = self.buffer.get_start_iter()
+        end_iter = self.buffer.get_end_iter()
+        text = self.buffer.get_text(start_iter, end_iter, False)
+        
+        m_empty = list(re.finditer(r"^(\s*)([-*+])\s*\[\s*\](\s?)", text, re.MULTILINE))
+        m_checked = list(re.finditer(r"^(\s*)([-*+])\s*\[[xX]\](\s?)", text, re.MULTILINE))
+        
+        if not m_empty and not m_checked:
+            return
+
+        self._converting_checkboxes = True
+        try:
+            all_matches = []
+            for m in m_empty:
+                all_matches.append((m.start(), m.end(), m.group(1) + "☐ "))
+            for m in m_checked:
+                all_matches.append((m.start(), m.end(), m.group(1) + "☑ "))
+                
+            all_matches.sort(key=lambda x: x[0], reverse=True)
+            
+            for start_off, end_off, new_str in all_matches:
+                s_mark = self.buffer.create_mark(None, self.buffer.get_iter_at_offset(start_off), True)
+                e_mark = self.buffer.create_mark(None, self.buffer.get_iter_at_offset(end_off), False)
+                self.buffer.delete(self.buffer.get_iter_at_mark(s_mark), self.buffer.get_iter_at_mark(e_mark))
+                self.buffer.insert(self.buffer.get_iter_at_mark(s_mark), new_str)
+                self.buffer.delete_mark(s_mark)
+                self.buffer.delete_mark(e_mark)
+        finally:
+            self._converting_checkboxes = False
+
     def on_buffer_changed(self, buffer):
+        self.convert_markdown_checkboxes()
         if self.save_timeout_id:
             GLib.source_remove(self.save_timeout_id)
         self.save_timeout_id = GLib.timeout_add(1000, self.save_file)
@@ -736,7 +777,7 @@ class NoteEditor(Gtk.Overlay):
         if state & Gdk.ModifierType.CONTROL_MASK:
             if state & Gdk.ModifierType.SHIFT_MASK:
                 if keyval == Gdk.KEY_c or keyval == Gdk.KEY_C:
-                    self.buffer.insert_at_cursor("- [ ] ")
+                    self.buffer.insert_at_cursor("☐ ")
                     return True
                 elif keyval == Gdk.KEY_s or keyval == Gdk.KEY_S:
                     self.wrap_text("~~", "~~", "strikethrough")
@@ -755,6 +796,23 @@ class NoteEditor(Gtk.Overlay):
                 self.toggle_checkbox()
                 return True
                 
+        if keyval == Gdk.KEY_bracketright:
+            insert_mark = self.buffer.get_insert()
+            cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+            line_start = cursor_iter.copy()
+            line_start.set_line_offset(0)
+            line_text = self.buffer.get_text(line_start, cursor_iter, False) + "]"
+            m_empty = re.match(r"^(\s*)([-*+])\s*\[\s*\]$", line_text)
+            if m_empty:
+                self.buffer.delete(line_start, cursor_iter)
+                self.buffer.insert_at_cursor(m_empty.group(1) + "☐ ")
+                return True
+            m_checked = re.match(r"^(\s*)([-*+])\s*\[[xX]\]$", line_text)
+            if m_checked:
+                self.buffer.delete(line_start, cursor_iter)
+                self.buffer.insert_at_cursor(m_checked.group(1) + "☑ ")
+                return True
+
         if keyval == Gdk.KEY_Escape:
             if self.autocomplete_box.get_visible():
                 self.autocomplete_box.set_visible(False)
@@ -1342,39 +1400,46 @@ class NoteEditor(Gtk.Overlay):
         line_end = cursor_iter.copy()
         line_end.forward_to_line_end()
         line_text = self.buffer.get_text(line_start, line_end, False)
-        
-        m_box = re.match(r'^(\s*)([☐☑])\s*', line_text)
+
+        # 1. If line is an empty checkbox (no content after box), remove it -> normal line
+        m_empty_box = re.match(r'^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s*$', line_text)
+        if m_empty_box:
+            indent = m_empty_box.group(1)
+            self.buffer.delete(line_start, line_end)
+            self.buffer.insert(line_start, indent)
+            return True
+
+        # 2. Checkbox with text -> toggle ☐ <-> ☑
+        m_box = re.match(r'^(\s*)([☐☑])\s+(.*)$', line_text)
         if m_box:
-            # Toggle it
-            box_offset = len(m_box.group(1))
-            box_iter = line_start.copy()
-            box_iter.forward_chars(box_offset)
-            box_end = box_iter.copy()
-            box_end.forward_chars(1)
-            current_box = self.buffer.get_text(box_iter, box_end, False)
+            indent, current_box, content = m_box.groups()
             new_box = "☑" if current_box == "☐" else "☐"
-            self.buffer.delete(box_iter, box_end)
-            self.buffer.insert(box_iter, new_box)
+            self.buffer.delete(line_start, line_end)
+            self.buffer.insert(line_start, f"{indent}{new_box} {content}")
             return True
-            
-        # If it's a bullet, replace bullet with checkbox
-        m_bullet = re.match(r'^(\s*)([-*+])\s+', line_text)
+
+        m_md_box = re.match(r'^(\s*)([-*+]\s*\[[ xX]\])\s+(.*)$', line_text)
+        if m_md_box:
+            indent, current_box, content = m_md_box.groups()
+            new_box = "☑" if "[ ]" in current_box else "☐"
+            self.buffer.delete(line_start, line_end)
+            self.buffer.insert(line_start, f"{indent}{new_box} {content}")
+            return True
+
+        # 3. Replace bullet with checkbox
+        m_bullet = re.match(r'^(\s*)([-*+])\s+(.*)$', line_text)
         if m_bullet:
-            b_offset = len(m_bullet.group(1))
-            b_iter = line_start.copy()
-            b_iter.forward_chars(b_offset)
-            b_end = b_iter.copy()
-            b_end.forward_chars(len(m_bullet.group(2)))
-            self.buffer.delete(b_iter, b_end)
-            self.buffer.insert(b_iter, "☐")
+            indent, bullet, content = m_bullet.groups()
+            self.buffer.delete(line_start, line_end)
+            self.buffer.insert(line_start, f"{indent}☐ {content}")
             return True
-            
-        # Otherwise, prepend checkbox after indent
+
+        # 4. Otherwise prepend checkbox
         m_indent = re.match(r'^(\s*)', line_text)
-        indent_len = len(m_indent.group(1)) if m_indent else 0
-        ins_iter = line_start.copy()
-        ins_iter.forward_chars(indent_len)
-        self.buffer.insert(ins_iter, "☐ ")
+        indent = m_indent.group(1) if m_indent else ""
+        content = line_text[len(indent):]
+        self.buffer.delete(line_start, line_end)
+        self.buffer.insert(line_start, f"{indent}☐ {content}")
         return True
 
     def count_checkboxes(self):
@@ -1432,13 +1497,13 @@ class NoteEditor(Gtk.Overlay):
             return insert_sync(f"\n{indent}☐ ")
 
         # Check if current line is an empty checkbox
-        m_empty = re.match(r'^(\s*)[☐☑]\s*$', line_text)
+        m_empty = re.match(r'^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s*$', line_text)
         if m_empty:
             self.buffer.delete(line_start, cursor_iter)
             return insert_sync("\n")
             
         # Check if current line is a checkbox
-        m_box = re.match(r'^(\s*)([☐☑])\s+(.*)$', line_text)
+        m_box = re.match(r'^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s+(.*)$', line_text)
         if m_box:
             indent, box, content = m_box.groups()
             return insert_sync(f"\n{indent}☐ ")

@@ -15,5 +15,13 @@ class TestHighlighter(unittest.TestCase):
         self.assertEqual(len(matches), 1)
         self.assertEqual(matches[0].group(0), "*italic text*")
 
+
+    def test_markdown_checkbox_pattern(self):
+        pattern = r"^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s*(.*)$"
+        self.assertTrue(re.match(pattern, "- [ ] test item"))
+        self.assertTrue(re.match(pattern, "- [x] completed item"))
+        self.assertTrue(re.match(pattern, "☐ unicode item"))
+        self.assertTrue(re.match(pattern, "☑ finished unicode item"))
+
 if __name__ == "__main__":
     unittest.main()

@@ -47,8 +47,8 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y meson ninja-build gettext desktop-file-utils appstream
+          sudo apt-get install -y meson ninja-build gettext desktop-file-utils appstream python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 xvfb
       - name: Setup Meson
         run: meson setup builddir
       - name: Run Tests
-        run: meson test -C builddir
+        run: xvfb-run meson test -C builddir

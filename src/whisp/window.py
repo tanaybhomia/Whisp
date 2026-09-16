@@ -685,6 +685,13 @@ class WhispWindow(Adw.ApplicationWindow):
         about.add_credit_section(_("Icon by"), ["gnoman"])
         about.add_acknowledgement_section(None, ["arewelibadwaitayet https://arewelibadwaitayet.com/"])
         
+        if hasattr(about, "add_other_app"):
+            about.add_other_app(
+                "io.github.tanaybhomia.DeepDive",
+                _("Deep Dive"),
+                _("Stay focused with strict limits")
+            )
+        
         about.add_link(_("Manual"), "https://tanaybhomia.github.io/Whisp/manual.html")
         about.add_link(_("Translate"), "https://l10n.gnome.org/module/whisp/")
         about.add_link(_("Donate"), "https://tanaybhomia.github.io/Whisp/donate.html")

@@ -1969,7 +1969,7 @@ class WhispWindow(Adw.ApplicationWindow):
         pref_window.add(behavior_page)
 
         # --- Shortcuts Page ---
-        shortcuts_page = Adw.PreferencesPage(title=_("Shortcuts"), icon_name="keyboard-symbolic")
+        shortcuts_page = Adw.PreferencesPage(title=_("Shortcuts"), icon_name="input-keyboard-symbolic")
         
         shortcuts = config.get("shortcuts")
         

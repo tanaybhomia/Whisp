@@ -121,6 +121,11 @@ class WhispApp(Adw.Application):
                     win.on_nav_last()
             win.present()
 
+    def do_shutdown(self):
+        from whisp.stats import tracker
+        tracker.save()
+        Adw.Application.do_shutdown(self)
+
     def do_open(self, files, n_files, hint):
         self._opening_files = True
         windows = self.get_windows()

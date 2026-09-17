@@ -349,6 +349,10 @@ class WhispWindow(Adw.ApplicationWindow):
         slate_mode_action.connect("activate", self.on_slate_mode_toggle)
         self.add_action(slate_mode_action)
 
+        toggle_action = Gio.SimpleAction.new("toggle-visibility", None)
+        toggle_action.connect("activate", lambda a, p: self.toggle_visibility())
+        self.add_action(toggle_action)
+
         # Slate Mode state and hover logic
         self.is_slate_mode = config.get("start_in_slate_mode", False)
             
@@ -1708,6 +1712,91 @@ class WhispWindow(Adw.ApplicationWindow):
         dialog.close()
         return True
 
+    def on_global_shortcut_record(self, shortcut_label, reset_btn=None, pref_window=None):
+        dialog = Adw.MessageDialog(
+            transient_for=self,
+            heading=_("Set Global Shortcut"),
+            body=_("Recording Global Shortcut to launch <b>Whisp</b>"),
+            body_use_markup=True
+        )
+        
+        icon = Gtk.Image.new_from_icon_name("preferences-desktop-keyboard-shortcuts-symbolic")
+        icon.set_pixel_size(64)
+        icon.add_css_class("dim-label")
+        
+        instructions = Gtk.Label(
+            label=_("<span foreground='gray' size='small'>press shortcut (e.g. Super+N) or backspace to disable</span>"),
+            use_markup=True,
+            wrap=True,
+            justify=Gtk.Justification.CENTER
+        )
+        
+        extra_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18, margin_top=12)
+        squeezer = Adw.Squeezer()
+        squeezer.add(icon)
+        squeezer.add(Gtk.Box())
+        
+        extra_box.append(squeezer)
+        extra_box.append(instructions)
+        dialog.set_extra_child(extra_box)
+        
+        key_ctrl = Gtk.EventControllerKey()
+        key_ctrl.connect("key-pressed", self._on_global_shortcut_key_pressed, dialog, shortcut_label, reset_btn, pref_window)
+        dialog.add_controller(key_ctrl)
+        
+        dialog.add_response("cancel", _("Cancel"))
+        dialog.set_response_appearance("cancel", Adw.ResponseAppearance.DEFAULT)
+        dialog.connect("response", lambda d, r: d.close())
+        dialog.present()
+
+    def _on_global_shortcut_key_pressed(self, ctrl, keyval, keycode, state, dialog, shortcut_label, reset_btn=None, pref_window=None):
+        from gi.repository import Gdk
+        modifier_keys = (
+            Gdk.KEY_Control_L, Gdk.KEY_Control_R,
+            Gdk.KEY_Shift_L, Gdk.KEY_Shift_R,
+            Gdk.KEY_Alt_L, Gdk.KEY_Alt_R,
+            Gdk.KEY_Super_L, Gdk.KEY_Super_R,
+            Gdk.KEY_Meta_L, Gdk.KEY_Meta_R
+        )
+        if keyval in modifier_keys:
+            return False
+            
+        if keyval == Gdk.KEY_Escape:
+            dialog.close()
+            return True
+            
+        if keyval == Gdk.KEY_BackSpace:
+            accel_str = ""
+        else:
+            mask = state & Gtk.accelerator_get_default_mod_mask()
+            required_masks = Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.ALT_MASK | Gdk.ModifierType.SUPER_MASK
+            if not (mask & required_masks):
+                return False
+                
+            accel_str = Gtk.accelerator_name(keyval, mask)
+            if not accel_str:
+                return False
+
+        app = self.get_application()
+        if hasattr(app, "shortcut_manager") and app.shortcut_manager:
+            app.shortcut_manager.update_shortcut(accel_str)
+        else:
+            from whisp.config import config
+            config.set("global_toggle_shortcut", accel_str)
+            from whisp.global_shortcuts import setup_gnome_gsettings_shortcut
+            setup_gnome_gsettings_shortcut(accel_str)
+
+        if hasattr(shortcut_label, "set_accelerator"):
+            shortcut_label.set_accelerator(accel_str)
+        elif hasattr(shortcut_label, "set_label"):
+            shortcut_label.set_label(accel_str if accel_str else _("Disabled"))
+
+        if reset_btn:
+            reset_btn.set_visible(accel_str != "<Super>n")
+
+        dialog.close()
+        return True
+
     def on_preferences(self, action, param):
         pref_window = Adw.PreferencesDialog()
         pref_window.set_search_enabled(True)
@@ -1977,6 +2066,58 @@ class WhispWindow(Adw.ApplicationWindow):
 
         # --- Shortcuts Page ---
         shortcuts_page = Adw.PreferencesPage(title=_("Shortcuts"), icon_name="input-keyboard-symbolic")
+
+        # --- App Trigger Group ---
+        trigger_group = Adw.PreferencesGroup(title=_("App Trigger"))
+        global_accel = config.get("global_toggle_shortcut", "<Super>n")
+
+        trigger_row = Adw.ActionRow(
+            title=_("Launch Whisp")
+        )
+
+        global_shortcut_label = Adw.ShortcutLabel(accelerator=global_accel)
+        global_shortcut_label.set_disabled_text(_("Disabled"))
+        global_shortcut_label.set_valign(Gtk.Align.CENTER)
+
+        reset_global_btn = Gtk.Button(icon_name="edit-undo-symbolic")
+        reset_global_btn.set_valign(Gtk.Align.CENTER)
+        reset_global_btn.add_css_class("flat")
+        reset_global_btn.add_css_class("circular")
+        reset_global_btn.set_visible(global_accel != "<Super>n")
+        reset_global_btn.set_tooltip_text(_("Reset to Default"))
+
+        def on_reset_global_shortcut(btn):
+            default_accel = "<Super>n"
+            app = self.get_application()
+            if app and hasattr(app, "shortcut_manager") and app.shortcut_manager:
+                app.shortcut_manager.update_shortcut(default_accel)
+            else:
+                config.set("global_toggle_shortcut", default_accel)
+                from whisp.global_shortcuts import setup_gnome_gsettings_shortcut
+                setup_gnome_gsettings_shortcut(default_accel)
+            global_shortcut_label.set_accelerator(default_accel)
+            reset_global_btn.set_visible(False)
+
+        reset_global_btn.connect("clicked", on_reset_global_shortcut)
+
+        def update_global_shortcut_ui(new_accel):
+            global_shortcut_label.set_accelerator(new_accel)
+            reset_global_btn.set_visible(new_accel != "<Super>n")
+
+        app = self.get_application()
+        if app and hasattr(app, "shortcut_manager") and app.shortcut_manager:
+            app.shortcut_manager.ui_update_callback = update_global_shortcut_ui
+
+        trigger_row.connect("activated", lambda r: self.on_global_shortcut_record(global_shortcut_label, reset_global_btn, pref_window))
+        trigger_row.set_activatable(True)
+
+        suffix_box = Gtk.Box(spacing=12)
+        suffix_box.append(reset_global_btn)
+        suffix_box.append(global_shortcut_label)
+        trigger_row.add_suffix(suffix_box)
+
+        trigger_group.add(trigger_row)
+        shortcuts_page.add(trigger_group)
         
         shortcuts = config.get("shortcuts")
         
@@ -2370,6 +2511,11 @@ class WhispWindow(Adw.ApplicationWindow):
         except GLib.Error:
             pass
 
+
+    def toggle_visibility(self):
+        if not self.is_visible():
+            self.show()
+        self.present()
     def on_slate_mode_toggle(self, action, param):
         self.is_slate_mode = not self.is_slate_mode
         self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)

@@ -1,9 +1,18 @@
 import sys
+import os
+from pathlib import Path
+
+# Add src directory to sys.path for direct execution
+src_dir = str(Path(__file__).parent.parent.resolve())
+if src_dir not in sys.path:
+    sys.path.insert(0, src_dir)
+import sys
 import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw, Gdk, Gio
+from gi.repository import Gtk, Adw, Gdk, Gio, GLib
 from whisp.window import WhispWindow
+from whisp.global_shortcuts import GlobalShortcutManager
 
 IS_DEV_MODE = "--dev" in sys.argv
 
@@ -14,6 +23,8 @@ class WhispApp(Adw.Application):
 
     def do_startup(self):
         Adw.Application.do_startup(self)
+        self.shortcut_manager = GlobalShortcutManager(self)
+        self.shortcut_manager.start()
         
         # Add local icon directory to search path for testing
         import os
@@ -103,6 +114,19 @@ class WhispApp(Adw.Application):
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
+
+    def toggle_visibility(self):
+        windows = self.get_windows()
+        win = windows[0] if windows else None
+        if not win:
+            win = WhispWindow(application=self)
+            win.load_notes()
+            win.present()
+            return
+            
+        if not win.is_visible():
+            win.show()
+        win.present()
     def do_activate(self):
         windows = self.get_windows()
         win = windows[0] if windows else None
@@ -202,8 +226,28 @@ def main():
     if '--dev' in sys.argv:
         sys.argv.remove('--dev')
         
+    if "--toggle" in sys.argv:
+        sys.argv.remove("--toggle")
+        try:
+            bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+            app_id = "io.github.tanaybhomia.Whisp.Devel" if IS_DEV_MODE else "io.github.tanaybhomia.Whisp"
+            object_path = "/" + app_id.replace(".", "/")
+            proxy = Gio.DBusProxy.new_sync(
+                bus,
+                Gio.DBusProxyFlags.NONE,
+                None,
+                app_id,
+                object_path,
+                "org.gtk.Actions",
+                None
+            )
+            proxy.call("Activate", GLib.Variant("(sav a{sv})", ("toggle-visibility", [], {})), Gio.DBusCallFlags.NONE, 500, None)
+            return 0
+        except Exception:
+            pass
+
     start_hidden = False
-    if '--hidden' in sys.argv:
+    if "--hidden" in sys.argv:
         start_hidden = True
         sys.argv.remove('--hidden')
         

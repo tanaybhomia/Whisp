@@ -56,6 +56,7 @@ class Config:
             "max_carousel_size": 10,
             "start_in_slate_mode": False,
             "wysiwyg_scope": "global",
+            "global_toggle_shortcut": "<Super>n",
             "shortcuts": self.DEFAULT_SHORTCUTS.copy()
         }
         

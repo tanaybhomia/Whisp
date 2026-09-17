@@ -364,6 +364,12 @@ class WhispWindow(Adw.ApplicationWindow):
         self.header_bar = Adw.HeaderBar()
         self.header_bar.add_css_class("flat")
         self.toolbar_view.add_top_bar(self.header_bar)
+
+        # Apply Libadwaita development striped headerbar appearance
+        app = self.get_application() or Gio.Application.get_default()
+        app_id = app.get_application_id() if app else ""
+        if app_id.endswith(".Devel") or "--dev" in sys.argv:
+            self.add_css_class("devel")
         self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
         
         # Delete Note Button
@@ -674,9 +680,16 @@ class WhispWindow(Adw.ApplicationWindow):
 
     def on_about(self, action, param, open_page=None):
         version = self._get_dynamic_version()
+        app = self.get_application() or Gio.Application.get_default()
+        app_id = app.get_application_id() if app else ""
+        is_dev = app_id.endswith(".Devel") or "--dev" in sys.argv
+        
+        icon_name = "io.github.tanaybhomia.Whisp.Devel" if is_dev else "io.github.tanaybhomia.Whisp"
+        app_name = "Whisp (Development)" if is_dev else "Whisp"
+
         about = Adw.AboutDialog(
-            application_name="Whisp",
-            application_icon="io.github.tanaybhomia.Whisp",
+            application_name=app_name,
+            application_icon=icon_name,
             developer_name="Tanay Bhomia",
             developers=["Tanay Bhomia"],
             version=version,

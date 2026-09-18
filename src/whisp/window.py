@@ -272,6 +272,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.set_content(self.toast_overlay)
         
         self.last_deleted_file = None
+        self.update_banner = None
 
         # Actions
         new_note_action = Gio.SimpleAction.new("new-note", None)
@@ -1075,14 +1076,15 @@ class WhispWindow(Adw.ApplicationWindow):
                     config.set("last_seen_version", latest_version)
                     if not is_first_run and releases_list:
                         if hasattr(Adw, "Banner"):
-                            banner = Adw.Banner(
+                            self.update_banner = Adw.Banner(
                                 title=_("Whisp just got better!"),
                                 button_label=_("Changelogs")
                             )
-                            banner.add_css_class("whisp-update-banner")
+                            self.update_banner.add_css_class("whisp-update-banner")
                             
                             def on_banner_clicked(btn):
-                                banner.set_revealed(False)
+                                if self.update_banner:
+                                    self.update_banner.set_revealed(False)
                                 
                                 rel_desc = releases_list[0].get("description", "") if releases_list else ""
                                 changelog_link = "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full changelog</a>"
@@ -1116,9 +1118,9 @@ class WhispWindow(Adw.ApplicationWindow):
                                 dialog.set_transient_for(self)
                                 dialog.present()
                                 
-                            banner.connect("button-clicked", on_banner_clicked)
-                            self.toolbar_view.add_top_bar(banner)
-                            banner.set_revealed(True)
+                            self.update_banner.connect("button-clicked", on_banner_clicked)
+                            self.toolbar_view.add_top_bar(self.update_banner)
+                            self.update_banner.set_revealed(True)
                         else:
                             self.on_about(None, None)
                         
@@ -2538,7 +2540,23 @@ class WhispWindow(Adw.ApplicationWindow):
         self.toast_overlay.add_toast(self._slate_toast)
     def on_mouse_motion(self, controller, x, y):
         if self.is_slate_mode:
-            if y < 45:
+            search_popover_open = hasattr(self, "popover") and self.popover and self.popover.get_visible()
+            menu_popover = self.menu_button.get_popover() if hasattr(self, "menu_button") and self.menu_button else None
+            menu_popover_open = menu_popover and menu_popover.get_visible()
+            
+            if search_popover_open or menu_popover_open:
+                self.toolbar_view.set_reveal_top_bars(True)
+                return
+
+            threshold = 45
+            if self.toolbar_view.get_reveal_top_bars():
+                header_h = max(45, self.header_bar.get_height() if hasattr(self, "header_bar") and self.header_bar else 45)
+                banner_h = 0
+                if hasattr(self, "update_banner") and self.update_banner and self.update_banner.get_revealed():
+                    banner_h = max(40, self.update_banner.get_height())
+                threshold = max(threshold, header_h + banner_h)
+
+            if y < threshold:
                 self.toolbar_view.set_reveal_top_bars(True)
             else:
                 self.toolbar_view.set_reveal_top_bars(False)

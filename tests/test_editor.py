@@ -43,5 +43,27 @@ class TestEditor(unittest.TestCase):
         text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
         self.assertEqual(text, "☐ Task", "Markdown - [ ] should automatically convert to unicode ☐ checkbox")
 
+    def test_slate_mode_mouse_motion_with_banner(self):
+        from gi.repository import Adw
+        app = Adw.Application(application_id="test.slate.app")
+        test_self = self
+        def on_activate(app):
+            from whisp.window import WhispWindow
+            win = WhispWindow(application=app)
+            win.is_slate_mode = True
+            win.update_banner = Adw.Banner(title="Test", button_label="Click")
+            win.update_banner.set_revealed(True)
+            win.toolbar_view.add_top_bar(win.update_banner)
+            win.toolbar_view.set_reveal_top_bars(True)
+            
+            win.on_mouse_motion(None, 0, 60)
+            test_self.assertTrue(win.toolbar_view.get_reveal_top_bars(), "Top bars should stay revealed over banner area in Slate Mode")
+            
+            win.on_mouse_motion(None, 0, 150)
+            test_self.assertFalse(win.toolbar_view.get_reveal_top_bars(), "Top bars should hide when cursor moves below top bars area")
+            app.quit()
+        app.connect("activate", on_activate)
+        app.run([])
+
 if __name__ == "__main__":
     unittest.main()

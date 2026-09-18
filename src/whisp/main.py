@@ -218,6 +218,15 @@ class WhispApp(Adw.Application):
         GLib.timeout_add(1000, reset_flag)
 
 def main():
+    if "--banner" in sys.argv or "--test-banner" in sys.argv:
+        if "--banner" in sys.argv:
+            sys.argv.remove("--banner")
+        if "--test-banner" in sys.argv:
+            sys.argv.remove("--test-banner")
+        from whisp.config import config
+        config.set("last_seen_version", "1.4.0")
+        config.set("first_run", False)
+
     if '--search-provider' in sys.argv:
         sys.argv.remove('--search-provider')
         from whisp.search_provider import main as provider_main

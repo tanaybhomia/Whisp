@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 import shutil
 import gettext
 import locale
@@ -1196,7 +1197,6 @@ class WhispWindow(Adw.ApplicationWindow):
         if editor:
             start, end = editor.buffer.get_bounds()
             text = editor.buffer.get_text(start, end, True)
-            from gi.repository import GObject
             editor.textview.get_clipboard().set(text)
             self.toast_overlay.add_toast(Adw.Toast.new(_("Note Copied")))
 
@@ -1204,7 +1204,6 @@ class WhispWindow(Adw.ApplicationWindow):
         editor = self.get_current_editor()
         if editor and editor.file_path.exists():
             import os
-            import time
             os.utime(editor.file_path, None)
             
             is_pinned = self.metadata.get(editor.file_path.name, {}).get("pinned", False)
@@ -1706,8 +1705,6 @@ class WhispWindow(Adw.ApplicationWindow):
                     
             accels = [accel_str]
             
-        from whisp.config import config, Config
-        shortcuts = config.get("shortcuts", {})
         shortcuts[action] = accels
         config.set("shortcuts", shortcuts)
         

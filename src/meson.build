@@ -17,6 +17,7 @@ configure_file(
 whisp_sources = [
   'whisp/__init__.py',
   'whisp/config.py',
+  'whisp/global_shortcuts.py',
   'whisp/highlighter.py',
   'whisp/editor.py',
   'whisp/window.py',

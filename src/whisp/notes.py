@@ -2,6 +2,7 @@ import os
 import re
 from pathlib import Path
 
+from whisp.text_color import strip_color_markup
 from whisp.text_search import iter_body_match_offsets
 
 TITLE_RE = re.compile(r"^#+\s*")
@@ -26,11 +27,15 @@ class NoteIndex:
             return cached
         try:
             content = path.read_text(encoding="utf-8")
-        except OSError:
-            return None
-        first_line = content.split("\n", 1)[0].strip()
+        except (OSError, UnicodeDecodeError):
+            return None  # missing or corrupt: skip the note rather than fail the listing
+        # The visible text: titles, tags, search matches and snippets must not see
+        # the hidden color markup. Uncolored notes get the same object back, not a copy.
+        plain = strip_color_markup(content)
+        first_line = plain.split("\n", 1)[0].strip()
         title = TITLE_RE.sub("", first_line) if first_line else DEFAULT_TITLE
-        tags = set(TAG_RE.findall(content))
+        # A "#rrggbb" inside color markup is not a tag.
+        tags = set(TAG_RE.findall(plain))
         low_content = content.lower()
         tag_str = " ".join(f"#{t}" for t in tags)
         entry = {
@@ -38,6 +43,9 @@ class NoteIndex:
             "mtime": mtime,
             "content": content,
             "low_content": low_content,
+            "plain": plain,
+            # Search text without color markup, so "span" never matches a colored note.
+            "plain_low": plain.lower(),
             "title": title,
             "tag_str": tag_str,
             "blank": not content.strip(),
@@ -59,7 +67,8 @@ class NoteIndex:
         return entries
 
     def iter_body_offsets(self, entry, term):
-        return iter_body_match_offsets(entry["content"], term, entry["low_content"])
+        """Offsets into ``entry["plain"]``, i.e. the note without color markup."""
+        return iter_body_match_offsets(entry["plain"], term, entry["plain_low"])
 
 
 def match_all_terms(entry, terms):
@@ -68,7 +77,7 @@ def match_all_terms(entry, terms):
     if not valid_terms:
         return True
 
-    content_low = entry["low_content"]
+    content_low = entry.get("plain_low", entry["low_content"])
     tag_str_low = entry.get("tag_str", "").lower()
     full_query = " ".join(valid_terms)
 
@@ -103,7 +112,18 @@ def build_snippet(content, term, idx, pre=12, post=60):
 def body_excerpt(content, max_len=120):
     """First body line(s) collapsed onto one line; empty if only a title."""
     body = content.split("\n", 1)[1] if "\n" in content else ""
-    text = re.sub(r"\s+", " ", body).strip()
+    text = re.sub(r"\s+", " ", strip_color_markup(body)).strip()
     if len(text) > max_len:
         text = text[:max_len].rstrip() + "…"
     return text
+
+
+def sidebar_entries(entries, query, is_pinned):
+    """Entries for the sidebar list: filtered by ``query``, pinned notes first.
+
+    ``entries`` arrive newest-first (see NoteIndex.load_dir) and keep that
+    order within the pinned and unpinned groups.
+    """
+    terms = query.split()
+    matching = [e for e in entries if match_all_terms(e, terms)]
+    return sorted(matching, key=lambda e: not is_pinned(e["path"].name))

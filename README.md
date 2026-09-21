@@ -31,6 +31,8 @@ Most note-taking apps force you into a heavy workflow of creating files, managin
 ## Core Features
 
 - **Spatial Navigation**: Fluidly swipe between your recent notes using 1:1 touchpad gestures via Adwaita Carousel.
+- **Notes Sidebar**: In a wide window, a sidebar lists every note (pinned first) with search and quick delete. In a narrow window it folds away and the editor looks exactly as before.
+- **Text Color**: Select text, then right-click → `Text Color…` (or `Ctrl+Shift+K`) to color just that selection. Colors are stored in the note as inline `<span style="color:#hex">` HTML, so notes remain plain Markdown files.
 - **WYSIWYG Markdown**: Real-time rendering of Markdown. Toggle WYSIWYG mode to instantly hide Markdown syntax symbols and view clean rich text.
 - **Paper Themes**: Native dynamic styling. Choose between Dotted, Grid, or Blank backgrounds to mimic physical engineering paper or scratchpads.
 - **Smart Paste & OCR**: Copy any image or screenshot containing text and press `Ctrl+V` to run rapid, offline OCR that automatically extracts and inserts the text while mathematically preserving exact code indentation! Alternatively, paste a URL to automatically shrink it via TinyURL in the background, or use `Ctrl+Shift+V` to strip Markdown formatting when pasting rich text.

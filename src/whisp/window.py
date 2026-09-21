@@ -9,6 +9,7 @@ from gi.repository import Gtk, Adw, Gdk, Gio, GLib, Pango
 from whisp.config import config, DATA_DIR, TRASH_DIR
 from whisp.editor import NoteEditor
 from whisp.notes import NoteIndex
+from whisp.sidebar import NotesSidebar
 from whisp.stats import tracker
 
 try:
@@ -186,6 +187,12 @@ shortcuts_xml = """
         </child>
         <child>
           <object class="AdwShortcutsItem">
+            <property name="title">Text Color</property>
+            <property name="accelerator">&lt;Primary&gt;&lt;Shift&gt;k</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwShortcutsItem">
             <property name="title">Bold Text</property>
             <property name="accelerator">&lt;Primary&gt;b</property>
           </object>
@@ -233,7 +240,7 @@ class WhispWindow(Adw.ApplicationWindow):
             width = 360
             height = 500
         self.set_default_size(int(width), int(height))
-        self.set_size_request(360, 400)
+        self.set_size_request(440, 400)  # header bar incl. the back button of the collapsed sidebar
         if config.get("is_maximized"):
             self.maximize()
             
@@ -268,8 +275,27 @@ class WhispWindow(Adw.ApplicationWindow):
 
         self.toolbar_view = Adw.ToolbarView()
         self.toast_overlay = Adw.ToastOverlay()
-        self.toast_overlay.set_child(self.toolbar_view)
         self.set_content(self.toast_overlay)
+
+        # Notes sidebar | editor. Below 720sp (sidebar 240 + header 440 must fit) the
+        # split collapses to the editor alone, as Whisp always looked, and the
+        # sidebar is one back-press away.
+        self.sidebar = NotesSidebar(
+            get_entries=lambda: self.note_index.load_dir(DATA_DIR),
+            is_pinned=lambda name: self.metadata.get(name, {}).get("pinned", False),
+            on_open=self.on_sidebar_open,
+            on_delete=self.on_sidebar_delete,
+        )
+        self.content_page = Adw.NavigationPage(title=self.get_title(), child=self.toolbar_view)
+        self.split_view = Adw.NavigationSplitView(sidebar=self.sidebar, content=self.content_page)
+        self.split_view.set_min_sidebar_width(220)
+        self.split_view.set_max_sidebar_width(300)
+        self.split_view.set_sidebar_width_fraction(0.3)
+        self.toast_overlay.set_child(self.split_view)
+        collapse = Adw.Breakpoint.new(Adw.BreakpointCondition.parse("max-width: 720sp"))
+        collapse.add_setter(self.split_view, "collapsed", True)
+        self.add_breakpoint(collapse)
+        self._sidebar_refresh_id = 0
         
         self.last_deleted_file = None
         self.update_banner = None
@@ -372,7 +398,7 @@ class WhispWindow(Adw.ApplicationWindow):
         app_id = app.get_application_id() if app else ""
         if app_id.endswith(".Devel") or "--dev" in sys.argv:
             self.add_css_class("devel")
-        self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
+        self.set_top_bars_revealed(not self.is_slate_mode)
         
         # Delete Note Button
         del_btn = Gtk.Button(icon_name="user-trash-symbolic")
@@ -517,6 +543,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.carousel.set_allow_mouse_drag(False)  # Allow mouse text selection without swiping
         self.carousel.connect("page-changed", self.on_page_changed)
         self.carousel.connect("notify::position", self.on_carousel_position_notify)
+        self.carousel.connect("notify::n-pages", lambda *_: self.refresh_sidebar())
         self.toolbar_view.set_content(self.carousel)
 
         # Wheel paging is reimplemented in on_carousel_scroll; touchpad is untouched.
@@ -528,6 +555,29 @@ class WhispWindow(Adw.ApplicationWindow):
         scroll_ctrl.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
         scroll_ctrl.connect("scroll", self.on_carousel_scroll)
         self.carousel.add_controller(scroll_ctrl)
+
+    def set_top_bars_revealed(self, revealed):
+        """Show or hide both header bars together (Slate mode)."""
+        self.toolbar_view.set_reveal_top_bars(revealed)
+        self.sidebar.toolbar_view.set_reveal_top_bars(revealed)
+
+    def refresh_sidebar(self):
+        # Coalesce bursts (several pages added at startup, save + pin, ...).
+        if self._sidebar_refresh_id:
+            return
+        self._sidebar_refresh_id = GLib.timeout_add(100, self._do_refresh_sidebar)
+
+    def _do_refresh_sidebar(self):
+        self._sidebar_refresh_id = 0
+        self.sidebar.refresh()
+        self.sync_sidebar_selection()
+        return False
+
+    def sync_sidebar_selection(self):
+        editor = self.get_current_editor()
+        # The trailing blank note has no row, so nothing is highlighted for it.
+        path = editor.file_path if editor is not None and not editor.is_empty() else None
+        self.sidebar.select_path(path)
 
     def on_theme_btn_toggled(self, btn, scheme):
         if btn.get_active():
@@ -913,6 +963,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 self.metadata[fname] = {}
             self.metadata[fname]["pinned"] = is_pinned
             self.save_metadata()
+            self.refresh_sidebar()
             
             if is_pinned:
                 self.carousel.remove(current_page)
@@ -1139,7 +1190,11 @@ class WhispWindow(Adw.ApplicationWindow):
             else:
                 tracker.increment("notes_created_day")
                 
-        editor = NoteEditor(file_path=file_path, on_title_changed=self.on_editor_title_changed)
+        editor = NoteEditor(
+            file_path=file_path,
+            on_title_changed=self.on_editor_title_changed,
+            on_saved=lambda _editor: self.refresh_sidebar(),
+        )
         editor.window = self
         if index is not None:
             self.carousel.insert(editor, index)
@@ -1207,6 +1262,7 @@ class WhispWindow(Adw.ApplicationWindow):
         if editor and editor.file_path.exists():
             import os
             os.utime(editor.file_path, None)
+            self.refresh_sidebar()
             
             is_pinned = self.metadata.get(editor.file_path.name, {}).get("pinned", False)
             if not is_pinned:
@@ -1225,6 +1281,7 @@ class WhispWindow(Adw.ApplicationWindow):
             self.toast_overlay.add_toast(Adw.Toast.new(_("Note moved to front")))
 
     def on_new_note(self, action=None, param=None):
+        self.split_view.set_show_content(True)
         n_pages = self.carousel.get_n_pages()
         if n_pages > 0:
             self.carousel.scroll_to(self.carousel.get_nth_page(n_pages - 1), True)
@@ -1250,8 +1307,9 @@ class WhispWindow(Adw.ApplicationWindow):
             return
 
         current_page_idx = int(round(self.carousel.get_position()))
-        editor = self.carousel.get_nth_page(current_page_idx)
+        self.request_delete(self.carousel.get_nth_page(current_page_idx))
 
+    def request_delete(self, editor):
         # Don't allow deleting an already empty note (prevents app locking bug)
         if editor.is_empty():
             if hasattr(self, 'current_toast') and self.current_toast:
@@ -1332,16 +1390,19 @@ class WhispWindow(Adw.ApplicationWindow):
         self.current_toast.set_timeout(5)
         self.toast_overlay.add_toast(self.current_toast)
 
-        self.carousel.remove(editor)
+        if idx != -1:  # notes deleted from the sidebar may not be open
+            self.carousel.remove(editor)
 
         if self.carousel.get_n_pages() == 0:
             self.add_note()
         else:
             self.update_title()
+        self.refresh_sidebar()
 
     def on_page_changed(self, carousel, index):
         tracker.increment("total_swipes")
         self.update_title()
+        self.sync_sidebar_selection()
         editor = carousel.get_nth_page(int(round(index)))
         if editor:
             fname = editor.file_path.name
@@ -1442,11 +1503,13 @@ class WhispWindow(Adw.ApplicationWindow):
             entry = self.note_index.load(f)
             if entry is None or entry["blank"]:
                 continue
-            title, tag_str, content = entry["title"], entry["tag_str"], entry["content"]
+            # "plain" is the note without color markup: snippets and the offsets
+            # below must both be in that space, never the raw file text.
+            title, tag_str, content = entry["title"], entry["tag_str"], entry["plain"]
             if not search_text:
                 yield {"file": f, "plain": True, "title": title, "tag_str": tag_str}
                 continue
-            if search_text not in entry["low_content"]:
+            if search_text not in entry["plain_low"]:
                 continue
             n = 0
             for idx in self.note_index.iter_body_offsets(entry, search_text):
@@ -1565,20 +1628,36 @@ class WhispWindow(Adw.ApplicationWindow):
             editor.set_search_highlight(text)
         return False
 
+    def find_editor(self, file_path):
+        for i in range(self.carousel.get_n_pages()):
+            editor = self.carousel.get_nth_page(i)
+            if editor.file_path == file_path:
+                return editor
+        return None
+
+    def open_note(self, file_path):
+        """Bring a note into view, loading it into the carousel if needed."""
+        target = self.find_editor(file_path)
+        if target is not None:
+            self.carousel.scroll_to(target, True)
+        else:
+            target = self.add_note(file_path)
+        self.split_view.set_show_content(True)
+        return target
+
+    def on_sidebar_open(self, file_path):
+        self.open_note(file_path).textview.grab_focus()
+
+    def on_sidebar_delete(self, file_path):
+        # Reuse the regular delete flow (confirmation, trash, undo toast). A note
+        # that isn't open gets a throwaway editor that is never shown.
+        editor = self.find_editor(file_path) or NoteEditor(file_path=file_path)
+        self.request_delete(editor)
+
     def on_note_row_activated(self, listbox, row):
         file_path = getattr(row, 'file_path', None)
         if file_path:
-            # Check if it's already in the carousel
-            target = None
-            for i in range(self.carousel.get_n_pages()):
-                editor = self.carousel.get_nth_page(i)
-                if editor.file_path == file_path:
-                    self.carousel.scroll_to(editor, True)
-                    target = editor
-                    break
-
-            if target is None:
-                target = self.add_note(file_path)
+            target = self.open_note(file_path)
 
             match_index = getattr(row, 'match_index', None)
             if match_index is not None:
@@ -2530,7 +2609,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.present()
     def on_slate_mode_toggle(self, action, param):
         self.is_slate_mode = not self.is_slate_mode
-        self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
+        self.set_top_bars_revealed(not self.is_slate_mode)
         
         if hasattr(self, '_slate_toast') and self._slate_toast:
             self._slate_toast.dismiss()
@@ -2545,7 +2624,7 @@ class WhispWindow(Adw.ApplicationWindow):
             menu_popover_open = menu_popover and menu_popover.get_visible()
             
             if search_popover_open or menu_popover_open:
-                self.toolbar_view.set_reveal_top_bars(True)
+                self.set_top_bars_revealed(True)
                 return
 
             threshold = 45
@@ -2556,7 +2635,4 @@ class WhispWindow(Adw.ApplicationWindow):
                     banner_h = max(40, self.update_banner.get_height())
                 threshold = max(threshold, header_h + banner_h)
 
-            if y < threshold:
-                self.toolbar_view.set_reveal_top_bars(True)
-            else:
-                self.toolbar_view.set_reveal_top_bars(False)
+            self.set_top_bars_revealed(y < threshold)

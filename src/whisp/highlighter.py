@@ -1,6 +1,7 @@
 import re
 from gi.repository import GLib, Pango
 from whisp.config import config
+from whisp.text_color import find_color_spans, strip_color_markup
 
 class MarkdownHighlighter:
     def __init__(self, buffer, textview=None, editor=None):
@@ -51,6 +52,16 @@ class MarkdownHighlighter:
         self.tag_invisible = self.buffer.create_tag("invisible", invisible=True)
 
         self.tag_search = self.buffer.create_tag("search_match", background="#f9f06b", foreground="#000000")
+
+    def color_tag(self, color):
+        """Tag that paints text ``color`` (``#rrggbb``), created on first use."""
+        name = f"color_{color}"
+        tag = self.buffer.get_tag_table().lookup(name)
+        if tag is None:
+            tag = self.buffer.create_tag(name, foreground=color)
+            # New tags outrank older ones; keep search highlights on top.
+            tag.set_priority(self.tag_search.get_priority())
+        return tag
 
     def set_search_term(self, term):
         self.search_term = term or ""
@@ -128,7 +139,7 @@ class MarkdownHighlighter:
         start_doc = self.buffer.get_start_iter()
         end_doc = start_doc.copy()
         end_doc.forward_to_line_end()
-        first_line = self.buffer.get_text(start_doc, end_doc, False).strip().lower()
+        first_line = strip_color_markup(self.buffer.get_text(start_doc, end_doc, False)).strip().lower()
         is_list_note = bool(re.match(r'^(#{1,6}\s*)?list(\s*[:\s].*)?$', first_line))
         
         if is_list_note:
@@ -202,6 +213,15 @@ class MarkdownHighlighter:
                 apply_invisible(m, 1)
                 apply_invisible(m, 3)
             
+        # Apply text colors (<span style="color:#hex">text</span>). The markup is
+        # verbose, so it stays hidden in both modes; "Remove Color" edits it.
+        for span in find_color_spans(text):
+            content_start = self.buffer.get_iter_at_offset(span.open_end)
+            content_end = self.buffer.get_iter_at_offset(span.close_start)
+            self.buffer.apply_tag(self.color_tag(span.color), content_start, content_end)
+            self.buffer.apply_tag(self.tag_invisible, self.buffer.get_iter_at_offset(span.open_start), content_start)
+            self.buffer.apply_tag(self.tag_invisible, content_end, self.buffer.get_iter_at_offset(span.close_end))
+
         # Apply checkboxes (☐, ☑, - [ ], - [x])
         for m in re.finditer(r"^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s*(.*)$", text, re.MULTILINE):
             box_start = self.buffer.get_iter_at_offset(m.start(2))

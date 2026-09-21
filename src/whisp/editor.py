@@ -3,7 +3,7 @@ import uuid
 import gettext
 import locale
 from pathlib import Path
-from gi.repository import Gtk, GLib, Gdk, Adw
+from gi.repository import Gtk, GLib, Gdk, Gio, Adw
 import os
 import tempfile
 import threading
@@ -15,9 +15,12 @@ try:
 except ImportError:
     HAS_OCR = False
 from whisp.config import config, DATA_DIR
+from whisp.color_popover import TextColorPopover
 from whisp.highlighter import MarkdownHighlighter
 from whisp.text_search import body_match_offsets
 from whisp.stats import tracker
+from whisp.text_color import (color_marker_ranges, compute_color_edit, plain_to_raw_offset,
+                              prune_empty_color_spans, selection_color, strip_color_markup)
 
 try:
     locale.setlocale(locale.LC_ALL, '')
@@ -128,13 +131,14 @@ def extract_text_from_image(img):
         return ""
 
 class NoteEditor(Gtk.Overlay):
-    def __init__(self, file_path=None, on_title_changed=None):
+    def __init__(self, file_path=None, on_title_changed=None, on_saved=None):
         super().__init__()
         self.set_hexpand(True)
         self.set_vexpand(True)
         
         self.file_path = Path(file_path) if file_path else config.data_dir / f"{uuid.uuid4().hex}.md"
         self.on_title_changed = on_title_changed
+        self.on_saved = on_saved
         
         self.scrolled = Gtk.ScrolledWindow()
         self.scrolled.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
@@ -175,6 +179,8 @@ class NoteEditor(Gtk.Overlay):
             self.shortcut_ctrl.add_shortcut(shortcut)
             
         def on_backspace(w, a):
+            if self.delete_past_color_markup(forward=False):
+                return True
             if not self.buffer.get_has_selection():
                 insert_mark = self.buffer.get_insert()
                 cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
@@ -223,6 +229,8 @@ class NoteEditor(Gtk.Overlay):
             return False
             
         add_sc(Gdk.KEY_BackSpace, 0, on_backspace)
+        add_sc(Gdk.KEY_Delete, 0, lambda w, a: self.delete_past_color_markup(forward=True))
+        add_sc(Gdk.KEY_KP_Delete, 0, lambda w, a: self.delete_past_color_markup(forward=True))
         add_sc(Gdk.KEY_BackSpace, Gdk.ModifierType.CONTROL_MASK, on_ctrl_backspace)
         add_sc(Gdk.KEY_numbersign, 0, on_hash)
         
@@ -251,6 +259,14 @@ class NoteEditor(Gtk.Overlay):
         def cb_down(w, a):
             return self.move_line(1)
         add_sc(Gdk.KEY_Down, Gdk.ModifierType.ALT_MASK, cb_down)
+
+        def cb_text_color(w, a):
+            self.show_text_color_popover()
+            return True
+        color_mods = Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK
+        add_sc(Gdk.KEY_k, color_mods, cb_text_color)
+        add_sc(Gdk.KEY_K, color_mods, cb_text_color)
+        self.setup_text_color()
         
         # Add keyboard shortcuts (Bubble phase for normal shortcuts)
         key_ctrl_bubble = Gtk.EventControllerKey()
@@ -1456,7 +1472,7 @@ class NoteEditor(Gtk.Overlay):
         start_iter = self.buffer.get_start_iter()
         end_iter = start_iter.copy()
         end_iter.forward_to_line_end()
-        first_line = self.buffer.get_text(start_iter, end_iter, False).strip().lower()
+        first_line = strip_color_markup(self.buffer.get_text(start_iter, end_iter, False)).strip().lower()
         return bool(re.match(r'^(#{1,6}\s*)?list(\s*[:\s].*)?$', first_line))
 
     def handle_return(self):
@@ -1581,6 +1597,105 @@ class NoteEditor(Gtk.Overlay):
         bound_iter = insert_iter.copy()
         bound_iter.forward_chars(len(new_text))
         self.buffer.select_range(insert_iter, bound_iter)
+
+    def setup_text_color(self):
+        """Context-menu entry and palette popover for coloring the selection."""
+        self.color_action = Gio.SimpleAction.new("text-color", None)
+        self.color_action.connect("activate", lambda *_: self.show_text_color_popover())
+        self.color_action.set_enabled(False)
+        actions = Gio.SimpleActionGroup()
+        actions.add_action(self.color_action)
+        self.textview.insert_action_group("editor", actions)
+        self.buffer.connect(
+            "notify::has-selection",
+            lambda b, _p: self.color_action.set_enabled(b.get_has_selection()),
+        )
+
+        menu = Gio.Menu()
+        menu.append(_("Text Color…"), "editor.text-color")
+        self.textview.set_extra_menu(menu)
+
+        self.color_popover = TextColorPopover(self.apply_text_color)
+        self.color_popover.set_parent(self.textview)
+        self.color_popover.connect("closed", lambda _p: self.textview.grab_focus())
+        # A parented popover must be released before its parent goes away.
+        self.textview.connect("destroy", lambda _w: self.color_popover.unparent())
+
+    def delete_past_color_markup(self, forward):
+        """Backspace/Delete beside hidden color tags.
+
+        GTK would eat half a tag (``</span>`` -> ``/span>``), so delete the visible
+        character on the far side of the markup instead. Returns True if handled.
+        """
+        if self.buffer.get_has_selection():
+            return False
+        text = self.buffer.get_text(*self.buffer.get_bounds(), True)
+        pos = self.buffer.get_iter_at_mark(self.buffer.get_insert()).get_offset()
+        markers = color_marker_ranges(text)
+        hops = {start: end for start, end in markers} if forward else {end: start for start, end in markers}
+        target = pos
+        while target in hops:
+            target = hops[target]
+        if target == pos:
+            return False
+        it = self.buffer.get_iter_at_offset(target)
+        self.buffer.begin_user_action()
+        try:
+            if forward:
+                end = it.copy()
+                if end.forward_cursor_position():
+                    self.buffer.delete(it, end)
+            else:
+                self.buffer.backspace(it, True, True)
+        finally:
+            self.buffer.end_user_action()
+        return True
+
+    def get_selection_offsets(self):
+        bounds = self.buffer.get_selection_bounds()
+        if not bounds:
+            return None
+        return bounds[0].get_offset(), bounds[1].get_offset()
+
+    def show_text_color_popover(self):
+        offsets = self.get_selection_offsets()
+        if offsets is None:
+            if getattr(self, "window", None):
+                self.window.toast_overlay.add_toast(Adw.Toast.new(_("Select text to change its color")))
+            return
+        start, end = self.buffer.get_bounds()
+        text = self.buffer.get_text(start, end, True)
+        self.color_popover.set_current_color(selection_color(text, *offsets))
+
+        rect = self.textview.get_iter_location(self.buffer.get_iter_at_offset(offsets[0]))
+        x, y = self.textview.buffer_to_window_coords(Gtk.TextWindowType.WIDGET, rect.x, rect.y)
+        target = Gdk.Rectangle()
+        target.x, target.y, target.width, target.height = x, y, max(rect.width, 1), rect.height
+        self.color_popover.set_pointing_to(target)
+        self.color_popover.popup()
+
+    def apply_text_color(self, color):
+        """Set (or with None, remove) the color of the selection, as one undo step."""
+        offsets = self.get_selection_offsets()
+        if offsets is None:
+            return
+        start, end = self.buffer.get_bounds()
+        edit = compute_color_edit(self.buffer.get_text(start, end, True), *offsets, color)
+        if edit is None:
+            return
+        self.buffer.begin_user_action()
+        try:
+            if edit.end > edit.start:
+                self.buffer.delete(
+                    self.buffer.get_iter_at_offset(edit.start), self.buffer.get_iter_at_offset(edit.end)
+                )
+            if edit.replacement:
+                self.buffer.insert(self.buffer.get_iter_at_offset(edit.start), edit.replacement)
+        finally:
+            self.buffer.end_user_action()
+        self.buffer.select_range(
+            self.buffer.get_iter_at_offset(edit.sel_start), self.buffer.get_iter_at_offset(edit.sel_end)
+        )
 
     def handle_smart_paste(self):
         clipboard = self.textview.get_clipboard()
@@ -1755,7 +1870,11 @@ class NoteEditor(Gtk.Overlay):
 
     def load_file(self):
         if self.file_path.exists():
-            content = self.file_path.read_text(encoding='utf-8')
+            try:
+                content = self.file_path.read_text(encoding='utf-8')
+            except UnicodeDecodeError:
+                # Corrupt bytes must not stop the app from opening; show what is readable.
+                content = self.file_path.read_text(encoding='utf-8', errors='replace')
             self.buffer.set_text(content)
             self.highlighter.highlight()
             self.last_word_count = len(content.split())
@@ -1785,12 +1904,15 @@ class NoteEditor(Gtk.Overlay):
         # Defer + retry: a just-inserted editor has no layout to scroll to yet.
         def do_scroll():
             start, end = self.buffer.get_bounds()
-            offsets = body_match_offsets(self.buffer.get_text(start, end, True), term)
+            # Count matches in the visible text so the occurrence index lines up
+            # with the search list, then map back onto the buffer's raw offsets.
+            raw = self.buffer.get_text(start, end, True)
+            offsets = body_match_offsets(strip_color_markup(raw), term)
             if not offsets:
                 return False
             offset = offsets[min(occurrence_index, len(offsets) - 1)]
-            s_iter = self.buffer.get_iter_at_offset(offset)
-            e_iter = self.buffer.get_iter_at_offset(offset + len(term))
+            s_iter = self.buffer.get_iter_at_offset(plain_to_raw_offset(raw, offset))
+            e_iter = self.buffer.get_iter_at_offset(plain_to_raw_offset(raw, offset + len(term) - 1) + 1)
             self.buffer.select_range(s_iter, e_iter)
             self.textview.scroll_to_mark(self.buffer.get_insert(), 0.1, True, 0.0, 0.3)
             self.textview.grab_focus()
@@ -1802,21 +1924,30 @@ class NoteEditor(Gtk.Overlay):
     def save_file(self):
         self.save_timeout_id = 0
         start, end = self.buffer.get_bounds()
-        text = self.buffer.get_text(start, end, True)
-        self.file_path.write_text(text, encoding='utf-8')
+        text = prune_empty_color_spans(self.buffer.get_text(start, end, True))
+        try:
+            self.file_path.write_text(text, encoding='utf-8')
+        except OSError as e:
+            print(f"Failed to save {self.file_path}: {e}")
+            window = getattr(self, "window", None)
+            if window:
+                window.toast_overlay.add_toast(Adw.Toast.new(_("Couldn't save note")))
+            return False  # the next edit schedules another attempt
         
         current_words = len(text.split())
         diff = current_words - getattr(self, 'last_word_count', 0)
         if diff > 0:
             tracker.increment("total_words_written", diff)
         self.last_word_count = current_words
+        if self.on_saved:
+            self.on_saved(self)
         
         return False
 
     def get_title(self, max_length=50):
         start, end = self.buffer.get_bounds()
         text = self.buffer.get_text(start, end, True)
-        first_line = text.split('\n')[0].strip() if text else ""
+        first_line = strip_color_markup(text.split('\n')[0]).strip() if text else ""
         first_line = re.sub(r'^#+\s*', '', first_line)
         if first_line and len(first_line) > max_length:
             first_line = first_line[:max_length].rstrip() + "…"

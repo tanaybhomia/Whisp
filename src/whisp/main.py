@@ -6,12 +6,13 @@ from pathlib import Path
 src_dir = str(Path(__file__).parent.parent.resolve())
 if src_dir not in sys.path:
     sys.path.insert(0, src_dir)
-import sys
 import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw, Gdk, Gio, GLib
+from typing import cast
 from whisp.window import WhispWindow
+from whisp.editor import NoteEditor
 from whisp.global_shortcuts import GlobalShortcutManager
 
 IS_DEV_MODE = "--dev" in sys.argv
@@ -29,15 +30,19 @@ class WhispApp(Adw.Application):
         # Add local icon directory to search path for testing
         import os
         from pathlib import Path
-        icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
-        icon_dir = Path(__file__).parent.parent.parent / "data" / "icons"
-        if icon_dir.exists():
-            icon_theme.add_search_path(str(icon_dir))
+        display = Gdk.Display.get_default()
+        if display:
+            icon_theme = Gtk.IconTheme.get_for_display(display)
+            if icon_theme:
+                icon_dir = Path(__file__).parent.parent.parent / "data" / "icons"
+                if icon_dir.exists():
+                    icon_theme.add_search_path(str(icon_dir))
             
         from whisp.config import config
         shortcuts = config.get("shortcuts")
-        for action, accels in shortcuts.items():
-            self.set_accels_for_action(action, accels)
+        if shortcuts and isinstance(shortcuts, dict):
+            for action, accels in shortcuts.items():
+                self.set_accels_for_action(action, accels)
 
         # Cohesive Background CSS
         css_provider = Gtk.CssProvider()
@@ -108,16 +113,18 @@ class WhispApp(Adw.Application):
                 border-radius: 8px;
             }
         """)
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
-            css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
+        display = Gdk.Display.get_default()
+        if display:
+            Gtk.StyleContext.add_provider_for_display(
+                display,
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
 
 
     def toggle_visibility(self):
         windows = self.get_windows()
-        win = windows[0] if windows else None
+        win = cast(WhispWindow, windows[0]) if windows else None
         if not win:
             win = WhispWindow(application=self)
             win.load_notes()
@@ -127,9 +134,10 @@ class WhispApp(Adw.Application):
         if not win.is_visible():
             win.show()
         win.present()
+
     def do_activate(self):
         windows = self.get_windows()
-        win = windows[0] if windows else None
+        win = cast(WhispWindow, windows[0]) if windows else None
         
         if not win:
             win = WhispWindow(application=self)
@@ -153,7 +161,7 @@ class WhispApp(Adw.Application):
     def do_open(self, files, n_files, hint):
         self._opening_files = True
         windows = self.get_windows()
-        win = windows[0] if windows else None
+        win = cast(WhispWindow, windows[0]) if windows else None
         
         if not win:
             win = WhispWindow(application=self)
@@ -177,12 +185,13 @@ class WhispApp(Adw.Application):
                 found = False
                 n_pages = win.carousel.get_n_pages()
                 for i in range(n_pages):
-                    editor = win.carousel.get_nth_page(i)
+                    editor = cast(NoteEditor, win.carousel.get_nth_page(i))
                     if editor.file_path and Path(editor.file_path).name == target_path.name:
-                        def do_scroll(ed=editor):
+                        def do_scroll(ed: NoteEditor = editor):
                             if win.carousel.get_width() == 0:
-                                do_scroll.attempts = getattr(do_scroll, 'attempts', 0) + 1
-                                if do_scroll.attempts < 20:
+                                attempts = getattr(do_scroll, 'attempts', 0) + 1
+                                setattr(do_scroll, 'attempts', attempts)
+                                if attempts < 20:
                                     return True
                             win.carousel.scroll_to(ed, False)
                             ed.textview.grab_focus()
@@ -198,7 +207,7 @@ class WhispApp(Adw.Application):
                 if not found:
                     insert_idx = None
                     if n_pages > 0:
-                        last_editor = win.carousel.get_nth_page(n_pages - 1)
+                        last_editor = cast(NoteEditor, win.carousel.get_nth_page(n_pages - 1))
                         if last_editor.is_empty():
                             insert_idx = n_pages - 1
                             

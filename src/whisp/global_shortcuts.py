@@ -158,6 +158,9 @@ class GlobalShortcutManager:
         setup_gnome_gsettings_shortcut(accel)
 
     def _create_session(self, window=None):
+        if not self.proxy:
+            self._fallback_gsettings()
+            return
         options = {
             "session_handle_token": GLib.Variant("s", "whisp_session_toggle"),
             "handle_token": GLib.Variant("s", "whisp_req_create_session")
@@ -177,6 +180,9 @@ class GlobalShortcutManager:
             self._fallback_gsettings()
 
     def _on_create_session_done(self, obj, res, window):
+        if not self.bus:
+            self._fallback_gsettings()
+            return
         try:
             request_handle_variant = obj.call_finish(res)
             request_path = request_handle_variant.unpack()[0]
@@ -211,6 +217,9 @@ class GlobalShortcutManager:
             return
 
         def _do_bind(handle_str):
+            if not self.proxy:
+                self._fallback_gsettings()
+                return
             pref_accel = config.get("global_toggle_shortcut", "<Super>n")
             portal_trigger = gtk_to_portal_trigger(pref_accel)
 
@@ -247,6 +256,8 @@ class GlobalShortcutManager:
         get_window_handle_str(window, _do_bind)
 
     def _on_bind_shortcuts_done(self, obj, res, user_data):
+        if not self.bus:
+            return
         try:
             req_variant = obj.call_finish(res)
             req_path = req_variant.unpack()[0]
@@ -281,6 +292,9 @@ class GlobalShortcutManager:
         """Open native portal UI or auto-update GNOME shortcut."""
         if self.session_handle:
             def _do_configure(handle_str):
+                if not self.proxy:
+                    self._fallback_gsettings()
+                    return
                 options = {
                     "handle_token": GLib.Variant("s", "whisp_req_config_shortcuts")
                 }
@@ -306,6 +320,8 @@ class GlobalShortcutManager:
             self._fallback_gsettings()
 
     def _on_configure_shortcuts_done(self, obj, res, user_data):
+        if not self.bus:
+            return
         try:
             req_variant = obj.call_finish(res)
             req_path = req_variant.unpack()[0]
@@ -323,6 +339,8 @@ class GlobalShortcutManager:
             logger.warning(f"ConfigureShortcuts response error: {e}")
 
     def _subscribe_signals(self):
+        if not self.bus:
+            return
         if self.signal_subscription_id is None:
             self.signal_subscription_id = self.bus.signal_subscribe(
                 PORTAL_BUS_NAME,

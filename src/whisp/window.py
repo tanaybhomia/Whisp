@@ -5,11 +5,26 @@ import shutil
 import gettext
 import locale
 from pathlib import Path
+from typing import cast, Any, TYPE_CHECKING
 from gi.repository import Gtk, Adw, Gdk, Gio, GLib, Pango
 from whisp.config import config, DATA_DIR, TRASH_DIR
 from whisp.editor import NoteEditor
 from whisp.notes import NoteIndex
 from whisp.stats import tracker
+
+if TYPE_CHECKING:
+    from whisp.main import WhispApp
+
+class NoteListBoxRow(Gtk.ListBoxRow):
+    file_path: Any
+    match_index: Any
+    match_term: str
+
+    def __init__(self, **kwargs: Any):
+        super().__init__(**kwargs)
+        self.file_path = None
+        self.match_index = None
+        self.match_term = ""
 
 try:
     locale.setlocale(locale.LC_ALL, '')
@@ -248,11 +263,13 @@ class WhispWindow(Adw.ApplicationWindow):
         
         # Font and Theme styling
         self.css_provider = Gtk.CssProvider()
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
-            self.css_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
+        display = Gdk.Display.get_default()
+        if display:
+            Gtk.StyleContext.add_provider_for_display(
+                display,
+                self.css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
         self.apply_theme()
         
         DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -296,7 +313,11 @@ class WhispWindow(Adw.ApplicationWindow):
         self.add_action(pref_action)
 
         quit_action = Gio.SimpleAction.new("quit", None)
-        quit_action.connect("activate", lambda *_: self.get_application().quit())
+        def _on_quit(*_):
+            app = self.get_application()
+            if app:
+                app.quit()
+        quit_action.connect("activate", _on_quit)
         self.add_action(quit_action)
         
         nav_next_action = Gio.SimpleAction.new("nav-next", None)
@@ -370,7 +391,7 @@ class WhispWindow(Adw.ApplicationWindow):
         # Apply Libadwaita development striped headerbar appearance
         app = self.get_application() or Gio.Application.get_default()
         app_id = app.get_application_id() if app else ""
-        if app_id.endswith(".Devel") or "--dev" in sys.argv:
+        if (bool(app_id) and app_id.endswith(".Devel")) or "--dev" in sys.argv:
             self.add_css_class("devel")
         self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
         
@@ -684,7 +705,7 @@ class WhispWindow(Adw.ApplicationWindow):
         version = self._get_dynamic_version()
         app = self.get_application() or Gio.Application.get_default()
         app_id = app.get_application_id() if app else ""
-        is_dev = app_id.endswith(".Devel") or "--dev" in sys.argv
+        is_dev = (bool(app_id) and app_id.endswith(".Devel")) or "--dev" in sys.argv
         
         icon_name = "io.github.tanaybhomia.Whisp.Devel" if is_dev else "io.github.tanaybhomia.Whisp"
         app_name = "Whisp (Development)" if is_dev else "Whisp"
@@ -716,7 +737,6 @@ class WhispWindow(Adw.ApplicationWindow):
         about.add_link(_("Donate"), "https://tanaybhomia.github.io/Whisp/donate.html")
         
         import os
-        import sys
         import platform
         
         is_flatpak = "FLATPAK_ID" in os.environ
@@ -798,7 +818,7 @@ class WhispWindow(Adw.ApplicationWindow):
             return
         current = int(round(self.carousel.get_position()))
         if current < n_pages - 1:
-            editor = self.carousel.get_nth_page(current + 1)
+            editor = cast(NoteEditor, self.carousel.get_nth_page(current + 1))
             self.carousel.scroll_to(editor, True)
             GLib.idle_add(lambda: [editor.textview.grab_focus(), False][-1])
             
@@ -810,7 +830,7 @@ class WhispWindow(Adw.ApplicationWindow):
             return
         current = int(round(self.carousel.get_position()))
         if current > 0:
-            editor = self.carousel.get_nth_page(current - 1)
+            editor = cast(NoteEditor, self.carousel.get_nth_page(current - 1))
             self.carousel.scroll_to(editor, True)
             GLib.idle_add(lambda: [editor.textview.grab_focus(), False][-1])
 
@@ -845,7 +865,7 @@ class WhispWindow(Adw.ApplicationWindow):
         target = int(round(self.carousel.get_position())) + direction
         if target < 0 or target >= n_pages:
             return
-        editor = self.carousel.get_nth_page(target)
+        editor = cast(NoteEditor, self.carousel.get_nth_page(target))
         self.carousel.scroll_to(editor, True)
 
         # Land on the edge we enter from, so reversing the scroll goes back.
@@ -868,12 +888,12 @@ class WhispWindow(Adw.ApplicationWindow):
         if scope == "global":
             config.set("wysiwyg_mode", active)
             for i in range(self.carousel.get_n_pages()):
-                editor = self.carousel.get_nth_page(i)
+                editor = cast(NoteEditor, self.carousel.get_nth_page(i))
                 editor.highlighter.highlight()
         else:
             editor = self.get_current_editor()
             if editor:
-                fname = editor.file_path.name
+                fname = Path(editor.file_path).name if editor.file_path else ""
                 if fname not in self.metadata:
                     self.metadata[fname] = {}
                 self.metadata[fname]["wysiwyg"] = active
@@ -885,8 +905,9 @@ class WhispWindow(Adw.ApplicationWindow):
 
     def on_show_shortcuts(self, action, param):
         builder = Gtk.Builder.new_from_string(shortcuts_xml, -1)
-        dialog = builder.get_object("shortcuts_dialog")
-        dialog.present(self)
+        dialog = cast(Gtk.Window | None, builder.get_object("shortcuts_dialog"))
+        if dialog:
+            dialog.present()
 
     def save_metadata(self):
         import json
@@ -902,12 +923,12 @@ class WhispWindow(Adw.ApplicationWindow):
             if current_page_idx < 0 or current_page_idx >= self.carousel.get_n_pages():
                 return
                 
-            current_page = self.carousel.get_nth_page(current_page_idx)
+            current_page = cast(NoteEditor, self.carousel.get_nth_page(current_page_idx))
             if not current_page:
                 return
                 
             is_pinned = btn.get_active()
-            fname = current_page.file_path.name
+            fname = Path(current_page.file_path).name if current_page.file_path else ""
             
             if fname not in self.metadata:
                 self.metadata[fname] = {}
@@ -933,15 +954,16 @@ class WhispWindow(Adw.ApplicationWindow):
             else:
                 self.carousel.remove(current_page)
                 target_pos = 0
-                current_mtime = os.path.getmtime(current_page.file_path) if current_page.file_path.exists() else 0
+                current_mtime = os.path.getmtime(current_page.file_path) if current_page.file_path and Path(current_page.file_path).exists() else 0
                 n_pages = self.carousel.get_n_pages()
                 for i in range(n_pages - 1): # Ignore empty note at end
-                    p = self.carousel.get_nth_page(i)
-                    p_pinned = self.metadata.get(p.file_path.name, {}).get("pinned", False)
+                    p = cast(NoteEditor, self.carousel.get_nth_page(i))
+                    p_name = Path(p.file_path).name if p.file_path else ""
+                    p_pinned = self.metadata.get(p_name, {}).get("pinned", False)
                     if p_pinned:
                         target_pos = i + 1
                         continue
-                    p_mtime = os.path.getmtime(p.file_path) if p.file_path.exists() else 0
+                    p_mtime = os.path.getmtime(p.file_path) if p.file_path and Path(p.file_path).exists() else 0
                     if current_mtime < p_mtime:
                         break
                     target_pos = i + 1
@@ -1047,16 +1069,18 @@ class WhispWindow(Adw.ApplicationWindow):
                 last_active = config.get("last_active_note")
                 if last_active:
                     for i in range(n_pages):
-                        if str(self.carousel.get_nth_page(i).file_path) == last_active:
+                        p_editor = cast(NoteEditor, self.carousel.get_nth_page(i))
+                        if str(p_editor.file_path) == last_active:
                             target_idx = i
                             break
                         
-            target_editor = self.carousel.get_nth_page(target_idx)
+            target_editor = cast(NoteEditor, self.carousel.get_nth_page(target_idx))
             
             def restore_session():
                 if self.carousel.get_width() == 0:
-                    restore_session.attempts = getattr(restore_session, 'attempts', 0) + 1
-                    if restore_session.attempts < 20:
+                    attempts = getattr(restore_session, 'attempts', 0) + 1
+                    setattr(restore_session, 'attempts', attempts)
+                    if attempts < 20:
                         return True # Try again in 50ms
                     # If we waited 1 second and still no width, just reveal it anyway
                 
@@ -1140,7 +1164,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 tracker.increment("notes_created_day")
                 
         editor = NoteEditor(file_path=file_path, on_title_changed=self.on_editor_title_changed)
-        editor.window = self
+        setattr(editor, 'window', self)
         if index is not None:
             self.carousel.insert(editor, index)
         else:
@@ -1165,11 +1189,11 @@ class WhispWindow(Adw.ApplicationWindow):
     def cleanup_abandoned_empty_notes(self, current_idx):
         n_pages = self.carousel.get_n_pages()
         for i in range(n_pages - 2, current_idx, -1):
-            editor = self.carousel.get_nth_page(i)
+            editor = cast(NoteEditor, self.carousel.get_nth_page(i))
             if editor.is_empty():
                 try:
-                    if editor.file_path.exists():
-                        editor.file_path.unlink()
+                    if editor.file_path and Path(editor.file_path).exists():
+                        Path(editor.file_path).unlink()
                 except:
                     pass
                 self.carousel.remove(editor)
@@ -1180,7 +1204,7 @@ class WhispWindow(Adw.ApplicationWindow):
             self.add_note(grab_focus=False)
             return
             
-        last_editor = self.carousel.get_nth_page(n_pages - 1)
+        last_editor = cast(NoteEditor, self.carousel.get_nth_page(n_pages - 1))
         if not last_editor.is_empty():
             self.add_note(grab_focus=False)
 
@@ -1204,11 +1228,11 @@ class WhispWindow(Adw.ApplicationWindow):
 
     def on_bump_note(self, action=None, param=None):
         editor = self.get_current_editor()
-        if editor and editor.file_path.exists():
+        if editor and editor.file_path and Path(editor.file_path).exists():
             import os
             os.utime(editor.file_path, None)
             
-            is_pinned = self.metadata.get(editor.file_path.name, {}).get("pinned", False)
+            is_pinned = self.metadata.get(Path(editor.file_path).name, {}).get("pinned", False)
             if not is_pinned:
                 self.carousel.remove(editor)
                 target_pos = self.carousel.get_n_pages() - 1 
@@ -1250,7 +1274,7 @@ class WhispWindow(Adw.ApplicationWindow):
             return
 
         current_page_idx = int(round(self.carousel.get_position()))
-        editor = self.carousel.get_nth_page(current_page_idx)
+        editor = cast(NoteEditor, self.carousel.get_nth_page(current_page_idx))
 
         # Don't allow deleting an already empty note (prevents app locking bug)
         if editor.is_empty():
@@ -1375,13 +1399,13 @@ class WhispWindow(Adw.ApplicationWindow):
     def update_title(self):
         pass
 
-    def get_current_editor(self):
+    def get_current_editor(self) -> NoteEditor | None:
         n_pages = self.carousel.get_n_pages()
         if n_pages == 0:
             return None
         idx = int(round(self.carousel.get_position()))
         idx = max(0, min(idx, n_pages - 1))
-        return self.carousel.get_nth_page(idx)
+        return cast(NoteEditor, self.carousel.get_nth_page(idx))
 
     def on_search_shortcut(self, action, param):
         self.search_btn.set_active(True)
@@ -1396,7 +1420,8 @@ class WhispWindow(Adw.ApplicationWindow):
                 GLib.source_remove(self.search_timeout_id)
                 self.search_timeout_id = 0
             for i in range(self.carousel.get_n_pages()):
-                self.carousel.get_nth_page(i).set_search_highlight("")
+                editor = cast(NoteEditor, self.carousel.get_nth_page(i))
+                editor.set_search_highlight("")
             editor = self.get_current_editor()
             if editor:
                 editor.textview.grab_focus()
@@ -1506,7 +1531,7 @@ class WhispWindow(Adw.ApplicationWindow):
             vbox.append(tag_label)
 
     def _make_note_row(self, file_path, indent=False):
-        row = Gtk.ListBoxRow()
+        row = NoteListBoxRow()
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         vbox.set_margin_start(28 if indent else 12)
         vbox.set_margin_end(12)
@@ -1521,17 +1546,18 @@ class WhispWindow(Adw.ApplicationWindow):
     def _make_snippet_row(self, f, content, idx, occurrence_index, search_text, title=None, tag_str=None):
         # title/tag_str only on a note's first match; the rest are indented.
         row = self._make_note_row(f, indent=title is None)
-        vbox = row.get_child()
-        if title is not None:
-            self._append_header(vbox, title, tag_str)
+        vbox = cast(Gtk.Box, row.get_child())
+        if vbox:
+            if title is not None:
+                self._append_header(vbox, title, tag_str)
 
-        snippet_label = Gtk.Label(xalign=0)
-        snippet_label.set_markup(self._build_snippet_markup(content, idx, search_text))
-        snippet_label.add_css_class("dim-label")
-        snippet_label.set_ellipsize(Pango.EllipsizeMode.END)
-        snippet_label.set_max_width_chars(32)
-        snippet_label.set_wrap(False)
-        vbox.append(snippet_label)
+            snippet_label = Gtk.Label(xalign=0)
+            snippet_label.set_markup(self._build_snippet_markup(content, idx, search_text))
+            snippet_label.add_css_class("dim-label")
+            snippet_label.set_ellipsize(Pango.EllipsizeMode.END)
+            snippet_label.set_max_width_chars(32)
+            snippet_label.set_wrap(False)
+            vbox.append(snippet_label)
 
         # Navigate by occurrence index (the buffer can differ from disk).
         row.match_index = occurrence_index
@@ -1569,19 +1595,19 @@ class WhispWindow(Adw.ApplicationWindow):
         file_path = getattr(row, 'file_path', None)
         if file_path:
             # Check if it's already in the carousel
-            target = None
+            target: NoteEditor | None = None
             for i in range(self.carousel.get_n_pages()):
-                editor = self.carousel.get_nth_page(i)
+                editor = cast(NoteEditor, self.carousel.get_nth_page(i))
                 if editor.file_path == file_path:
                     self.carousel.scroll_to(editor, True)
                     target = editor
                     break
 
             if target is None:
-                target = self.add_note(file_path)
+                target = cast(NoteEditor, self.add_note(file_path))
 
             match_index = getattr(row, 'match_index', None)
-            if match_index is not None:
+            if match_index is not None and target is not None:
                 target.scroll_to_match(getattr(row, 'match_term', ''), match_index)
 
             self.update_title()
@@ -1596,8 +1622,8 @@ class WhispWindow(Adw.ApplicationWindow):
         config.set("shortcuts", shortcuts)
         
         # Update app accels
-        app = self.get_application()
-        if hasattr(app, "set_accels_for_action"):
+        app = cast("WhispApp | None", self.get_application())
+        if app and hasattr(app, "set_accels_for_action"):
             app.set_accels_for_action(action, default_accels)
             
         # Update UI
@@ -1653,6 +1679,7 @@ class WhispWindow(Adw.ApplicationWindow):
         
     def _on_shortcut_key_pressed(self, ctrl, keyval, keycode, state, dialog, action, shortcut_label, reset_btn, pref_window=None):
         from gi.repository import Gdk
+        from whisp.config import config, Config
         
         # Ignore raw modifier keys being pressed alone
         modifier_keys = (
@@ -1670,6 +1697,8 @@ class WhispWindow(Adw.ApplicationWindow):
             dialog.close()
             return True
             
+        shortcuts = config.get("shortcuts", {})
+
         # Clear if Backspace
         if keyval == Gdk.KEY_BackSpace:
             accel_str = ""
@@ -1691,8 +1720,6 @@ class WhispWindow(Adw.ApplicationWindow):
                 return False
                 
             # CRITICAL RULE 2: Collision detection
-            from whisp.config import config, Config
-            shortcuts = config.get("shortcuts", {})
             for existing_action, existing_accels in shortcuts.items():
                 if existing_action != action and accel_str in existing_accels:
                     # Found a collision! Close dialog and toast on the pref window
@@ -1711,8 +1738,8 @@ class WhispWindow(Adw.ApplicationWindow):
         config.set("shortcuts", shortcuts)
         
         # Update app accels
-        app = self.get_application()
-        if hasattr(app, "set_accels_for_action"):
+        app = cast("WhispApp | None", self.get_application())
+        if app and hasattr(app, "set_accels_for_action"):
             app.set_accels_for_action(action, accels)
         
         # Update UI
@@ -1789,9 +1816,10 @@ class WhispWindow(Adw.ApplicationWindow):
             if not accel_str:
                 return False
 
-        app = self.get_application()
-        if hasattr(app, "shortcut_manager") and app.shortcut_manager:
-            app.shortcut_manager.update_shortcut(accel_str)
+        app = cast("WhispApp | None", self.get_application())
+        shortcut_mgr = getattr(app, "shortcut_manager", None) if app else None
+        if shortcut_mgr:
+            shortcut_mgr.update_shortcut(accel_str)
         else:
             from whisp.config import config
             config.set("global_toggle_shortcut", accel_str)
@@ -2100,9 +2128,10 @@ class WhispWindow(Adw.ApplicationWindow):
 
         def on_reset_global_shortcut(btn):
             default_accel = "<Super>n"
-            app = self.get_application()
-            if app and hasattr(app, "shortcut_manager") and app.shortcut_manager:
-                app.shortcut_manager.update_shortcut(default_accel)
+            app = cast("WhispApp | None", self.get_application())
+            shortcut_mgr = getattr(app, "shortcut_manager", None) if app else None
+            if shortcut_mgr:
+                shortcut_mgr.update_shortcut(default_accel)
             else:
                 config.set("global_toggle_shortcut", default_accel)
                 from whisp.global_shortcuts import setup_gnome_gsettings_shortcut
@@ -2116,9 +2145,10 @@ class WhispWindow(Adw.ApplicationWindow):
             global_shortcut_label.set_accelerator(new_accel)
             reset_global_btn.set_visible(new_accel != "<Super>n")
 
-        app = self.get_application()
-        if app and hasattr(app, "shortcut_manager") and app.shortcut_manager:
-            app.shortcut_manager.ui_update_callback = update_global_shortcut_ui
+        app = cast("WhispApp | None", self.get_application())
+        shortcut_mgr = getattr(app, "shortcut_manager", None) if app else None
+        if shortcut_mgr:
+            shortcut_mgr.ui_update_callback = update_global_shortcut_ui
 
         trigger_row.connect("activated", lambda r: self.on_global_shortcut_record(global_shortcut_label, reset_global_btn, pref_window))
         trigger_row.set_activatable(True)
@@ -2131,7 +2161,9 @@ class WhispWindow(Adw.ApplicationWindow):
         trigger_group.add(trigger_row)
         shortcuts_page.add(trigger_group)
         
-        shortcuts = config.get("shortcuts")
+        shortcuts = config.get("shortcuts", {})
+        if not isinstance(shortcuts, dict):
+            shortcuts = {}
         
         shortcut_categories = {
             _("Application"): {
@@ -2312,7 +2344,7 @@ class WhispWindow(Adw.ApplicationWindow):
             
             # Update all open editors
             for i in range(self.carousel.get_n_pages()):
-                editor = self.carousel.get_nth_page(i)
+                editor = cast(NoteEditor, self.carousel.get_nth_page(i))
                 editor.textview.remove_css_class(f"paper-{old_theme}")
                 editor.textview.add_css_class(f"paper-{theme_id}")
 
@@ -2351,7 +2383,7 @@ class WhispWindow(Adw.ApplicationWindow):
                 self._ignore_wysiwyg_toggle = False
                 
         for i in range(self.carousel.get_n_pages()):
-            editor = self.carousel.get_nth_page(i)
+            editor = cast(NoteEditor, self.carousel.get_nth_page(i))
             editor.highlighter.highlight()
 
     def on_archive_days_changed(self, dropdown, param):
@@ -2383,7 +2415,7 @@ class WhispWindow(Adw.ApplicationWindow):
         inside_wrap = max(0, extra_pixels)
         
         for i in range(self.carousel.get_n_pages()):
-            editor = self.carousel.get_nth_page(i)
+            editor = cast(NoteEditor, self.carousel.get_nth_page(i))
             editor.textview.set_pixels_above_lines(above_below)
             editor.textview.set_pixels_below_lines(above_below)
             editor.textview.set_pixels_inside_wrap(inside_wrap)
@@ -2462,7 +2494,8 @@ class WhispWindow(Adw.ApplicationWindow):
         self.migrate_to_dir(default_dir, row)
 
     def on_pin_toggled(self, btn):
-        self.set_keep_above(btn.get_active())
+        if hasattr(self, "set_keep_above"):
+            getattr(self, "set_keep_above")(btn.get_active())
 
     def on_close_request(self, window):
         config.set("window_width", self.get_width())
@@ -2471,11 +2504,13 @@ class WhispWindow(Adw.ApplicationWindow):
         
         current_page_idx = int(round(self.carousel.get_position()))
         if current_page_idx < self.carousel.get_n_pages():
-            editor = self.carousel.get_nth_page(current_page_idx)
+            editor = cast(NoteEditor, self.carousel.get_nth_page(current_page_idx))
             config.set("last_active_note", str(editor.file_path))
             
         if not config.get("run_in_background", False):
-            self.get_application().quit()
+            app = cast("WhispApp | None", self.get_application())
+            if app:
+                app.quit()
             
         return False
 

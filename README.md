@@ -2,7 +2,7 @@
   
   <img src="data/icons/io.github.tanaybhomia.Whisp.svg" alt="Whisp Icon" width="192" height="192" style="vertical-align: middle;"> 
   <h1>Whisp</h1>
-  <p><b>The Anti Note for GNOME</b></p>
+  <p><b>Anti Note for GNOME</b></p>
 
   <a href="https://flathub.org/apps/io.github.tanaybhomia.Whisp">
     <img src="https://flathub.org/api/badge?svg&locale=en" alt="Download on Flathub" height="80">

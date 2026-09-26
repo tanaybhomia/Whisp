@@ -1398,48 +1398,44 @@ class NoteEditor(Gtk.Overlay):
         line_start = cursor_iter.copy()
         line_start.set_line_offset(0)
         line_end = cursor_iter.copy()
-        line_end.forward_to_line_end()
+        if not line_end.ends_line():
+            line_end.forward_to_line_end()
         line_text = self.buffer.get_text(line_start, line_end, False)
 
-        # 1. If line is an empty checkbox (no content after box), remove it -> normal line
-        m_empty_box = re.match(r'^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s*$', line_text)
-        if m_empty_box:
-            indent = m_empty_box.group(1)
-            self.buffer.delete(line_start, line_end)
-            self.buffer.insert(line_start, indent)
-            return True
-
-        # 2. Checkbox with text -> toggle ☐ <-> ☑
-        m_box = re.match(r'^(\s*)([☐☑])\s+(.*)$', line_text)
-        if m_box:
-            indent, current_box, content = m_box.groups()
-            new_box = "☑" if current_box == "☐" else "☐"
-            self.buffer.delete(line_start, line_end)
-            self.buffer.insert(line_start, f"{indent}{new_box} {content}")
-            return True
-
-        m_md_box = re.match(r'^(\s*)([-*+]\s*\[[ xX]\])\s+(.*)$', line_text)
-        if m_md_box:
-            indent, current_box, content = m_md_box.groups()
-            new_box = "☑" if "[ ]" in current_box else "☐"
-            self.buffer.delete(line_start, line_end)
-            self.buffer.insert(line_start, f"{indent}{new_box} {content}")
-            return True
-
-        # 3. Replace bullet with checkbox
-        m_bullet = re.match(r'^(\s*)([-*+])\s+(.*)$', line_text)
-        if m_bullet:
-            indent, bullet, content = m_bullet.groups()
-            self.buffer.delete(line_start, line_end)
-            self.buffer.insert(line_start, f"{indent}☐ {content}")
-            return True
-
-        # 4. Otherwise prepend checkbox
         m_indent = re.match(r'^(\s*)', line_text)
         indent = m_indent.group(1) if m_indent else ""
-        content = line_text[len(indent):]
+        rest = line_text[len(indent):]
+
+        has_box_or_bullet = bool(re.match(r'^(?:[☐☑]|[-*+]\s*\[[ xX]\]|[-*+])(?:\s+|$)', rest))
+        has_checked = bool(re.search(r'(?:☑|\[[xX]\])', rest))
+
+        # Strip all leading checkbox and bullet symbols to get clean text content
+        clean_content = rest
+        while True:
+            stripped = re.sub(r'^(?:[☐☑]|[-*+]\s*\[[ xX]\]|[-*+])\s*', '', clean_content)
+            if stripped == clean_content:
+                break
+            clean_content = stripped
+
+        if not clean_content.strip():
+            if has_box_or_bullet:
+                new_line_text = indent
+            else:
+                new_line_text = f"{indent}☐ "
+        else:
+            if has_checked:
+                new_line_text = f"{indent}☐ {clean_content}"
+            elif has_box_or_bullet:
+                new_line_text = f"{indent}☑ {clean_content}"
+            else:
+                new_line_text = f"{indent}☐ {clean_content}"
+
         self.buffer.delete(line_start, line_end)
-        self.buffer.insert(line_start, f"{indent}☐ {content}")
+        self.buffer.insert(line_start, new_line_text)
+
+        new_end = line_start.copy()
+        new_end.forward_chars(len(new_line_text))
+        self.buffer.place_cursor(new_end)
         return True
 
     def count_checkboxes(self):
@@ -1476,21 +1472,10 @@ class NoteEditor(Gtk.Overlay):
 
         if is_list:
             # Empty checkbox
-            m_empty = re.match(r'^(\s*)[☐☑]\s*$', line_text)
+            m_empty = re.match(r'^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s*$', line_text)
             if m_empty:
-                # Delete the entire line
-                line_end = cursor_iter.copy()
-                line_end.forward_to_line_end()
-                self.buffer.delete(line_start, line_end)
-                
-                # Delete the preceding newline so we don't leave an empty line
-                if line_start.backward_char() and line_start.get_char() == '\n':
-                    tmp = line_start.copy()
-                    tmp.forward_char()
-                    self.buffer.delete(line_start, tmp)
-                    
-                GLib.idle_add(lambda: self.textview.scroll_mark_onscreen(self.buffer.get_insert()) or False)
-                return True
+                self.buffer.delete(line_start, cursor_iter)
+                return insert_sync("\n")
                 
             m_indent = re.match(r'^(\s*)', line_text)
             indent = m_indent.group(1) if m_indent else ""

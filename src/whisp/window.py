@@ -727,7 +727,19 @@ class WhispWindow(Adw.ApplicationWindow):
             support_url="https://github.com/tanaybhomia/Whisp/discussions",
             license_type=Gtk.License.GPL_3_0
         )
-        about.set_translator_credits(_("translator-credits"))
+        translator_credits = _("translator-credits")
+        if translator_credits == "translator-credits":
+            translator_credits = (
+                "Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
+                "Florian Obernberger <florian.obernberger@gmail.com>\n"
+                "Guillaume Bernard <contact@guillaume-bernard.fr>\n"
+                "Ouiplala <ouiplala@laposte.net>\n"
+                "Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+                "Martin Srebotnjak <miles@filmsi.net>\n"
+                "Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
+                "Yuri Chornoivan <yurchor@ukr.net>"
+            )
+        about.set_translator_credits(translator_credits)
         about.add_credit_section(_("Icon by"), ["gnoman"])
         about.add_acknowledgement_section(None, ["arewelibadwaitayet https://arewelibadwaitayet.com/"])
         

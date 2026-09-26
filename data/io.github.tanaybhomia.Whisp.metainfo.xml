@@ -57,6 +57,26 @@
   <content_rating type="oars-1.1" />
 
   <releases>
+    <release version="1.6.0" date="2026-09-26">
+      <description>
+        <p><em>Universal Launch Shortcut, Runtime Update and Fixes</em></p>
+        <p><em>New Features</em></p>
+        <ul>
+          <li>Universal Launch Toggle: Global shortcut support to quickly toggle Whisp window visibility. Preference > Shortcuts</li>
+          <li>Note Statistics (::count): Type <code>::count</code> anywhere in your note to instantly inspect word, character, and line count statistics.</li>
+          <li>Asterisk Lists: Create and format bulleted lists using standard asterisks (<code>*</code>) alongside dash lists.</li>
+          <li>Shortcut Recorder Improvements: Pressing Backspace inside the shortcut recorder now cleanly clears or disables assigned shortcuts.</li>
+        </ul>
+        <p><em>Fixes &amp; Maintenance</em></p>
+        <ul>
+          <li>List Toggling Refactor: Fixed <code>Ctrl+S</code> list item toggling to prevent multi-checkbox stacking and unintended line deletions.</li>
+          <li>GNOME 51 Runtime: Updated Flatpak runtime to GNOME 51.</li>
+          <li>Slate Mode Polish: Fixed update notification banner layout in Slate Mode.</li>
+          <li>Compose Key Fix: Corrected key press handling for Compose Key combinations.</li>
+          <li>Ubuntu Icon &amp; D-Bus Fixes: Fixed missing application icon issues on Ubuntu desktop sessions.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.5.0" date="2026-09-12">
       <description>
         <p><em>GNOME System Search Integration &amp; Keyboard Shortcuts</em></p>

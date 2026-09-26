@@ -626,8 +626,14 @@ class WhispWindow(Adw.ApplicationWindow):
                                 for li in child.findall("li"):
                                     li_text = "".join(li.itertext()).strip()
                                     if li_text:
-                                        escaped = GLib.markup_escape_text(li_text)
-                                        release_desc += f"• {escaped}\n"
+                                        if ":" in li_text:
+                                            title, sep, rest = li_text.partition(":")
+                                            b_title = GLib.markup_escape_text(title.strip())
+                                            b_rest = GLib.markup_escape_text(rest)
+                                            release_desc += f"• <b>{b_title}:</b>{b_rest}\n"
+                                        else:
+                                            escaped = GLib.markup_escape_text(li_text)
+                                            release_desc += f"• {escaped}\n"
                                 release_desc += "\n"
                                 
                     releases_list.append({"version": version, "date": date, "raw_xml": raw_xml, "description": release_desc.strip()})
@@ -1123,7 +1129,7 @@ class WhispWindow(Adw.ApplicationWindow):
                                     margin_top=12,
                                     margin_bottom=12
                                 )
-                                body_label.set_size_request(320, -1)
+                                body_label.set_size_request(460, -1)
                                 
                                 dialog = Adw.MessageDialog(
                                     heading=_("What's New in v{version}").format(version=latest_version),

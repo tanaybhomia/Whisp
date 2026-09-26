@@ -49,11 +49,14 @@ EOF
 
 echo "Created launcher entry at $DESKTOP_DIR/io.github.tanaybhomia.Whisp.Devel.desktop"
 
-# D-Bus service files so the app and its GNOME Shell search provider can be activated on demand
-cat <<EOF > "$SERVICE_DIR/io.github.tanaybhomia.Whisp.service"
+# Clean up legacy production service override created by older dev scripts
+rm -f "$SERVICE_DIR/io.github.tanaybhomia.Whisp.service"
+
+# D-Bus service files so the dev app and its GNOME Shell search provider can be activated on demand
+cat <<EOF > "$SERVICE_DIR/io.github.tanaybhomia.Whisp.Devel.service"
 [D-BUS Service]
-Name=io.github.tanaybhomia.Whisp
-Exec=$APP_DIR/run.sh
+Name=io.github.tanaybhomia.Whisp.Devel
+Exec=$APP_DIR/run.sh --dev
 EOF
 
 cat <<EOF > "$SERVICE_DIR/io.github.tanaybhomia.Whisp.SearchProvider.service"

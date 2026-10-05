@@ -13,23 +13,35 @@ REQUEST_IFACE = "org.freedesktop.portal.Request"
 def gtk_to_portal_trigger(accel):
     """Convert GTK accelerator string (e.g. <Super>n) to portal format (e.g. Super+n)."""
     if not accel:
-        return "Super+n"
+        return ""
     s = accel.replace("<Primary>", "Control+").replace("<Ctrl>", "Control+")
-    s = s.replace("<Super>", "Super+").replace("<Alt>", "Alt+").replace("<Shift>", "Shift+")
+    s = s.replace("<Super>", "Super+").replace("<Alt>", "Alt+").replace("<Shift>", "Shift+").replace("<Meta>", "Meta+")
     return s
 
 
 def portal_trigger_to_gtk(trigger):
-    """Convert portal trigger string (e.g. Super+n) to GTK format (e.g. <Super>n)."""
+    """Convert portal trigger string (e.g. Super+n or Control+Alt+k) to GTK format (e.g. <Super>n or <Ctrl><Alt>k)."""
     if not trigger:
-        return "<Super>n"
+        return ""
     parts = trigger.split("+")
-    accel = ""
     key = parts[-1]
+    accel = ""
     for p in parts[:-1]:
-        accel += f"<{p}>"
+        mod = p
+        if mod == "Control":
+            mod = "Ctrl"
+        accel += f"<{mod}>"
     accel += key
     return accel
+
+
+def _parse_shortcut_trigger(info):
+    if isinstance(info, dict):
+        val = info.get("trigger_description") or info.get("trigger") or info.get("preferred_trigger") or ""
+        if hasattr(val, "unpack"):
+            return val.unpack()
+        return str(val)
+    return ""
 
 
 def get_window_handle_str(window, callback):
@@ -105,7 +117,7 @@ def setup_gnome_gsettings_shortcut(accel):
         kb = Gio.Settings.new_with_path("org.gnome.settings-daemon.plugins.media-keys.custom-keybinding", target_path)
         kb.set_string("name", name)
         kb.set_string("command", command)
-        kb.set_string("binding", accel)
+        kb.set_string("binding", accel if accel else "")
         logger.info(f"Registered GNOME shortcut via GSettings: {accel} -> {command}")
         return True
     except Exception as e:
@@ -161,9 +173,10 @@ class GlobalShortcutManager:
         if not self.proxy:
             self._fallback_gsettings()
             return
+        token = f"whisp_sess_{GLib.get_monotonic_time()}"
         options = {
             "session_handle_token": GLib.Variant("s", "whisp_session_toggle"),
-            "handle_token": GLib.Variant("s", "whisp_req_create_session")
+            "handle_token": GLib.Variant("s", token)
         }
         try:
             self.proxy.call(
@@ -232,8 +245,9 @@ class GlobalShortcutManager:
                 }
             )
 
+            token = f"whisp_bind_{GLib.get_monotonic_time()}"
             options = {
-                "handle_token": GLib.Variant("s", "whisp_req_bind_shortcuts")
+                "handle_token": GLib.Variant("s", token)
             }
 
             try:
@@ -261,14 +275,20 @@ class GlobalShortcutManager:
         try:
             req_variant = obj.call_finish(res)
             req_path = req_variant.unpack()[0]
-            self.bus.signal_subscribe(
+            sub_id = None
+            def _on_response(conn, sender, path, iface, signal, params, udata):
+                if sub_id and self.bus:
+                    self.bus.signal_unsubscribe(sub_id)
+                self._on_bind_shortcuts_response(conn, sender, path, iface, signal, params, udata)
+
+            sub_id = self.bus.signal_subscribe(
                 PORTAL_BUS_NAME,
                 REQUEST_IFACE,
                 "Response",
                 req_path,
                 None,
                 Gio.DBusSignalFlags.NONE,
-                self._on_bind_shortcuts_response,
+                _on_response,
                 None
             )
         except Exception as e:
@@ -278,13 +298,16 @@ class GlobalShortcutManager:
         response_code, results = params.unpack()
         if response_code == 0 and "shortcuts" in results:
             shortcuts = results["shortcuts"]
-            for shortcut_id, info in shortcuts:
-                if shortcut_id == "toggle-whisp" and "trigger" in info:
-                    bound_trigger = info["trigger"]
-                    gtk_accel = portal_trigger_to_gtk(bound_trigger)
-                    config.set("global_toggle_shortcut", gtk_accel)
-                    if self.ui_update_callback:
-                        GLib.idle_add(self.ui_update_callback, gtk_accel)
+            for shortcut_entry in shortcuts:
+                if isinstance(shortcut_entry, (list, tuple)) and len(shortcut_entry) >= 2:
+                    shortcut_id, info = shortcut_entry[0], shortcut_entry[1]
+                    if shortcut_id == "toggle-whisp":
+                        bound_trigger = _parse_shortcut_trigger(info)
+                        if bound_trigger:
+                            gtk_accel = portal_trigger_to_gtk(bound_trigger)
+                            config.set("global_toggle_shortcut", gtk_accel)
+                            if self.ui_update_callback:
+                                GLib.idle_add(self.ui_update_callback, gtk_accel)
         else:
             self._fallback_gsettings()
 
@@ -295,8 +318,9 @@ class GlobalShortcutManager:
                 if not self.proxy:
                     self._fallback_gsettings()
                     return
+                token = f"whisp_cfg_{GLib.get_monotonic_time()}"
                 options = {
-                    "handle_token": GLib.Variant("s", "whisp_req_config_shortcuts")
+                    "handle_token": GLib.Variant("s", token)
                 }
                 try:
                     self.proxy.call(
@@ -325,14 +349,20 @@ class GlobalShortcutManager:
         try:
             req_variant = obj.call_finish(res)
             req_path = req_variant.unpack()[0]
-            self.bus.signal_subscribe(
+            sub_id = None
+            def _on_response(conn, sender, path, iface, signal, params, udata):
+                if sub_id and self.bus:
+                    self.bus.signal_unsubscribe(sub_id)
+                self._on_bind_shortcuts_response(conn, sender, path, iface, signal, params, udata)
+
+            sub_id = self.bus.signal_subscribe(
                 PORTAL_BUS_NAME,
                 REQUEST_IFACE,
                 "Response",
                 req_path,
                 None,
                 Gio.DBusSignalFlags.NONE,
-                self._on_bind_shortcuts_response,
+                _on_response,
                 None
             )
         except Exception as e:
@@ -373,13 +403,16 @@ class GlobalShortcutManager:
     def _on_shortcuts_changed(self, connection, sender, path, iface, signal, params, user_data):
         session, shortcuts = params.unpack()
         if session == self.session_handle:
-            for shortcut_id, info in shortcuts:
-                if shortcut_id == "toggle-whisp" and "trigger" in info:
-                    bound_trigger = info["trigger"]
-                    gtk_accel = portal_trigger_to_gtk(bound_trigger)
-                    config.set("global_toggle_shortcut", gtk_accel)
-                    if self.ui_update_callback:
-                        GLib.idle_add(self.ui_update_callback, gtk_accel)
+            for shortcut_entry in shortcuts:
+                if isinstance(shortcut_entry, (list, tuple)) and len(shortcut_entry) >= 2:
+                    shortcut_id, info = shortcut_entry[0], shortcut_entry[1]
+                    if shortcut_id == "toggle-whisp":
+                        bound_trigger = _parse_shortcut_trigger(info)
+                        if bound_trigger:
+                            gtk_accel = portal_trigger_to_gtk(bound_trigger)
+                            config.set("global_toggle_shortcut", gtk_accel)
+                            if self.ui_update_callback:
+                                GLib.idle_add(self.ui_update_callback, gtk_accel)
 
     def _trigger_toggle(self):
         if hasattr(self.app, "toggle_visibility"):

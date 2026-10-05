@@ -24,6 +24,10 @@ class WhispApp(Adw.Application):
 
     def do_startup(self):
         Adw.Application.do_startup(self)
+        toggle_action = Gio.SimpleAction.new("toggle-visibility", None)
+        toggle_action.connect("activate", lambda a, p: self.toggle_visibility())
+        self.add_action(toggle_action)
+
         self.shortcut_manager = GlobalShortcutManager(self)
         self.shortcut_manager.start()
         
@@ -131,9 +135,11 @@ class WhispApp(Adw.Application):
             win.present()
             return
             
-        if not win.is_visible():
+        if win.is_visible() and win.is_active():
+            win.hide()
+        else:
             win.show()
-        win.present()
+            win.present()
 
     def do_activate(self):
         windows = self.get_windows()

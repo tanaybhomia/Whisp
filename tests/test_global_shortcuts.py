@@ -17,6 +17,10 @@ class TestGlobalShortcuts(unittest.TestCase):
         self.assertEqual(portal_trigger_to_gtk("Super+n"), "<Super>n")
         self.assertEqual(gtk_to_portal_trigger("<Alt>n"), "Alt+n")
         self.assertEqual(portal_trigger_to_gtk("Alt+n"), "<Alt>n")
+        self.assertEqual(gtk_to_portal_trigger("<Ctrl><Alt>k"), "Control+Alt+k")
+        self.assertEqual(portal_trigger_to_gtk("Control+Alt+k"), "<Ctrl><Alt>k")
+        self.assertEqual(gtk_to_portal_trigger(""), "")
+        self.assertEqual(portal_trigger_to_gtk(""), "")
 
     def test_bind_shortcuts_calls_dbus(self):
         manager = GlobalShortcutManager(app=MagicMock())

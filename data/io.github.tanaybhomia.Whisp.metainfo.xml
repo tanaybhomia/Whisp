@@ -70,16 +70,15 @@
         <p><em>Hotfix for Startup Crash on Non-GNOME Desktops</em></p>
         <ul>
           <li>Startup Crash Fix: Resolved an unhandled GLib-GIO abort when running on systems without GNOME media-keys GSettings schemas installed (e.g. Linux Mint, KDE, XFCE, Sway).</li>
-          <li>Global Shortcuts Stability: Fixed D-Bus toggle action dispatching and XDG Portal token handle collisions.</li>
+          <li>System Stability: Cleaned up background D-Bus service triggers for peak stability across all desktop environments.</li>
         </ul>
       </description>
     </release>
     <release version="1.6.0" date="2026-10-04">
       <description>
-        <p><em>Universal Launch Shortcut, Runtime Update and Fixes</em></p>
+        <p><em>Runtime Update and Fixes</em></p>
         <p><em>New Features</em></p>
         <ul>
-          <li>Universal Launch Toggle: Global shortcut support to quickly toggle Whisp window visibility. Preference > Shortcuts</li>
           <li>Note Statistics (::count): Type <code>::count</code> anywhere in your note to instantly inspect word, character, and line count statistics.</li>
           <li>Asterisk Lists: Create and format bulleted lists using standard asterisks (<code>*</code>) alongside dash lists.</li>
           <li>Shortcut Recorder Improvements: Pressing Backspace inside the shortcut recorder now cleanly clears or disables assigned shortcuts.</li>

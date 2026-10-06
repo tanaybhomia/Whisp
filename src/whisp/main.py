@@ -13,7 +13,6 @@ from gi.repository import Gtk, Adw, Gdk, Gio, GLib
 from typing import cast
 from whisp.window import WhispWindow
 from whisp.editor import NoteEditor
-from whisp.global_shortcuts import GlobalShortcutManager
 
 IS_DEV_MODE = "--dev" in sys.argv
 
@@ -24,12 +23,6 @@ class WhispApp(Adw.Application):
 
     def do_startup(self):
         Adw.Application.do_startup(self)
-        toggle_action = Gio.SimpleAction.new("toggle-visibility", None)
-        toggle_action.connect("activate", lambda a, p: self.toggle_visibility())
-        self.add_action(toggle_action)
-
-        self.shortcut_manager = GlobalShortcutManager(self)
-        self.shortcut_manager.start()
         
         # Add local icon directory to search path for testing
         import os
@@ -125,21 +118,6 @@ class WhispApp(Adw.Application):
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             )
 
-
-    def toggle_visibility(self):
-        windows = self.get_windows()
-        win = cast(WhispWindow, windows[0]) if windows else None
-        if not win:
-            win = WhispWindow(application=self)
-            win.load_notes()
-            win.present()
-            return
-            
-        if win.is_visible() and win.is_active():
-            win.hide()
-        else:
-            win.show()
-            win.present()
 
     def do_activate(self):
         windows = self.get_windows()
@@ -249,26 +227,6 @@ def main():
         
     if '--dev' in sys.argv:
         sys.argv.remove('--dev')
-        
-    if "--toggle" in sys.argv:
-        sys.argv.remove("--toggle")
-        try:
-            bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
-            app_id = "io.github.tanaybhomia.Whisp.Devel" if IS_DEV_MODE else "io.github.tanaybhomia.Whisp"
-            object_path = "/" + app_id.replace(".", "/")
-            proxy = Gio.DBusProxy.new_sync(
-                bus,
-                Gio.DBusProxyFlags.NONE,
-                None,
-                app_id,
-                object_path,
-                "org.gtk.Actions",
-                None
-            )
-            proxy.call("Activate", GLib.Variant("(sav a{sv})", ("toggle-visibility", [], {})), Gio.DBusCallFlags.NONE, 500, None)
-            return 0
-        except Exception:
-            pass
 
     start_hidden = False
     if "--hidden" in sys.argv:

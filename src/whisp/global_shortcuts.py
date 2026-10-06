@@ -151,7 +151,7 @@ class GlobalShortcutManager:
         config.set("global_toggle_shortcut", new_accel)
         setup_gnome_gsettings_shortcut(new_accel)
         if self.session_handle:
-            self.bind_shortcuts()
+            self.bind_shortcuts(is_update=True)
         if self.ui_update_callback:
             self.ui_update_callback(new_accel)
 
@@ -227,12 +227,12 @@ class GlobalShortcutManager:
         if response_code == 0 and "session_handle" in results:
             self.session_handle = results["session_handle"]
             self._subscribe_signals()
-            self.bind_shortcuts(window)
+            self.bind_shortcuts(window, is_update=False)
         else:
             logger.info("XDG Portal creation not allowed/supported in current environment. Using GNOME GSettings auto-registration.")
             self._fallback_gsettings()
 
-    def bind_shortcuts(self, window=None):
+    def bind_shortcuts(self, window=None, is_update=False):
         if not self.session_handle:
             self._fallback_gsettings()
             return
@@ -268,7 +268,7 @@ class GlobalShortcutManager:
                     Gio.DBusCallFlags.NONE,
                     -1,
                     None,
-                    self._on_bind_shortcuts_done,
+                    lambda obj, res, *udata: self._on_bind_shortcuts_done(obj, res, is_update),
                     None
                 )
             except Exception as e:
@@ -277,7 +277,7 @@ class GlobalShortcutManager:
 
         get_window_handle_str(window, _do_bind)
 
-    def _on_bind_shortcuts_done(self, obj, res, user_data):
+    def _on_bind_shortcuts_done(self, obj, res, is_update=False):
         if not self.bus:
             return
         try:
@@ -287,7 +287,7 @@ class GlobalShortcutManager:
             def _on_response(conn, sender, path, iface, signal, params, udata):
                 if sub_id and self.bus:
                     self.bus.signal_unsubscribe(sub_id)
-                self._on_bind_shortcuts_response(conn, sender, path, iface, signal, params, udata)
+                self._on_bind_shortcuts_response(conn, sender, path, iface, signal, params, udata, is_update)
 
             sub_id = self.bus.signal_subscribe(
                 PORTAL_BUS_NAME,
@@ -302,7 +302,7 @@ class GlobalShortcutManager:
         except Exception as e:
             logger.warning(f"BindShortcuts call finish error: {e}")
 
-    def _on_bind_shortcuts_response(self, connection, sender, path, iface, signal, params, user_data):
+    def _on_bind_shortcuts_response(self, connection, sender, path, iface, signal, params, udata=None, is_update=False):
         response_code, results = params.unpack()
         if response_code == 0 and "shortcuts" in results:
             shortcuts = results["shortcuts"]
@@ -311,9 +311,10 @@ class GlobalShortcutManager:
                     shortcut_id, info = shortcut_entry[0], shortcut_entry[1]
                     if shortcut_id == "toggle-whisp":
                         bound_trigger = _parse_shortcut_trigger(info)
-                        if bound_trigger:
+                        if bound_trigger and not is_update:
                             gtk_accel = portal_trigger_to_gtk(bound_trigger)
                             config.set("global_toggle_shortcut", gtk_accel)
+                            setup_gnome_gsettings_shortcut(gtk_accel)
                             if self.ui_update_callback:
                                 GLib.idle_add(self.ui_update_callback, gtk_accel)
         else:

@@ -38,8 +38,8 @@ def portal_trigger_to_gtk(trigger):
 def _parse_shortcut_trigger(info):
     if isinstance(info, dict):
         val = info.get("trigger_description") or info.get("trigger") or info.get("preferred_trigger") or ""
-        if hasattr(val, "unpack"):
-            return val.unpack()
+        if isinstance(val, GLib.Variant):
+            return str(val.unpack())
         return str(val)
     return ""
 
@@ -81,6 +81,14 @@ def get_window_handle_str(window, callback):
 def setup_gnome_gsettings_shortcut(accel):
     """Automated fallback: register keybinding directly in GNOME Settings GSettings."""
     try:
+        schema_source = Gio.SettingsSchemaSource.get_default()
+        if not schema_source or not schema_source.lookup("org.gnome.settings-daemon.plugins.media-keys", True):
+            logger.info("GNOME media-keys GSettings schema not installed. Skipping GSettings shortcut setup.")
+            return False
+        if not schema_source.lookup("org.gnome.settings-daemon.plugins.media-keys.custom-keybinding", True):
+            logger.info("GNOME custom-keybinding GSettings schema not installed. Skipping GSettings shortcut setup.")
+            return False
+
         import shutil, sys, os
         from pathlib import Path
 

@@ -57,9 +57,10 @@ class TestEditor(unittest.TestCase):
             from whisp.window import WhispWindow
             win = WhispWindow(application=app)
             win.is_slate_mode = True
-            win.update_banner = Adw.Banner(title="Test", button_label="Click")
-            win.update_banner.set_revealed(True)
-            win.toolbar_view.add_top_bar(win.update_banner)
+            banner = Adw.Banner(title="Test", button_label="Click")
+            win.update_banner = banner
+            banner.set_revealed(True)
+            win.toolbar_view.add_top_bar(banner)
             win.toolbar_view.set_reveal_top_bars(True)
             
             win.on_mouse_motion(None, 0, 60)

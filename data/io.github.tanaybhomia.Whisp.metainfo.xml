@@ -65,6 +65,15 @@
   <content_rating type="oars-1.1" />
 
   <releases>
+    <release version="1.6.1" date="2026-10-06">
+      <description>
+        <p><em>Hotfix for Startup Crash on Non-GNOME Desktops</em></p>
+        <ul>
+          <li>Startup Crash Fix: Resolved an unhandled GLib-GIO abort when running on systems without GNOME media-keys GSettings schemas installed (e.g. Linux Mint, KDE, XFCE, Sway).</li>
+          <li>Global Shortcuts Stability: Fixed D-Bus toggle action dispatching and XDG Portal token handle collisions.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.6.0" date="2026-10-04">
       <description>
         <p><em>Universal Launch Shortcut, Runtime Update and Fixes</em></p>

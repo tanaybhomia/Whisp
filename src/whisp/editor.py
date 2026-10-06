@@ -13,6 +13,9 @@ try:
     from PIL import Image, ImageOps
     HAS_OCR = True
 except ImportError:
+    pytesseract = None
+    Image = None
+    ImageOps = None
     HAS_OCR = False
 from whisp.config import config, DATA_DIR
 from whisp.highlighter import MarkdownHighlighter
@@ -28,7 +31,7 @@ _ = gettext.gettext
 
 def extract_text_from_image(img):
     """Extract text from a PIL Image using Tesseract OCR with noise filtering and indentation preservation."""
-    if not HAS_OCR:
+    if not HAS_OCR or Image is None or ImageOps is None or pytesseract is None:
         return ""
     import time, re
     start_time = time.time()
@@ -708,7 +711,7 @@ class NoteEditor(Gtk.Overlay):
                                 break
                         break
                         
-            if sibling_start is None:
+            if sibling_start is None or sibling_end is None:
                 return False # No sibling in that direction
                 
             if direction == -1:
@@ -721,6 +724,9 @@ class NoteEditor(Gtk.Overlay):
                 upper_end = subtree_end
                 lower_start = sibling_start
                 lower_end = sibling_end
+
+        if upper_start is None or upper_end is None or lower_start is None or lower_end is None:
+            return False
 
         # Extract blocks
         _, us = self.buffer.get_iter_at_line(upper_start)
@@ -947,7 +953,6 @@ class NoteEditor(Gtk.Overlay):
         # Check for ::today(offset) or ::date(offset) or ::timestamp
         m_date = re.match(r'^::(today|date|tomorrow|yesterday|timestamp)(?:\(([-+]*\d+)\))?$', word, re.IGNORECASE)
         if m_date:
-            from gi.repository import GLib
             base = m_date.group(1)
             offset_days = int(m_date.group(2)) if m_date.group(2) else 0
             
@@ -957,15 +962,20 @@ class NoteEditor(Gtk.Overlay):
                 offset_days -= 1
                 
             now = GLib.DateTime.new_now_local()
-            if offset_days != 0:
-                now = now.add_days(offset_days)
-                
-            if base == "timestamp":
-                t_str = now.format("%X")
-                t_str = re.sub(r':\d{2}(?=\s|$)', '', t_str)
-                date_str = f"{now.format('%x')} {t_str}"
+            if now is not None:
+                if offset_days != 0:
+                    dt = now.add_days(offset_days)
+                    if dt is not None:
+                        now = dt
+                    
+                if base == "timestamp":
+                    t_fmt = now.format("%X") or ""
+                    t_str = re.sub(r':\d{2}(?=\s|$)', '', t_fmt)
+                    date_str = f"{now.format('%x') or ''} {t_str}"
+                else:
+                    date_str = now.format("%x") or ""
             else:
-                date_str = now.format("%x")
+                date_str = ""
                 
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(date_str + insert_char)
@@ -987,9 +997,9 @@ class NoteEditor(Gtk.Overlay):
         # Check for ::time or ::now
         m_time = re.match(r'^::(time|now)$', word, re.IGNORECASE)
         if m_time:
-            from gi.repository import GLib
-            time_str = GLib.DateTime.new_now_local().format("%X")
-            time_str = re.sub(r':\d{2}(?=\s|$)', '', time_str)
+            dt = GLib.DateTime.new_now_local()
+            t_fmt = dt.format("%X") if dt else ""
+            time_str = re.sub(r':\d{2}(?=\s|$)', '', t_fmt or "")
             self.buffer.delete(word_start, word_end)
             self.buffer.insert_at_cursor(time_str + insert_char)
             self.autocomplete_box.set_visible(False)
@@ -1584,15 +1594,18 @@ class NoteEditor(Gtk.Overlay):
                 # Show toast notification about OCR extraction
                 window = self.get_root()
                 toast = None
-                if hasattr(window, 'toast_overlay'):
+                toast_overlay = getattr(window, 'toast_overlay', None) if window else None
+                if toast_overlay is not None:
                     toast = Adw.Toast.new(_("Extracting text from image…"))
                     toast.set_timeout(0)  # Make it persistent until we dismiss it manually
-                    window.toast_overlay.add_toast(toast)
+                    toast_overlay.add_toast(toast)
                     
                 # Run OCR in a background thread to avoid freezing the UI
                 def run_ocr():
                     try:
                         import io
+                        if Image is None:
+                            return
                         png_bytes = texture.save_to_png_bytes()
                         img = Image.open(io.BytesIO(png_bytes.get_data()))
                         extracted_text = extract_text_from_image(img)
@@ -1633,9 +1646,10 @@ class NoteEditor(Gtk.Overlay):
         
     def _show_ocr_error(self, msg):
         window = self.get_root()
-        if hasattr(window, 'toast_overlay'):
+        toast_overlay = getattr(window, 'toast_overlay', None) if window else None
+        if toast_overlay is not None:
             toast = Adw.Toast.new(msg)
-            window.toast_overlay.add_toast(toast)
+            toast_overlay.add_toast(toast)
         return False
 
     def on_smart_paste_read(self, clipboard, result):

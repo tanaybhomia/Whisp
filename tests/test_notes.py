@@ -29,21 +29,29 @@ class TestNoteIndex(unittest.TestCase):
     def test_title_from_first_line(self):
         path = self.write_note("a.md", "# Groceries\nbuy milk")
         entry = self.index.load(path)
+        self.assertIsNotNone(entry)
+        assert entry is not None
         self.assertEqual(entry["title"], "Groceries")
 
     def test_title_without_heading_marker(self):
         path = self.write_note("a.md", "Plain Title\nbody")
         entry = self.index.load(path)
+        self.assertIsNotNone(entry)
+        assert entry is not None
         self.assertEqual(entry["title"], "Plain Title")
 
     def test_title_default_for_empty_title_line(self):
         path = self.write_note("a.md", "\njust a body")
         entry = self.index.load(path)
+        self.assertIsNotNone(entry)
+        assert entry is not None
         self.assertEqual(entry["title"], "New Note")
 
     def test_tags_extracted(self):
         path = self.write_note("a.md", "Title #todo #work\nbody #home")
         entry = self.index.load(path)
+        self.assertIsNotNone(entry)
+        assert entry is not None
         self.assertEqual(set(entry["tag_str"].split()), {"#todo", "#work", "#home"})
 
     def test_load_missing_file(self):
@@ -52,8 +60,10 @@ class TestNoteIndex(unittest.TestCase):
     def test_cache_reused_until_mtime_changes(self):
         path = self.write_note("a.md", "Title\nbody")
         entry1 = self.index.load(path)
+        self.assertIsNotNone(entry1)
         self.assertTrue(entry1 is self.index.load(path))
-        os.utime(path, (os.path.getmtime(path) + 10,) * 2)
+        t = os.path.getmtime(path) + 10
+        os.utime(path, (t, t))
         entry2 = self.index.load(path)
         self.assertIsNot(entry1, entry2)
 
@@ -98,6 +108,7 @@ class TestMatching(unittest.TestCase):
 
     def test_first_match_offset(self):
         entry = self.entry
+        assert entry is not None
         low = entry["low_content"]
         self.assertEqual(first_match_offset(entry["content"], low, ["milk"]), 19)
         self.assertEqual(first_match_offset(entry["content"], low, ["nope"]), -1)

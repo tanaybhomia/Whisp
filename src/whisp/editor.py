@@ -17,6 +17,10 @@ except ImportError:
     Image = None
     ImageOps = None
     HAS_OCR = False
+from typing import TYPE_CHECKING, cast
+if TYPE_CHECKING:
+    from whisp.window import WhispWindow
+
 from whisp.config import config, DATA_DIR
 from whisp.highlighter import MarkdownHighlighter
 from whisp.text_search import body_match_offsets
@@ -130,9 +134,15 @@ def extract_text_from_image(img):
         print(f"OCR Error: {e}")
         return ""
 
+class AutocompleteRow(Gtk.ListBoxRow):
+    cmd_match: str = ""
+
 class NoteEditor(Gtk.Overlay):
+    window: "WhispWindow | None"
+
     def __init__(self, file_path=None, on_title_changed=None):
         super().__init__()
+        self.window = None
         self.set_hexpand(True)
         self.set_vexpand(True)
         
@@ -559,7 +569,7 @@ class NoteEditor(Gtk.Overlay):
                     row_box.append(cmd_lbl)
                     row_box.append(desc_lbl)
                     
-                    row = Gtk.ListBoxRow()
+                    row = AutocompleteRow()
                     row.set_child(row_box)
                     row.cmd_match = cmd
                     self.autocomplete_list.append(row)
@@ -1582,7 +1592,8 @@ class NoteEditor(Gtk.Overlay):
         formats = clipboard.get_formats()
         
         # Check if the clipboard contains an image (texture)
-        if HAS_OCR and formats.contain_gtype(Gdk.Texture.__gtype__):
+        texture_gtype = getattr(Gdk.Texture, '__gtype__', Gdk.Texture)
+        if HAS_OCR and formats.contain_gtype(texture_gtype):
             clipboard.read_texture_async(None, self.on_smart_paste_texture_read)
         else:
             clipboard.read_text_async(None, self.on_smart_paste_read)

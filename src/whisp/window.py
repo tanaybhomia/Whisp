@@ -287,7 +287,7 @@ class WhispWindow(Adw.ApplicationWindow):
         self.set_content(self.toast_overlay)
         
         self.last_deleted_file = None
-        self.update_banner = None
+        self.update_banner: Adw.Banner | None = None
 
         # Actions
         new_note_action = Gio.SimpleAction.new("new-note", None)

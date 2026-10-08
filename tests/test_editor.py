@@ -42,6 +42,15 @@ class TestEditor(unittest.TestCase):
         text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
         self.assertEqual(text, "☑ Buy milk", "Checkbox with text should toggle between unchecked and checked")
 
+    def test_toggle_checkbox_cursor_remains_on_same_line(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("☐ Buy milk\nSecond line")
+        iter0 = editor.buffer.get_start_iter()
+        editor.buffer.place_cursor(iter0)
+        editor.toggle_checkbox()
+        insert_iter = editor.buffer.get_iter_at_mark(editor.buffer.get_insert())
+        self.assertEqual(insert_iter.get_line(), 0, "Cursor should remain on line 0 after toggling checkbox")
+
 
     def test_auto_convert_markdown_checkbox(self):
         editor = NoteEditor()

@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>io.github.tanaybhomia.Whisp</id>
   <name>Whisp</name>
-  <summary>Minimalist note taking widget</summary>
+  <summary>Spatial canvas for capturing fleeting thoughts</summary>
   <developer id="io.github.tanaybhomia">
     <name>Tanay Bhomia</name>
   </developer>

@@ -1455,12 +1455,16 @@ class NoteEditor(Gtk.Overlay):
             else:
                 new_line_text = f"{indent}☐ {clean_content}"
 
+        cursor_offset = cursor_iter.get_line_offset()
+        diff = len(new_line_text) - len(line_text)
+
         self.buffer.delete(line_start, line_end)
         self.buffer.insert(line_start, new_line_text)
 
-        new_end = line_start.copy()
-        new_end.forward_chars(len(new_line_text))
-        self.buffer.place_cursor(new_end)
+        target_offset = min(len(new_line_text), max(0, cursor_offset + diff))
+        new_cursor = line_start.copy()
+        new_cursor.set_line_offset(target_offset)
+        self.buffer.place_cursor(new_cursor)
         return True
 
     def count_checkboxes(self):

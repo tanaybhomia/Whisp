@@ -163,7 +163,7 @@ class NoteEditor(Gtk.Overlay):
         self.textview.set_bottom_margin(60) # Modest overscroll padding
         self.textview.add_css_class(f"paper-{config.get('paper_theme', 'blank')}")
         self.scrolled.set_child(self.textview)
-        
+
         self.buffer = self.textview.get_buffer()
         self.highlighter = MarkdownHighlighter(self.buffer, editor=self)
 
@@ -319,6 +319,11 @@ class NoteEditor(Gtk.Overlay):
         self.autocomplete_box.append(self.autocomplete_scroll)
         self.autocomplete_box.set_visible(False)
         self.add_overlay(self.autocomplete_box)
+
+    def set_compact_margins(self, compact: bool):
+        margin = 14 if compact else 32
+        self.textview.set_left_margin(margin)
+        self.textview.set_right_margin(margin)
 
     def on_autocomplete_row_activated(self, listbox, row):
         if hasattr(row, 'cmd_match'):

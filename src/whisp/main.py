@@ -10,6 +10,7 @@ import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw, Gdk, Gio, GLib
+Adw.init()
 from typing import cast
 from whisp.window import WhispWindow
 from whisp.editor import NoteEditor

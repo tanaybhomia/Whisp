@@ -248,7 +248,7 @@ class WhispWindow(Adw.ApplicationWindow):
             width = 360
             height = 500
         self.set_default_size(int(width), int(height))
-        self.set_size_request(360, 400)
+        self.set_size_request(300, 300)
         if config.get("is_maximized"):
             self.maximize()
             
@@ -288,6 +288,15 @@ class WhispWindow(Adw.ApplicationWindow):
         
         self.last_deleted_file = None
         self.update_banner: Adw.Banner | None = None
+        self.is_compact_mode = False
+
+        try:
+            bp = Adw.Breakpoint.new(Adw.BreakpointCondition.parse("max-width: 480px"))
+            bp.connect("apply", lambda b: self.on_compact_mode_changed(True))
+            bp.connect("unapply", lambda b: self.on_compact_mode_changed(False))
+            self.add_breakpoint(bp)
+        except Exception:
+            pass
 
         # Actions
         new_note_action = Gio.SimpleAction.new("new-note", None)
@@ -317,6 +326,10 @@ class WhispWindow(Adw.ApplicationWindow):
                 app.quit()
         quit_action.connect("activate", _on_quit)
         self.add_action(quit_action)
+
+        inspector_action = Gio.SimpleAction.new("toggle-inspector", None)
+        inspector_action.connect("activate", lambda a, p: Gtk.Window.set_interactive_debugging(True))
+        self.add_action(inspector_action)
         
         nav_next_action = Gio.SimpleAction.new("nav-next", None)
         nav_next_action.connect("activate", self.on_nav_next)
@@ -1167,6 +1180,13 @@ class WhispWindow(Adw.ApplicationWindow):
             if not skip_restore:
                 GLib.timeout_add(50, restore_session)
 
+    def on_compact_mode_changed(self, compact: bool):
+        self.is_compact_mode = compact
+        for i in range(self.carousel.get_n_pages()):
+            editor = cast(NoteEditor, self.carousel.get_nth_page(i))
+            if editor and hasattr(editor, "set_compact_margins"):
+                editor.set_compact_margins(compact)
+
     def add_note(self, file_path=None, grab_focus=True, index=None):
         if file_path is None:
             tracker.increment("notes_created")
@@ -1179,6 +1199,8 @@ class WhispWindow(Adw.ApplicationWindow):
                 
         editor = NoteEditor(file_path=file_path, on_title_changed=self.on_editor_title_changed)
         setattr(editor, 'window', self)
+        if getattr(self, 'is_compact_mode', False):
+            editor.set_compact_margins(True)
         if index is not None:
             self.carousel.insert(editor, index)
         else:

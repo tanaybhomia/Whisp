@@ -7,5 +7,6 @@ Icon=io.github.tanaybhomia.Whisp
 Terminal=false
 Type=Application
 Categories=Utility;TextEditor;
+Keywords=notes;markdown;notepad;mobile;touch;
 StartupNotify=true
 DBusActivatable=true

@@ -6,15 +6,17 @@ from pathlib import Path
 from gi.repository import Gtk, GLib, Gdk, Adw
 import threading
 
+has_ocr = False
 try:
     import pytesseract
     from PIL import Image, ImageOps
-    HAS_OCR = True
+    has_ocr = True
 except ImportError:
     pytesseract = None
     Image = None
     ImageOps = None
-    HAS_OCR = False
+    has_ocr = False
+HAS_OCR = has_ocr
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from whisp.window import WhispWindow
@@ -654,7 +656,6 @@ class NoteEditor(Gtk.Overlay):
         
         list_regex = r'^(\s*)([-*+]\s+|\d+\.\s+|- \[ \]\s+|[☐☑]\s*)'
         curr_match = re.match(list_regex, curr_text)
-        
         if not curr_match:
             # Normal single-line swap
             target_line = curr_line + direction
@@ -738,7 +739,7 @@ class NoteEditor(Gtk.Overlay):
                 lower_start = sibling_start
                 lower_end = sibling_end
 
-        if upper_start is None or upper_end is None or lower_start is None or lower_end is None:
+        if upper_start < 0 or lower_start < 0:
             return False
 
         # Extract blocks

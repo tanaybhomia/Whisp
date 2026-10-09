@@ -1277,18 +1277,7 @@ class WhispWindow(Adw.ApplicationWindow):
             welcome_file = DATA_DIR / "Welcome to Whisp.md"
             if not welcome_file.exists():
                 welcome_text = _(
-                    "# 👋 Welcome to Whisp!\n\n"
-                    "Whisp is the frictionless anti-note. There are no save buttons or files to manage here.\n\n"
-                    "## Navigation\n"
-                    "👉 **Swipe left and right** on your touchpad (or use `Ctrl+[` and `Ctrl+]`) to switch between notes.\n"
-                    "➕ To create a new note, simply swipe past the last note!\n\n"
-                    "## Features\n"
-                    "☑ **Checklists**: Press `Ctrl+S` on any line to instantly create or toggle a checkbox.\n"
-                    "🔗 **Smart Links**: Paste any long URL, and Whisp will automatically shorten it to keep your notes clean.\n"
-                    "📋 **Plain Paste**: Use `Ctrl+Shift+V` to paste text cleanly without weird formatting.\n"
-                    "🎨 **Themes**: Open Preferences (`Ctrl+,`) to pick a paper background (like Grid or Dotted) and color scheme.\n\n"
-                    "📖 **Manual**: For a full list of features, check out the [User Manual]({url})\n\n"
-                    "🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
+                    "# 👋 Welcome to Whisp!\n\nWhisp is the frictionless anti-note. There are no save buttons or files to manage here.\n\n## Navigation\n👉 **Swipe left and right** on your touchpad (or use `Ctrl+[` and `Ctrl+]`) to switch between notes.\n➕ To create a new note, simply swipe past the last note!\n\n## Features\n☑ **Checklists**: Press `Ctrl+S` on any line to instantly create or toggle a checkbox.\n🔗 **Smart Links**: Paste any long URL, and Whisp will automatically shorten it to keep your notes clean.\n📋 **Plain Paste**: Use `Ctrl+Shift+V` to paste text cleanly without weird formatting.\n🎨 **Themes**: Open Preferences (`Ctrl+,`) to pick a paper background (like Grid or Dotted) and color scheme.\n\n📖 **Manual**: For a full list of features, check out the [User Manual]({url})\n\n🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
                 ).format(url="https://tanaybhomia.github.io/Whisp/manual.html")
                 welcome_file.write_text(welcome_text, encoding='utf-8')
                 
@@ -1870,10 +1859,10 @@ class WhispWindow(Adw.ApplicationWindow):
                     break
 
             if target is None:
-                target = cast(NoteEditor, self.add_note(file_path))
+                target = self.add_note(file_path)
 
             match_index = getattr(row, 'match_index', None)
-            if match_index is not None and target is not None:
+            if match_index is not None and target:
                 target.scroll_to_match(getattr(row, 'match_term', ''), match_index)
 
             self.update_title()
@@ -2587,9 +2576,10 @@ class WhispWindow(Adw.ApplicationWindow):
         except Exception as e:
             print(f"Migration error: {e}")
 
+        import whisp.config as whisp_config
         config.data_dir = new_dir
-        DATA_DIR = new_dir
-        TRASH_DIR = DATA_DIR / ".trash"
+        whisp_config.DATA_DIR = new_dir
+        whisp_config.TRASH_DIR = new_dir / ".trash"
         row.set_subtitle(str(DATA_DIR))
         
         # Reload metadata

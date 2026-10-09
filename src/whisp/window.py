@@ -2541,7 +2541,6 @@ class WhispWindow(Adw.ApplicationWindow):
         dialog.select_folder(self, None, self.on_folder_selected, row)
 
     def migrate_to_dir(self, new_dir, row):
-        global DATA_DIR, TRASH_DIR
         if new_dir == DATA_DIR:
             return
             

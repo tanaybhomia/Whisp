@@ -14,7 +14,6 @@
   <url type="help">https://tanaybhomia.github.io/Whisp/manual.html</url>
   <url type="contact">https://matrix.to/#/@tanaybhomia:matrix.org</url>
   <url type="donation">https://tanaybhomia.github.io/Whisp/donate.html</url>
-  <url type="translation">https://l10n.gnome.org/module/whisp/</url>
   <branding>
     <color type="primary" scheme_preference="light">#00cccc</color>
     <color type="primary" scheme_preference="dark">#004252</color>

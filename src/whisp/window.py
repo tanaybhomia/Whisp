@@ -235,6 +235,239 @@ shortcuts_xml = """
 </interface>
 """
 
+class WhatsNewWindow(Adw.Window):
+    def __init__(self, parent_win, version, date_str, releases_list):
+        super().__init__(
+            transient_for=parent_win,
+            modal=True,
+            default_width=440,
+            default_height=580,
+            resizable=False,
+            title=""
+        )
+        
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        
+        # HeaderBar
+        header_bar = Adw.HeaderBar(show_end_title_buttons=True)
+        header_bar.add_css_class("flat")
+        main_box.append(header_bar)
+        
+        # Header Title & Date (H1)
+        title_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4, margin_top=0, margin_bottom=12)
+        
+        rels_to_show = releases_list if releases_list else []
+        is_multi_release = len(rels_to_show) > 1
+
+        if not is_multi_release:
+            title_text = f"<span size='18000' weight='ultrabold'>What's New in {version}?</span>"
+        else:
+            title_text = f"<span size='18000' weight='ultrabold'>What's New in Whisp?</span>"
+            
+        title_lbl = Gtk.Label(
+            label=title_text,
+            use_markup=True,
+            justify=Gtk.Justification.CENTER
+        )
+        
+        formatted_date = ""
+        if date_str:
+            try:
+                from datetime import datetime
+                d_obj = datetime.strptime(date_str, "%Y-%m-%d")
+                formatted_date = d_obj.strftime("%B %d, %Y").replace(" 0", " ")
+            except Exception:
+                formatted_date = date_str
+                
+        if not is_multi_release:
+            subtitle_text = _("Released {date}").format(date=formatted_date) if formatted_date else ""
+        else:
+            subtitle_text = _("Updates since your last visit")
+            
+        subtitle_lbl = Gtk.Label(
+            label=f"<span size='small' foreground='gray'>{subtitle_text}</span>" if subtitle_text else "",
+            use_markup=True,
+            justify=Gtk.Justification.CENTER
+        )
+        
+        title_box.append(title_lbl)
+        if subtitle_text:
+            title_box.append(subtitle_lbl)
+        main_box.append(title_box)
+        
+        # Scrollable Content
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        scroll.set_vexpand(True)
+        
+        content_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0, margin_start=24, margin_end=24, margin_bottom=20)
+        
+        for r_idx, rel in enumerate(rels_to_show):
+            rel_ver = rel.get("version", "")
+            rel_date = rel.get("date", "")
+            
+            if is_multi_release:
+                rel_formatted_date = ""
+                if rel_date:
+                    try:
+                        from datetime import datetime
+                        d_obj = datetime.strptime(rel_date, "%Y-%m-%d")
+                        rel_formatted_date = d_obj.strftime("%B %d, %Y").replace(" 0", " ")
+                    except Exception:
+                        rel_formatted_date = rel_date
+                        
+                ver_header_lbl = Gtk.Label(
+                    label=f"<span size='13500' weight='bold'>Version {rel_ver}</span> <span size='small' foreground='gray'>({rel_formatted_date})</span>",
+                    use_markup=True,
+                    halign=Gtk.Align.START,
+                    margin_top=14 if r_idx > 0 else 4,
+                    margin_bottom=6
+                )
+                content_box.append(ver_header_lbl)
+
+            features = rel.get("features", [])
+            bug_fixes = rel.get("bug_fixes", [])
+
+            # Features Section
+            if features:
+                feat_title = Gtk.Label(
+                    label=f"<b>{_('New Features')}</b>",
+                    use_markup=True,
+                    halign=Gtk.Align.START,
+                    margin_top=8,
+                    margin_bottom=6
+                )
+                content_box.append(feat_title)
+                
+                feat_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6, margin_bottom=12)
+                for item in features:
+                    if ":" in item:
+                        t, s, r = item.partition(":")
+                        b_t = GLib.markup_escape_text(t.strip())
+                        b_r = GLib.markup_escape_text(r)
+                        item_markup = f"• <b>{b_t}:</b>{b_r}"
+                    else:
+                        escaped = GLib.markup_escape_text(item)
+                        item_markup = f"• {escaped}"
+                    
+                    item_lbl = Gtk.Label(
+                        label=item_markup,
+                        use_markup=True,
+                        wrap=True,
+                        justify=Gtk.Justification.LEFT,
+                        halign=Gtk.Align.START
+                    )
+                    feat_box.append(item_lbl)
+                content_box.append(feat_box)
+
+            # Bug Fixes Section
+            if bug_fixes:
+                fix_title = Gtk.Label(
+                    label=f"<b>{_('Bug Fixes')}</b>",
+                    use_markup=True,
+                    halign=Gtk.Align.START,
+                    margin_top=10 if features else 8,
+                    margin_bottom=6
+                )
+                content_box.append(fix_title)
+                
+                fix_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6, margin_bottom=12)
+                for item in bug_fixes:
+                    if ":" in item:
+                        t, s, r = item.partition(":")
+                        b_t = GLib.markup_escape_text(t.strip())
+                        b_r = GLib.markup_escape_text(r)
+                        item_markup = f"• <b>{b_t}:</b>{b_r}"
+                    else:
+                        escaped = GLib.markup_escape_text(item)
+                        item_markup = f"• {escaped}"
+                    
+                    item_lbl = Gtk.Label(
+                        label=item_markup,
+                        use_markup=True,
+                        wrap=True,
+                        justify=Gtk.Justification.LEFT,
+                        halign=Gtk.Align.START
+                    )
+                    fix_box.append(item_lbl)
+                content_box.append(fix_box)
+
+            if is_multi_release and r_idx < len(rels_to_show) - 1:
+                sep = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+                sep.set_margin_top(12)
+                sep.set_margin_bottom(12)
+                content_box.append(sep)
+
+        thanks_lbl = Gtk.Label(
+            label=_("<span size='small' foreground='gray'>Thanks for reading, and have a great day!</span>"),
+            use_markup=True,
+            justify=Gtk.Justification.CENTER,
+            margin_top=14,
+            margin_bottom=10
+        )
+        content_box.append(thanks_lbl)
+        
+        full_changelog_btn = Gtk.Button(label=_("Full Release Notes ↗"))
+        full_changelog_btn.add_css_class("pill")
+        full_changelog_btn.set_halign(Gtk.Align.CENTER)
+        full_changelog_btn.set_margin_top(2)
+        full_changelog_btn.set_margin_bottom(16)
+        
+        def on_changelog_click(btn):
+            if hasattr(Gtk, "UriLauncher"):
+                launcher = Gtk.UriLauncher.new("https://github.com/tanaybhomia/Whisp/releases")
+                launcher.launch(self, None, None)
+            else:
+                Gio.AppInfo.launch_default_for_uri("https://github.com/tanaybhomia/Whisp/releases", None)
+                
+        full_changelog_btn.connect("clicked", on_changelog_click)
+        content_box.append(full_changelog_btn)
+        
+        scroll.set_child(content_box)
+        main_box.append(scroll)
+        
+        # Bottom Support Banner Card
+        support_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        support_card.add_css_class("whisp-support-card")
+        
+        support_title = Gtk.Label(
+            label=_("This release was made possible by users like you!"),
+            use_markup=True,
+            wrap=True,
+            justify=Gtk.Justification.CENTER,
+            halign=Gtk.Align.CENTER
+        )
+        support_title.add_css_class("support-title")
+        
+        support_msg = Gtk.Label(
+            label=_("I love making Whisp, but I cannot do it alone. Help support further development by donating."),
+            use_markup=True,
+            wrap=True,
+            justify=Gtk.Justification.CENTER,
+            halign=Gtk.Align.CENTER
+        )
+        support_msg.add_css_class("support-text")
+        
+        donate_btn = Gtk.Button(label=_("❤ Support Whisp"))
+        donate_btn.add_css_class("whisp-support-btn")
+        donate_btn.set_halign(Gtk.Align.CENTER)
+        
+        def on_donate_click(btn):
+            if hasattr(Gtk, "UriLauncher"):
+                launcher = Gtk.UriLauncher.new("https://tanaybhomia.github.io/Whisp/donate.html")
+                launcher.launch(self, None, None)
+            else:
+                Gio.AppInfo.launch_default_for_uri("https://tanaybhomia.github.io/Whisp/donate.html", None)
+                
+        donate_btn.connect("clicked", on_donate_click)
+        
+        support_card.append(support_title)
+        support_card.append(support_msg)
+        support_card.append(donate_btn)
+        
+        main_box.append(support_card)
+        self.set_content(main_box)
+
 class WhispWindow(Adw.ApplicationWindow):
     PAGE_SIZE = 20  # result rows rendered per page; more load as the user scrolls
 
@@ -618,6 +851,10 @@ class WhispWindow(Adw.ApplicationWindow):
                     if not as_list:
                         description_text += f"<span size='large' weight='bold'>v{version}</span>\n"
                     
+                    features = []
+                    bug_fixes = []
+                    current_cat = None
+                    
                     desc_node = release.find("description")
                     raw_xml = ""
                     if desc_node is not None:
@@ -625,6 +862,12 @@ class WhispWindow(Adw.ApplicationWindow):
                         for child in desc_node:
                             if child.tag == "p":
                                 text = "".join(child.itertext()).strip()
+                                lower_text = text.lower()
+                                if "feature" in lower_text:
+                                    current_cat = "features"
+                                elif any(k in lower_text for k in ["fix", "hotfix", "bug", "maintenance"]):
+                                    current_cat = "bug_fixes"
+                                    
                                 if text:
                                     escaped = GLib.markup_escape_text(text)
                                     if child.find("em") is not None:
@@ -634,18 +877,32 @@ class WhispWindow(Adw.ApplicationWindow):
                             elif child.tag == "ul":
                                 for li in child.findall("li"):
                                     li_text = "".join(li.itertext()).strip()
-                                    if li_text:
-                                        if ":" in li_text:
-                                            title, sep, rest = li_text.partition(":")
-                                            b_title = GLib.markup_escape_text(title.strip())
-                                            b_rest = GLib.markup_escape_text(rest)
-                                            release_desc += f"• <b>{b_title}:</b>{b_rest}\n"
-                                        else:
-                                            escaped = GLib.markup_escape_text(li_text)
-                                            release_desc += f"• {escaped}\n"
+                                    if not li_text:
+                                        continue
+                                    lower_li = li_text.lower()
+                                    if current_cat == "bug_fixes" or any(k in lower_li for k in ["fix", "crash", "resolved", "bug", "stability"]):
+                                        bug_fixes.append(li_text)
+                                    else:
+                                        features.append(li_text)
+                                        
+                                    if ":" in li_text:
+                                        title, sep, rest = li_text.partition(":")
+                                        b_title = GLib.markup_escape_text(title.strip())
+                                        b_rest = GLib.markup_escape_text(rest)
+                                        release_desc += f"• <b>{b_title}:</b>{b_rest}\n"
+                                    else:
+                                        escaped = GLib.markup_escape_text(li_text)
+                                        release_desc += f"• {escaped}\n"
                                 release_desc += "\n"
                                 
-                    releases_list.append({"version": version, "date": date, "raw_xml": raw_xml, "description": release_desc.strip()})
+                    releases_list.append({
+                        "version": version,
+                        "date": date,
+                        "raw_xml": raw_xml,
+                        "description": release_desc.strip(),
+                        "features": features,
+                        "bug_fixes": bug_fixes
+                    })
                     description_text += release_desc
                     
                 if as_list:
@@ -1136,39 +1393,8 @@ class WhispWindow(Adw.ApplicationWindow):
                             def on_banner_clicked(btn):
                                 if self.update_banner:
                                     self.update_banner.set_revealed(False)
-                                
-                                rel_desc = releases_list[0].get("description", "") if releases_list else ""
-                                changelog_link = "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full changelog</a>"
-                                body_text = f"{rel_desc}\n\n{changelog_link}" if rel_desc else changelog_link
-                                
-                                body_label = Gtk.Label(
-                                    label=body_text,
-                                    use_markup=True,
-                                    wrap=True,
-                                    justify=Gtk.Justification.LEFT,
-                                    halign=Gtk.Align.START,
-                                    margin_top=12,
-                                    margin_bottom=12
-                                )
-                                body_label.set_size_request(460, -1)
-                                
-                                dialog = Adw.MessageDialog(
-                                    heading=_("What's New in v{version}").format(version=latest_version),
-                                    extra_child=body_label
-                                )
-                                dialog.add_response("donate", _("Support Whisp ❤️"))
-                                dialog.set_response_appearance("donate", Adw.ResponseAppearance.SUGGESTED)
-                                dialog.set_close_response("close")
-                                
-                                def on_response(dlg, response):
-                                    if response == "donate":
-                                        import webbrowser
-                                        webbrowser.open("https://tanaybhomia.github.io/Whisp/donate.html")
-                                
-                                dialog.connect("response", on_response)
-                                dialog.set_transient_for(self)
-                                dialog.present()
-                                
+                                self.show_whats_new_dialog(version=latest_version, releases_list=releases_list)
+
                             self.update_banner.connect("button-clicked", on_banner_clicked)
                             self.toolbar_view.add_top_bar(self.update_banner)
                             self.update_banner.set_revealed(True)
@@ -1186,6 +1412,13 @@ class WhispWindow(Adw.ApplicationWindow):
             editor = cast(NoteEditor, self.carousel.get_nth_page(i))
             if editor and hasattr(editor, "set_compact_margins"):
                 editor.set_compact_margins(compact)
+    def show_whats_new_dialog(self, version=None, releases_list=None):
+        if not version or not releases_list:
+            version, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=True, as_list=True)
+            
+        date_str = releases_list[0].get("date", "") if releases_list else ""
+        win = WhatsNewWindow(self, version, date_str, releases_list)
+        win.present()
 
     def add_note(self, file_path=None, grab_focus=True, index=None):
         if file_path is None:

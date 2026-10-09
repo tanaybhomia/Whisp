@@ -110,6 +110,35 @@ class WhispApp(Adw.Application):
             .autocomplete-overlay row {
                 border-radius: 8px;
             }
+
+            /* Whisp What's New Support Card */
+            .whisp-support-card {
+                background: linear-gradient(135deg, #005f76 0%, #10919e 100%);
+                color: #ffffff;
+                padding: 24px 20px;
+                border-radius: 0 0 16px 16px;
+            }
+            .whisp-support-card .support-title {
+                font-weight: bold;
+                font-size: 1.15em;
+                color: #ffffff;
+            }
+            .whisp-support-card .support-text {
+                font-size: 0.88em;
+                color: rgba(255, 255, 255, 0.9);
+            }
+            .whisp-support-btn {
+                background-color: rgba(255, 255, 255, 0.22);
+                color: #ffffff;
+                border-radius: 24px;
+                font-weight: bold;
+                padding: 8px 24px;
+                border: none;
+                box-shadow: none;
+            }
+            .whisp-support-btn:hover {
+                background-color: rgba(255, 255, 255, 0.35);
+            }
         """)
         display = Gdk.Display.get_default()
         if display:
@@ -137,6 +166,9 @@ class WhispApp(Adw.Application):
                     win.ensure_empty_note_at_end()
                     win.on_nav_last()
             win.present()
+            if hasattr(self, 'show_whats_new_on_start') and self.show_whats_new_on_start:
+                self.show_whats_new_on_start = False
+                GLib.idle_add(lambda: win.show_whats_new_dialog() or False)
 
     def do_shutdown(self):
         from whisp.stats import tracker
@@ -233,9 +265,15 @@ def main():
     if "--hidden" in sys.argv:
         start_hidden = True
         sys.argv.remove('--hidden')
-        
+
+    show_whats_new = False
+    if "--test-whats-new" in sys.argv:
+        show_whats_new = True
+        sys.argv.remove("--test-whats-new")
+
     app = WhispApp()
     app.start_hidden = start_hidden
+    app.show_whats_new_on_start = show_whats_new
     return app.run(sys.argv)
 
 if __name__ == '__main__':

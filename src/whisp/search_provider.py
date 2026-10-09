@@ -4,7 +4,7 @@ from pathlib import Path
 
 from gi.repository import Gio, GLib
 
-from whisp.config import config, DATA_DIR
+from whisp.config import config
 from whisp.notes import NoteIndex, match_all_terms, body_excerpt
 
 BUS_NAME = "io.github.tanaybhomia.Whisp.SearchProvider"

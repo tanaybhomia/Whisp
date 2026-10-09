@@ -4,8 +4,6 @@ import gettext
 import locale
 from pathlib import Path
 from gi.repository import Gtk, GLib, Gdk, Adw
-import os
-import tempfile
 import threading
 
 try:
@@ -17,11 +15,11 @@ except ImportError:
     Image = None
     ImageOps = None
     HAS_OCR = False
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from whisp.window import WhispWindow
 
-from whisp.config import config, DATA_DIR
+from whisp.config import config
 from whisp.highlighter import MarkdownHighlighter
 from whisp.text_search import body_match_offsets
 from whisp.stats import tracker
@@ -1519,7 +1517,7 @@ class NoteEditor(Gtk.Overlay):
         # Check if current line is a checkbox
         m_box = re.match(r'^(\s*)([☐☑]|[-*+]\s*\[[ xX]\])\s+(.*)$', line_text)
         if m_box:
-            indent, box, content = m_box.groups()
+            indent, _, content = m_box.groups()
             return insert_sync(f"\n{indent}☐ ")
         
         # Match unordered lists (- or *)

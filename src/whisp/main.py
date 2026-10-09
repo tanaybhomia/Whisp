@@ -1,5 +1,4 @@
 import sys
-import os
 from pathlib import Path
 
 # Add src directory to sys.path for direct execution
@@ -26,7 +25,6 @@ class WhispApp(Adw.Application):
         Adw.Application.do_startup(self)
         
         # Add local icon directory to search path for testing
-        import os
         from pathlib import Path
         display = Gdk.Display.get_default()
         if display:

@@ -342,7 +342,7 @@ class WhatsNewWindow(Adw.Window):
                 feat_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6, margin_bottom=12)
                 for item in features:
                     if ":" in item:
-                        t, s, r = item.partition(":")
+                        t, _sep, r = item.partition(":")
                         b_t = GLib.markup_escape_text(t.strip())
                         b_r = GLib.markup_escape_text(r)
                         item_markup = f"• <b>{b_t}:</b>{b_r}"
@@ -374,7 +374,7 @@ class WhatsNewWindow(Adw.Window):
                 fix_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6, margin_bottom=12)
                 for item in bug_fixes:
                     if ":" in item:
-                        t, s, r = item.partition(":")
+                        t, _sep, r = item.partition(":")
                         b_t = GLib.markup_escape_text(t.strip())
                         b_r = GLib.markup_escape_text(r)
                         item_markup = f"• <b>{b_t}:</b>{b_r}"
@@ -488,7 +488,6 @@ class WhispWindow(Adw.ApplicationWindow):
         self.set_title("Whisp")
         self.connect("close-request", self.on_close_request)
         
-        app = self.get_application()
         if config.get("run_in_background", False):
             self.set_hide_on_close(True)
         
@@ -633,8 +632,6 @@ class WhispWindow(Adw.ApplicationWindow):
         self.toolbar_view.add_top_bar(self.header_bar)
 
         # Apply Libadwaita headerbar appearance
-        app = self.get_application() or Gio.Application.get_default()
-        app_id = app.get_application_id() if app else ""
         self.toolbar_view.set_reveal_top_bars(not self.is_slate_mode)
         
         # Delete Note Button
@@ -886,7 +883,7 @@ class WhispWindow(Adw.ApplicationWindow):
                                         features.append(li_text)
                                         
                                     if ":" in li_text:
-                                        title, sep, rest = li_text.partition(":")
+                                        title, _, rest = li_text.partition(":")
                                         b_title = GLib.markup_escape_text(title.strip())
                                         b_rest = GLib.markup_escape_text(rest)
                                         release_desc += f"• <b>{b_title}:</b>{b_rest}\n"
@@ -915,7 +912,7 @@ class WhispWindow(Adw.ApplicationWindow):
         return "Unknown", ""
 
     def _get_dynamic_version(self):
-        version, _ = self._get_latest_release_info(only_latest=True)
+        version, _desc = self._get_latest_release_info(only_latest=True)
         return version
         
     def on_export_note(self, action, param):
@@ -1063,7 +1060,7 @@ class WhispWindow(Adw.ApplicationWindow):
         
         
         if hasattr(about, "set_release_notes"):
-            latest_ver, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=True, as_list=True)
+            _ver, releases_list = self._get_latest_release_info(last_seen="0.0.0", only_latest=True, as_list=True)
             if releases_list:
                 rel = releases_list[0]
                 about.set_release_notes_version(rel.get("version", version))

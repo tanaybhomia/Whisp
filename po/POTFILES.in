@@ -1,4 +1,5 @@
 data/io.github.tanaybhomia.Whisp.desktop.in
 src/whisp/main.py
 src/whisp/editor.py
+src/whisp/math_eval.py
 src/whisp/window.py

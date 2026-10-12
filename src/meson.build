@@ -18,6 +18,7 @@ whisp_sources = [
   'whisp/__init__.py',
   'whisp/config.py',
   'whisp/highlighter.py',
+  'whisp/math_eval.py',
   'whisp/editor.py',
   'whisp/window.py',
   'whisp/main.py',

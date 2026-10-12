@@ -3,7 +3,7 @@ import uuid
 import gettext
 import locale
 from pathlib import Path
-from gi.repository import Gtk, GLib, Gdk, Adw
+from gi.repository import Gtk, GLib, Gdk, Adw, Graphene, Pango
 import threading
 
 from typing import TYPE_CHECKING
@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 from whisp.config import config
 from whisp.highlighter import MarkdownHighlighter
+from whisp.math_eval import MathError
 from whisp.text_search import body_match_offsets
 from whisp.stats import tracker
 from whisp.editor_helpers import EditorListMixin, EditorExpansionsMixin, extract_text_from_image, HAS_OCR
@@ -25,6 +26,64 @@ _ = gettext.gettext
 
 class AutocompleteRow(Gtk.ListBoxRow):
     cmd_match: str = ""
+
+class MathTextView(Gtk.TextView):
+    """TextView that draws math-note results in a column reserved on the right."""
+    RESULT_MAX_WIDTH = 200
+    RESULT_GAP = 24
+    math_results: list = []
+    base_right_margin = 0
+
+    def set_right_margin(self, margin):
+        self.base_right_margin = margin
+        self._update_result_column()
+
+    def set_math_results(self, results):
+        if results == self.math_results:
+            return
+        self.math_results = results
+        self._update_result_column()
+        self.queue_draw()
+
+    def _result_layout(self, result):
+        layout = self.create_pango_layout(result)
+        layout.set_width(self.RESULT_MAX_WIDTH * Pango.SCALE)
+        layout.set_ellipsize(Pango.EllipsizeMode.END)
+        return layout
+
+    def _update_result_column(self):
+        # Widen the right margin so text wraps before the results instead of under them.
+        widths = [self._result_layout(r).get_pixel_size()[0] for r in self.math_results if r is not None]
+        column = max(widths) + self.RESULT_GAP if widths else 0
+        Gtk.TextView.set_right_margin(self, self.base_right_margin + column)
+
+    def do_snapshot_layer(self, layer, snapshot):
+        if layer != Gtk.TextViewLayer.ABOVE_TEXT or not self.math_results:
+            return
+        color = self.get_color()
+        color.alpha = 0.55
+        error_color = Gdk.RGBA()
+        error_color.parse("#bf616a")
+        visible = self.get_visible_rect()
+        right = visible.x + visible.width - self.base_right_margin
+        for line, result in enumerate(self.math_results):
+            if result is None:
+                continue
+            ok, it = self.get_buffer().get_iter_at_line(line)
+            if not ok:
+                continue
+            if not it.ends_line():
+                it.forward_to_line_end()
+            loc = self.get_iter_location(it)
+            if loc.y + loc.height < visible.y or loc.y > visible.y + visible.height:
+                continue
+            layout = self._result_layout(result)
+            w, h = layout.get_pixel_size()
+            snapshot.save()
+            snapshot.translate(Graphene.Point().init(right - w, loc.y + (loc.height - h) / 2))
+            snapshot.append_layout(layout, error_color if isinstance(result, MathError) else color)
+            snapshot.restore()
+
 
 class NoteEditor(Gtk.Overlay, EditorListMixin, EditorExpansionsMixin):
     window: "WhispWindow | None"
@@ -43,7 +102,7 @@ class NoteEditor(Gtk.Overlay, EditorListMixin, EditorExpansionsMixin):
         self.scrolled.set_propagate_natural_width(False)
         self.set_child(self.scrolled)
         
-        self.textview = Gtk.TextView()
+        self.textview = MathTextView()
         self.textview.add_css_class("editor-textview")
         self.textview.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
         self.textview.set_left_margin(32)

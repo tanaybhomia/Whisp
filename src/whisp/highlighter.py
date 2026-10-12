@@ -1,6 +1,7 @@
 import re
 from gi.repository import GLib, Pango
 from whisp.config import config
+from whisp.math_eval import evaluate_lines
 
 class MarkdownHighlighter:
     def __init__(self, buffer, textview=None, editor=None):
@@ -124,14 +125,18 @@ class MarkdownHighlighter:
         else:
             wysiwyg = config.get("wysiwyg_mode", False)
         
-        # Check if it's a list note
+        # Check if it's a list or math note
         start_doc = self.buffer.get_start_iter()
         end_doc = start_doc.copy()
         end_doc.forward_to_line_end()
         first_line = self.buffer.get_text(start_doc, end_doc, False).strip().lower()
-        is_list_note = bool(re.match(r'^(#{1,6}\s*)?list(\s*[:\s].*)?$', first_line))
-        
-        if is_list_note:
+        mode = re.match(r'^(?:#{1,6}\s*)?(list|math)(?:\s*[:\s].*)?$', first_line)
+        math_results = [None] + evaluate_lines(text.split('\n')[1:]) if mode and mode.group(1) == "math" else []
+        set_math_results = getattr(self.textview, "set_math_results", None)
+        if set_math_results:
+            set_math_results(math_results)
+
+        if mode:
             self.buffer.apply_tag(self.tag_list_keyword, start_doc, end_doc)
         else:
             # Apply headings (e.g. # Heading)

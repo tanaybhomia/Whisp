@@ -2,19 +2,28 @@
 # Copyright (C) 2026 whisp's COPYRIGHT HOLDER
 # This file is distributed under the same license as the whisp package.
 # Asier Saratsua Garmendia <asiersarasua@ni.eus>, 2026.
+# Ibai Oihanguren Sala <ibaios@disroot.org>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: whisp main\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 13:41+0530\n"
-"PO-Revision-Date: 2026-08-26 03:00+0000\n"
-"Last-Translator: Asier Saratsua Garmendia <asiersarasua@ni.eus>\n"
-"Language-Team: Basque <eu@li.org>\n"
+"Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
+"POT-Creation-Date: 2026-10-13 15:48+0000\n"
+"PO-Revision-Date: 2026-10-17 16:26+0200\n"
+"Last-Translator: Ibai Oihanguren Sala <ibaios@disroot.org>\n"
+"Language-Team: Basque\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-DL-VCS-Web: https://github.com/tanaybhomia/Whisp\n"
+"X-DL-Lang: eu\n"
+"X-DL-Module: whisp\n"
+"X-DL-Branch: main\n"
+"X-DL-Domain: po\n"
+"X-DL-State: Translating\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 51.0\n"
 
 #: data/io.github.tanaybhomia.Whisp.desktop.in:2
 msgid "Whisp"
@@ -60,7 +69,7 @@ msgstr "Itzuli"
 msgid "Donate"
 msgstr "Lagundu diruz"
 
-#: src/whisp/dialogs/export.py:19 src/whisp/dialogs/preferences.py:331
+#: src/whisp/dialogs/export.py:19 src/whisp/dialogs/preferences.py:333
 #: src/whisp/window.py:241
 msgid "Export Note"
 msgstr "Esportatu oharra"
@@ -74,351 +83,356 @@ msgid "Note exported successfully"
 msgstr "Oharra ongi esportatu da"
 
 #. --- Appearance Page ---
-#: src/whisp/dialogs/preferences.py:50
+#: src/whisp/dialogs/preferences.py:52
 msgid "Appearance"
 msgstr "Itxura"
 
 #. Appearance Group
-#: src/whisp/dialogs/preferences.py:53
+#: src/whisp/dialogs/preferences.py:55
 msgid "Text"
 msgstr "Testua"
 
-#: src/whisp/dialogs/preferences.py:54
+#: src/whisp/dialogs/preferences.py:56
 msgid "Editor Font"
 msgstr "Editorearen letra-tipoa"
 
-#: src/whisp/dialogs/preferences.py:72
+#: src/whisp/dialogs/preferences.py:74
 msgid "System Default"
 msgstr "Sistemako lehenetsia"
 
 #. Theme Snippets Group
-#: src/whisp/dialogs/preferences.py:92
+#: src/whisp/dialogs/preferences.py:94
 msgid "Paper Theme"
-msgstr ""
+msgstr "Paper estiloa"
 
 #. Line Spacing
-#: src/whisp/dialogs/preferences.py:122
+#: src/whisp/dialogs/preferences.py:124
 msgid "Line Spacing"
 msgstr "Lerroen arteko tartea"
 
 #. --- Behavior Page ---
-#: src/whisp/dialogs/preferences.py:142
+#: src/whisp/dialogs/preferences.py:144
 msgid "Behavior"
 msgstr "Portaera"
 
 #. Behavior Group
-#: src/whisp/dialogs/preferences.py:145
+#: src/whisp/dialogs/preferences.py:147
 msgid "Workflow"
 msgstr "Lan-fluxua"
 
-#: src/whisp/dialogs/preferences.py:148
+#: src/whisp/dialogs/preferences.py:150
 msgid "WYSIWYG Scope"
-msgstr ""
-
-#: src/whisp/dialogs/preferences.py:149
-msgid "Apply Live Formatting globally to all notes, or remember it per note."
-msgstr ""
+msgstr "WYSIWYG irismena"
 
 #: src/whisp/dialogs/preferences.py:151
+msgid "Apply Live Formatting globally to all notes, or remember it per note."
+msgstr ""
+"Ezarri berehalako formatua globalki ohar guztiei, edo gogoratu ohar "
+"bakoitzeko."
+
+#: src/whisp/dialogs/preferences.py:153
 msgid "Global"
 msgstr "Globala"
 
-#: src/whisp/dialogs/preferences.py:151
+#: src/whisp/dialogs/preferences.py:153
 msgid "Per Note"
-msgstr ""
+msgstr "Ohar bakoitzeko"
 
-#: src/whisp/dialogs/preferences.py:163
+#: src/whisp/dialogs/preferences.py:165
 msgid "Startup Behavior"
 msgstr "Abioko portaera"
 
-#: src/whisp/dialogs/preferences.py:164
+#: src/whisp/dialogs/preferences.py:166
 msgid "Restore last active note"
-msgstr ""
+msgstr "Berreskuratu azken ohar aktiboa"
 
-#: src/whisp/dialogs/preferences.py:164
+#: src/whisp/dialogs/preferences.py:166
 msgid "Start with empty note"
-msgstr ""
+msgstr "Hasi ohar hutsarekin"
 
-#: src/whisp/dialogs/preferences.py:177
+#: src/whisp/dialogs/preferences.py:179
 msgid "Auto-Archive Inactive Notes"
-msgstr ""
+msgstr "Autoartxibatu ohar ez aktiboak"
 
-#: src/whisp/dialogs/preferences.py:178
+#: src/whisp/dialogs/preferences.py:180
 msgid ""
 "Notes are not deleted. They are simply hidden from the app to reduce "
 "clutter, but remain fully searchable via Ctrl+F."
 msgstr ""
+"Oharrak ez dira ezabatuko. Aplikaziotik ezkutatuko dira nahaspilarik ez "
+"sortzeko, baina Ctrl+F erabilita bilatu ahalko dira."
 
-#: src/whisp/dialogs/preferences.py:180
+#: src/whisp/dialogs/preferences.py:182
 msgid "Never"
-msgstr "Inoiz ere ez"
+msgstr "Inoiz ez"
 
-#: src/whisp/dialogs/preferences.py:180
+#: src/whisp/dialogs/preferences.py:182
 msgid "1 Week"
-msgstr "Aste 1"
+msgstr "Astebetera"
 
-#: src/whisp/dialogs/preferences.py:180
+#: src/whisp/dialogs/preferences.py:182
 msgid "1 Month"
-msgstr "Hilabete 1"
+msgstr "Hilabetera"
 
-#: src/whisp/dialogs/preferences.py:180
+#: src/whisp/dialogs/preferences.py:182
 msgid "1 Year"
-msgstr "Urte 1"
+msgstr "Urtebetera"
 
-#: src/whisp/dialogs/preferences.py:199
+#: src/whisp/dialogs/preferences.py:201
 msgid "Max Carousel Size"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:200
+#: src/whisp/dialogs/preferences.py:202
 msgid ""
 "Limit the number of notes loaded into the swipable carousel. Older notes "
 "remain fully searchable."
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:202
+#: src/whisp/dialogs/preferences.py:204
 msgid "10 Notes"
 msgstr "10 ohar"
 
-#: src/whisp/dialogs/preferences.py:202
+#: src/whisp/dialogs/preferences.py:204
 msgid "25 Notes"
 msgstr "25 ohar"
 
-#: src/whisp/dialogs/preferences.py:202
+#: src/whisp/dialogs/preferences.py:204
 msgid "50 Notes"
 msgstr "50 ohar"
 
-#: src/whisp/dialogs/preferences.py:202
+#: src/whisp/dialogs/preferences.py:204
 msgid "Unlimited"
 msgstr "Mugagabea"
 
-#: src/whisp/dialogs/preferences.py:221
+#: src/whisp/dialogs/preferences.py:223
 msgid "Confirm Before Deleting"
 msgstr "Berretsi ezabatu aurretik"
 
-#: src/whisp/dialogs/preferences.py:222
+#: src/whisp/dialogs/preferences.py:224
 msgid "Ask for confirmation when deleting a note"
-msgstr ""
+msgstr "Ohar bat ezabatu aurretik, eskatu berrespena"
 
-#: src/whisp/dialogs/preferences.py:233
+#: src/whisp/dialogs/preferences.py:235
 msgid "Show Command Confirmations"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:234
+#: src/whisp/dialogs/preferences.py:236
 msgid ""
 "Display a small confirmation message when you use a text manipulation command"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:249
+#: src/whisp/dialogs/preferences.py:251
 msgid "Enable Slate Mode on Startup"
-msgstr ""
+msgstr "Gaitu arbel modua abioan"
 
-#: src/whisp/dialogs/preferences.py:250
+#: src/whisp/dialogs/preferences.py:252
 msgid "Always launch Whisp directly into Slate Mode"
-msgstr ""
+msgstr "Abiarazi Whisp beti zuzenean arbel moduan"
 
 #. --- Running Group ---
-#: src/whisp/dialogs/preferences.py:267
+#: src/whisp/dialogs/preferences.py:269
 msgid "Running"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:270
+#: src/whisp/dialogs/preferences.py:272
 msgid "Keep Running in Background"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:271
+#: src/whisp/dialogs/preferences.py:273
 msgid "Hides the application when closed instead of terminating"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:282
+#: src/whisp/dialogs/preferences.py:284
 msgid "Run on Startup"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:283
+#: src/whisp/dialogs/preferences.py:285
 msgid "Automatically launch the application when you log in"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:294
+#: src/whisp/dialogs/preferences.py:296
 msgid "Start Hidden"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:295
+#: src/whisp/dialogs/preferences.py:297
 msgid "Launch in the background without opening a window"
 msgstr ""
 
 #. --- Shortcuts Page ---
-#: src/whisp/dialogs/preferences.py:310
+#: src/whisp/dialogs/preferences.py:312
 msgid "Shortcuts"
 msgstr "Lasterbideak"
 
-#: src/whisp/dialogs/preferences.py:317
-#, fuzzy
+#: src/whisp/dialogs/preferences.py:319
 msgid "Application"
-msgstr "Irten aplikaziotik"
+msgstr "Aplikazioa"
 
-#: src/whisp/dialogs/preferences.py:318
+#: src/whisp/dialogs/preferences.py:320
 msgid "New Note"
 msgstr "Ohar berria"
 
-#: src/whisp/dialogs/preferences.py:319
+#: src/whisp/dialogs/preferences.py:321
 msgid "Search Notes"
 msgstr "Bilatu oharrak"
 
-#: src/whisp/dialogs/preferences.py:320 src/whisp/window.py:246
+#: src/whisp/dialogs/preferences.py:322 src/whisp/window.py:246
 msgid "Preferences"
 msgstr "Hobespenak"
 
-#: src/whisp/dialogs/preferences.py:321
+#: src/whisp/dialogs/preferences.py:323
 msgid "Show Shortcuts"
 msgstr "Erakutsi lasterbideak"
 
-#: src/whisp/dialogs/preferences.py:322
+#: src/whisp/dialogs/preferences.py:324
 msgid "Toggle Slate Mode"
-msgstr ""
+msgstr "Gaitu / ezgaitu arbel modua"
 
-#: src/whisp/dialogs/preferences.py:323
+#: src/whisp/dialogs/preferences.py:325
 msgid "Quit Application"
 msgstr "Irten aplikaziotik"
 
-#: src/whisp/dialogs/preferences.py:325
+#: src/whisp/dialogs/preferences.py:327
 msgid "Note Management"
-msgstr ""
+msgstr "Oharren kudeaketa"
 
-#: src/whisp/dialogs/preferences.py:326
+#: src/whisp/dialogs/preferences.py:328
 msgid "Delete Note"
 msgstr "Ezabatu oharra"
 
-#: src/whisp/dialogs/preferences.py:327
+#: src/whisp/dialogs/preferences.py:329
 msgid "Undo Delete"
 msgstr "Desegin ezabatzea"
 
-#: src/whisp/dialogs/preferences.py:328
+#: src/whisp/dialogs/preferences.py:330
 msgid "Pin Note"
 msgstr "Ainguratu oharra"
 
-#: src/whisp/dialogs/preferences.py:329
+#: src/whisp/dialogs/preferences.py:331
 msgid "Move Note to Front"
 msgstr "Eraman oharra aurrera"
 
-#: src/whisp/dialogs/preferences.py:330
+#: src/whisp/dialogs/preferences.py:332
 msgid "Copy Note"
 msgstr "Kopiatu oharra"
 
-#: src/whisp/dialogs/preferences.py:332
-msgid "Toggle WYSIWYG"
-msgstr ""
-
 #: src/whisp/dialogs/preferences.py:334
-msgid "Navigation"
-msgstr ""
+msgid "Toggle WYSIWYG"
+msgstr "Gaitu / ezgaitu WYSIWYG"
 
-#: src/whisp/dialogs/preferences.py:335
+#: src/whisp/dialogs/preferences.py:336
+msgid "Navigation"
+msgstr "Nabigazioa"
+
+#: src/whisp/dialogs/preferences.py:337
 msgid "Previous Note"
 msgstr "Aurreko oharra"
 
-#: src/whisp/dialogs/preferences.py:336
+#: src/whisp/dialogs/preferences.py:338
 msgid "Next Note"
 msgstr "Hurrengo oharra"
 
-#: src/whisp/dialogs/preferences.py:337
+#: src/whisp/dialogs/preferences.py:339
 msgid "First Note"
 msgstr "Lehen oharra"
 
-#: src/whisp/dialogs/preferences.py:338
+#: src/whisp/dialogs/preferences.py:340
 msgid "Last Note"
 msgstr "Azken oharra"
 
-#: src/whisp/dialogs/preferences.py:352
+#: src/whisp/dialogs/preferences.py:354
 msgid "Disabled"
 msgstr "Desgaituta"
 
-#: src/whisp/dialogs/preferences.py:363 src/whisp/dialogs/preferences.py:389
+#: src/whisp/dialogs/preferences.py:365 src/whisp/dialogs/preferences.py:391
 msgid "Reset to Default"
 msgstr "Berrezarri lehenespenera"
 
 #. --- Storage Page ---
-#: src/whisp/dialogs/preferences.py:380
+#: src/whisp/dialogs/preferences.py:382
 msgid "Storage"
 msgstr "Biltegia"
 
-#: src/whisp/dialogs/preferences.py:381
-msgid "Data Location"
-msgstr ""
-
 #: src/whisp/dialogs/preferences.py:383
+msgid "Data Location"
+msgstr "Datuen kokalekua"
+
+#: src/whisp/dialogs/preferences.py:385
 msgid "Notes Directory"
 msgstr "Oharren direktorioa"
 
-#: src/whisp/dialogs/preferences.py:393
+#: src/whisp/dialogs/preferences.py:395
 msgid "Change…"
 msgstr "Aldatu…"
 
-#: src/whisp/dialogs/preferences.py:549
-#, fuzzy
+#: src/whisp/dialogs/preferences.py:551
 msgid "Set Shortcut"
-msgstr "Erakutsi lasterbideak"
+msgstr "Ezarri lasterbidea"
 
-#: src/whisp/dialogs/preferences.py:550
+#: src/whisp/dialogs/preferences.py:552
 #, python-brace-format
 msgid "Recording Shortcut for <b>{}</b>"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:559
+#: src/whisp/dialogs/preferences.py:561
 msgid "<span foreground='gray' size='small'>press backspace to disable</span>"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:578 src/whisp/window.py:808
+#: src/whisp/dialogs/preferences.py:580 src/whisp/window.py:808
 msgid "Cancel"
 msgstr "Utzi"
 
-#: src/whisp/dialogs/preferences.py:616
+#: src/whisp/dialogs/preferences.py:618
 msgid "This shortcut is already in use"
 msgstr ""
 
-#: src/whisp/dialogs/preferences.py:639
+#: src/whisp/dialogs/preferences.py:641
 msgid "Select Notes Directory"
 msgstr "Hautatu oharren direktorioa"
 
 #: src/whisp/dialogs/whats_new.py:51
 #, python-brace-format
 msgid "Released {date}"
-msgstr ""
+msgstr "{date}(e)an argitaratua"
 
 #: src/whisp/dialogs/whats_new.py:53
 msgid "Updates since your last visit"
-msgstr ""
+msgstr "Azken bisitatik honako eguneratzeak"
 
 #: src/whisp/dialogs/whats_new.py:102
-#, fuzzy
 msgid "New Features"
-msgstr "Ohar berria"
+msgstr "Eginbide berriak"
 
 #: src/whisp/dialogs/whats_new.py:134
 msgid "Bug Fixes"
-msgstr ""
+msgstr "Akats zuzenketak"
 
 #: src/whisp/dialogs/whats_new.py:170
 msgid ""
 "<span size='small' foreground='gray'>Thanks for reading, and have a great "
 "day!</span>"
 msgstr ""
+"<span size='small' foreground='gray'>Eskerrik asko irakurtzearren, egun ona "
+"izan!</span>"
 
 #: src/whisp/dialogs/whats_new.py:178
 msgid "Full Release Notes ↗"
-msgstr ""
+msgstr "Bertsio-oharrak osorik ↗"
 
 #: src/whisp/dialogs/whats_new.py:202
 msgid "This release was made possible by users like you!"
-msgstr ""
+msgstr "Bertsio hau zu bezalako erabiltzaileei esker egin da!"
 
 #: src/whisp/dialogs/whats_new.py:211
 msgid ""
 "I love making Whisp, but I cannot do it alone. Help support further "
 "development by donating."
 msgstr ""
+"Maite dut Whisp garatzea, baina ezin dut bakarrik egin. Lagun nazazu "
+"garapenarekin jarraitzen dohaintza eginez."
 
 #: src/whisp/dialogs/whats_new.py:219
 msgid "❤ Support Whisp"
-msgstr ""
+msgstr "❤ Babestu Whisp"
 
 #: src/whisp/editor.py:356
 msgid "Insert word count of current note"
@@ -602,19 +616,19 @@ msgstr ""
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "It is certain."
-msgstr ""
+msgstr "Ez dago zalantzarik."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "It is decidedly so."
-msgstr ""
+msgstr "Argi dago baietz."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Without a doubt."
-msgstr ""
+msgstr "Gauza ziurra da."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Yes definitely."
-msgstr ""
+msgstr "Bai, jakina."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "You may rely on it."
@@ -634,7 +648,7 @@ msgstr ""
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Yes."
-msgstr ""
+msgstr "Bai."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Signs point to yes."
@@ -646,19 +660,19 @@ msgstr ""
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Ask again later."
-msgstr ""
+msgstr "Galdetu berriz geroago."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Better not tell you now."
-msgstr ""
+msgstr "Hobe orain erantzuten ez badizut."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Cannot predict now."
-msgstr ""
+msgstr "Ezin dut orain ikusi."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Concentrate and ask again."
-msgstr ""
+msgstr "Kontzentratu eta galdetu berriz."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Don't count on it."
@@ -666,11 +680,11 @@ msgstr ""
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "My reply is no."
-msgstr ""
+msgstr "Nire erantzuna ezezkoa da."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "My sources say no."
-msgstr ""
+msgstr "Nire iturriek ezetz dioste."
 
 #: src/whisp/editor_helpers/editor_expansions.py:286
 msgid "Outlook not so good."
@@ -682,11 +696,11 @@ msgstr ""
 
 #: src/whisp/editor_helpers/editor_expansions.py:355
 msgid "Converted to uppercase"
-msgstr ""
+msgstr "Hizki larrietara bihurtu da"
 
 #: src/whisp/editor_helpers/editor_expansions.py:358
 msgid "Converted to lowercase"
-msgstr ""
+msgstr "Hizki xeheetara bihurtu da"
 
 #: src/whisp/editor_helpers/editor_expansions.py:361
 msgid "Converted to Title Case"
@@ -777,13 +791,12 @@ msgid "Donate to Whisp"
 msgstr "Lagundu Whisp diruz"
 
 #: src/whisp/window.py:489
-#, fuzzy
 msgid "Note pinned"
-msgstr "Oharra kopiatu da"
+msgstr "Oharra ainguratu da"
 
 #: src/whisp/window.py:520
 msgid "Note Unpinned"
-msgstr ""
+msgstr "Oharra desainguratu da"
 
 #: src/whisp/window.py:536
 #, python-brace-format
@@ -813,10 +826,34 @@ msgid ""
 "\n"
 "🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
 msgstr ""
+"# 👋 Ongi etorri Whispera!\n"
+"\n"
+"Whisp trabarik gabeko anti-ohar aplikazioa da. Hemen ez dago gordetzeko "
+"botoirik edo kudeatu beharreko fitxategirik.\n"
+"\n"
+"## Nabigazioa\n"
+"👉 **Irristatu ezkerrera eta eskuinera** ukipen-panelean (edo erabili `Ctrl+"
+"[` eta `Ctrl+]`) oharretan zehar nabigatzeko.\n"
+"➕ Ohar berria sortzeko, irristatu azken oharra pasata!\n"
+"\n"
+"## Eginbideak\n"
+"☑ **Egitekoen zerrendak**: Sakatu `Ctrl+S` edozein lerrotan istantean "
+"kontrol-lauki bat sortu edo markatu/desmarkatzeko.\n"
+"🔗 **Esteka adimentsuak**: Itsatsi edozein URL luze, eta Whispek "
+"automatikoki laburtuko du oharrak txukun mantentzeko.\n"
+"📋 **Itsatsi formaturik gabe**: Erabili `Ctrl+Shift+V` testu hutsa "
+"itsasteko, formatu berezirik gabe.\n"
+"🎨 **Gaiak**: Ireki hobespenak (`Ctrl+,`) atzeko planoko paperaren estiloa "
+"(adb. sareta edo puntuduna) eta kolore-eskema aukeratzeko.\n"
+"\n"
+"📖 **Eskuliburua**: Eginbideen zerrenda osoa ikusteko, kontsultatu "
+"[erabiltzaile-eskuliburua]({url})\n"
+"\n"
+"🗑️ Sakatu `Ctrl+D` ohar hau ezabatzeko, dagoeneko irakurri duzulako!"
 
 #: src/whisp/window.py:630
 msgid "Whisp just got better!"
-msgstr ""
+msgstr "Whisp are hobea da orain!"
 
 #: src/whisp/window.py:631
 msgid "Changelogs"
@@ -828,11 +865,11 @@ msgstr "Oharra kopiatu da"
 
 #: src/whisp/window.py:760
 msgid "Note moved to front"
-msgstr ""
+msgstr "Oharra hasierara bidali da"
 
 #: src/whisp/window.py:794
 msgid "Cannot delete the default empty note"
-msgstr ""
+msgstr "Ezin da defektuzko ohar hutsa ezabatu"
 
 #: src/whisp/window.py:805
 msgid "Delete Note?"
@@ -843,6 +880,8 @@ msgstr "Ezabatu oharra?"
 msgid ""
 "“{title}” will be moved to the trash. You can undo this with Ctrl+Shift+T."
 msgstr ""
+"“{title}” zakarrontzira botako da. Hau desegiteko Ctrl+Shift+T sakatu "
+"dezakezu."
 
 #: src/whisp/window.py:809
 msgid "Delete"
@@ -864,11 +903,11 @@ msgstr ""
 
 #: src/whisp/window.py:1052
 msgid "Entered Slate mode"
-msgstr ""
+msgstr "Arbel modua gaitu da"
 
 #: src/whisp/window.py:1052
 msgid "Exited Slate mode"
-msgstr ""
+msgstr "Arbel modua ezgaitu da"
 
 #~ msgid "Custom Keybinds"
 #~ msgstr "Laster-tekla pertsonalizatuak"

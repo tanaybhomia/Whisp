@@ -1,0 +1,932 @@
+# Brazilian Portuguese translation for whisp.
+# Copyright (C) 2026 whisp's COPYRIGHT HOLDER
+# This file is distributed under the same license as the whisp package.
+# Vanessa Miranda <mvsmirs@gmail.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: whisp main\n"
+"Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
+"POT-Creation-Date: 2026-10-18 02:43+0000\n"
+"PO-Revision-Date: 2026-10-13 18:35-0300\n"
+"Last-Translator: Vanessa Miranda <mvsmirs@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 50.0\n"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:2
+msgid "Whisp"
+msgstr "Whisp"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:3
+msgid "Note Taker"
+msgstr "Tomador de notas"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:4
+msgid "A minimalist note taking widget application"
+msgstr "Um aplicativo minimalista de widget para tomar notas"
+
+#: data/io.github.tanaybhomia.Whisp.desktop.in:10
+msgid "notes;markdown;notepad;mobile;touch;"
+msgstr "notas;markdown;bloco de notas;mobile;touch;"
+
+#: src/whisp/dialogs/about.py:159
+msgid "translator-credits"
+msgstr "Vanessa Miranda <mvsmirs@keemail.me>, 2026."
+
+#: src/whisp/dialogs/about.py:172
+msgid "Icon by"
+msgstr "Ícone por"
+
+#: src/whisp/dialogs/about.py:178
+msgid "Deep Dive"
+msgstr "Foco profundo"
+
+#: src/whisp/dialogs/about.py:179
+msgid "Stay focused with strict limits"
+msgstr "Manter o foco com limites rigorosos"
+
+#: src/whisp/dialogs/about.py:182
+msgid "Manual"
+msgstr "Manual"
+
+#: src/whisp/dialogs/about.py:183
+msgid "Translate"
+msgstr "Traduzir"
+
+#: src/whisp/dialogs/about.py:184
+msgid "Donate"
+msgstr "Doar"
+
+#: src/whisp/dialogs/export.py:19 src/whisp/dialogs/preferences.py:333
+#: src/whisp/window.py:241
+msgid "Export Note"
+msgstr "Exportar nota"
+
+#: src/whisp/dialogs/export.py:38
+msgid "Markdown File"
+msgstr "Arquivo Markdown"
+
+#: src/whisp/dialogs/export.py:57
+msgid "Note exported successfully"
+msgstr "Nota exportada com sucesso"
+
+#. --- Appearance Page ---
+#: src/whisp/dialogs/preferences.py:52
+msgid "Appearance"
+msgstr "Aparência"
+
+#. Appearance Group
+#: src/whisp/dialogs/preferences.py:55
+msgid "Text"
+msgstr "Texto"
+
+#: src/whisp/dialogs/preferences.py:56
+msgid "Editor Font"
+msgstr "Fonte do editor"
+
+#: src/whisp/dialogs/preferences.py:74
+msgid "System Default"
+msgstr "Padrão do sistema"
+
+#. Theme Snippets Group
+#: src/whisp/dialogs/preferences.py:94
+msgid "Paper Theme"
+msgstr "Tema de papel"
+
+#. Line Spacing
+#: src/whisp/dialogs/preferences.py:124
+msgid "Line Spacing"
+msgstr "Espaçamento de linha"
+
+#. --- Behavior Page ---
+#: src/whisp/dialogs/preferences.py:144
+msgid "Behavior"
+msgstr "Comportamento"
+
+#. Behavior Group
+#: src/whisp/dialogs/preferences.py:147
+msgid "Workflow"
+msgstr "Fluxo de trabalho"
+
+#: src/whisp/dialogs/preferences.py:150
+msgid "WYSIWYG Scope"
+msgstr "Escopo de WYSIWYG"
+
+#: src/whisp/dialogs/preferences.py:151
+msgid "Apply Live Formatting globally to all notes, or remember it per note."
+msgstr ""
+"Aplicar formatação em Tempo Real globalmente a todas as notas, ou "
+"individualmente por nota."
+
+#: src/whisp/dialogs/preferences.py:153
+msgid "Global"
+msgstr "Global"
+
+#: src/whisp/dialogs/preferences.py:153
+msgid "Per Note"
+msgstr "Por nota"
+
+#: src/whisp/dialogs/preferences.py:165
+msgid "Startup Behavior"
+msgstr "Comportamento de inicialização"
+
+#: src/whisp/dialogs/preferences.py:166
+msgid "Restore last active note"
+msgstr "Restaurar última nota ativa"
+
+#: src/whisp/dialogs/preferences.py:166
+msgid "Start with empty note"
+msgstr "Iniciar com nota vazia"
+
+#: src/whisp/dialogs/preferences.py:179
+msgid "Auto-Archive Inactive Notes"
+msgstr "Arquivar notas inativas automaticamente"
+
+#: src/whisp/dialogs/preferences.py:180
+msgid ""
+"Notes are not deleted. They are simply hidden from the app to reduce "
+"clutter, but remain fully searchable via Ctrl+F."
+msgstr ""
+"As notas não são excluídas. Elas são simplesmente ocultadas do aplicativo "
+"para reduzir a desordem, mas permanecem totalmente pesquisáveis via Ctrl+F."
+
+#: src/whisp/dialogs/preferences.py:182
+msgid "Never"
+msgstr "Nunca"
+
+#: src/whisp/dialogs/preferences.py:182
+msgid "1 Week"
+msgstr "1 semana"
+
+#: src/whisp/dialogs/preferences.py:182
+msgid "1 Month"
+msgstr "1 mês"
+
+#: src/whisp/dialogs/preferences.py:182
+msgid "1 Year"
+msgstr "1 ano"
+
+#: src/whisp/dialogs/preferences.py:201
+msgid "Max Carousel Size"
+msgstr "Tamanho máximo do carrossel"
+
+#: src/whisp/dialogs/preferences.py:202
+msgid ""
+"Limit the number of notes loaded into the swipable carousel. Older notes "
+"remain fully searchable."
+msgstr ""
+"Limita o número de notas carregadas no carrossel deslizável. Notas mais "
+"antigas permanecem totalmente pesquisáveis."
+
+#: src/whisp/dialogs/preferences.py:204
+msgid "10 Notes"
+msgstr "10 notas"
+
+#: src/whisp/dialogs/preferences.py:204
+msgid "25 Notes"
+msgstr "25 notas"
+
+#: src/whisp/dialogs/preferences.py:204
+msgid "50 Notes"
+msgstr "50 notas"
+
+#: src/whisp/dialogs/preferences.py:204
+msgid "Unlimited"
+msgstr "Ilimitado"
+
+#: src/whisp/dialogs/preferences.py:223
+msgid "Confirm Before Deleting"
+msgstr "Confirmar antes de excluir"
+
+#: src/whisp/dialogs/preferences.py:224
+msgid "Ask for confirmation when deleting a note"
+msgstr "Pedir confirmação ao excluir uma nota"
+
+#: src/whisp/dialogs/preferences.py:235
+msgid "Show Command Confirmations"
+msgstr "Mostrar confirmações de comando"
+
+#: src/whisp/dialogs/preferences.py:236
+msgid ""
+"Display a small confirmation message when you use a text manipulation command"
+msgstr ""
+"Exibe uma pequena mensagem de confirmação ao usar um comando de manipulação "
+"de texto"
+
+#: src/whisp/dialogs/preferences.py:251
+msgid "Enable Slate Mode on Startup"
+msgstr "Habilitar modo Slate na inicialização"
+
+#: src/whisp/dialogs/preferences.py:252
+msgid "Always launch Whisp directly into Slate Mode"
+msgstr "Sempre iniciar Whisp diretamente em modo Slate"
+
+#. --- Running Group ---
+#: src/whisp/dialogs/preferences.py:269
+msgid "Running"
+msgstr "Execução"
+
+#: src/whisp/dialogs/preferences.py:272
+msgid "Keep Running in Background"
+msgstr "Manter execução em segundo plano"
+
+#: src/whisp/dialogs/preferences.py:273
+msgid "Hides the application when closed instead of terminating"
+msgstr "Oculta o aplicativo quando fechado em vez de encerrar"
+
+#: src/whisp/dialogs/preferences.py:284
+msgid "Run on Startup"
+msgstr "Executar na inicialização"
+
+#: src/whisp/dialogs/preferences.py:285
+msgid "Automatically launch the application when you log in"
+msgstr "Iniciar o aplicativo automaticamente ao iniciar a sessão"
+
+#: src/whisp/dialogs/preferences.py:296
+msgid "Start Hidden"
+msgstr "Iniciar oculto"
+
+#: src/whisp/dialogs/preferences.py:297
+msgid "Launch in the background without opening a window"
+msgstr "Iniciar em segundo plano sem abrir uma janela"
+
+#. --- Shortcuts Page ---
+#: src/whisp/dialogs/preferences.py:312
+msgid "Shortcuts"
+msgstr "Atalhos"
+
+#: src/whisp/dialogs/preferences.py:319
+msgid "Application"
+msgstr "Aplicativo"
+
+#: src/whisp/dialogs/preferences.py:320
+msgid "New Note"
+msgstr "Nova nota"
+
+#: src/whisp/dialogs/preferences.py:321
+msgid "Search Notes"
+msgstr "Pesquisar notas"
+
+#: src/whisp/dialogs/preferences.py:322 src/whisp/window.py:246
+msgid "Preferences"
+msgstr "Preferências"
+
+#: src/whisp/dialogs/preferences.py:323
+msgid "Show Shortcuts"
+msgstr "Mostrar atalhos"
+
+#: src/whisp/dialogs/preferences.py:324
+msgid "Toggle Slate Mode"
+msgstr "Alternar modo Slate"
+
+#: src/whisp/dialogs/preferences.py:325
+msgid "Quit Application"
+msgstr "Sair do aplicativo"
+
+#: src/whisp/dialogs/preferences.py:327
+msgid "Note Management"
+msgstr "Gerenciamento de notas"
+
+#: src/whisp/dialogs/preferences.py:328
+msgid "Delete Note"
+msgstr "Excluir nota"
+
+#: src/whisp/dialogs/preferences.py:329
+msgid "Undo Delete"
+msgstr "Desfazer exclusão"
+
+#: src/whisp/dialogs/preferences.py:330
+msgid "Pin Note"
+msgstr "Fixar nota"
+
+#: src/whisp/dialogs/preferences.py:331
+msgid "Move Note to Front"
+msgstr "Mover nota para o topo"
+
+#: src/whisp/dialogs/preferences.py:332
+msgid "Copy Note"
+msgstr "Copiar nota"
+
+#: src/whisp/dialogs/preferences.py:334
+msgid "Toggle WYSIWYG"
+msgstr "Alternar WYSIWYG"
+
+#: src/whisp/dialogs/preferences.py:336
+msgid "Navigation"
+msgstr "Navegação"
+
+#: src/whisp/dialogs/preferences.py:337
+msgid "Previous Note"
+msgstr "Nota anterior"
+
+#: src/whisp/dialogs/preferences.py:338
+msgid "Next Note"
+msgstr "Próxima nota"
+
+#: src/whisp/dialogs/preferences.py:339
+msgid "First Note"
+msgstr "Primeira nota"
+
+#: src/whisp/dialogs/preferences.py:340
+msgid "Last Note"
+msgstr "Última nota"
+
+#: src/whisp/dialogs/preferences.py:354
+msgid "Disabled"
+msgstr "Desabilitado"
+
+#: src/whisp/dialogs/preferences.py:365 src/whisp/dialogs/preferences.py:391
+msgid "Reset to Default"
+msgstr "Restaurar para padrão"
+
+#. --- Storage Page ---
+#: src/whisp/dialogs/preferences.py:382
+msgid "Storage"
+msgstr "Armazenamento"
+
+#: src/whisp/dialogs/preferences.py:383
+msgid "Data Location"
+msgstr "Local dos dados"
+
+#: src/whisp/dialogs/preferences.py:385
+msgid "Notes Directory"
+msgstr "Diretório de notas"
+
+#: src/whisp/dialogs/preferences.py:395
+msgid "Change…"
+msgstr "Alterar…"
+
+#: src/whisp/dialogs/preferences.py:551
+msgid "Set Shortcut"
+msgstr "Definir atalho"
+
+#: src/whisp/dialogs/preferences.py:552
+#, python-brace-format
+msgid "Recording Shortcut for <b>{}</b>"
+msgstr "Gravando atalho para <b>{}</b>"
+
+#: src/whisp/dialogs/preferences.py:561
+msgid "<span foreground='gray' size='small'>press backspace to disable</span>"
+msgstr ""
+"<span foreground='gray' size='small'>pressione backspace para desabilitar</"
+"span>"
+
+#: src/whisp/dialogs/preferences.py:580 src/whisp/window.py:808
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/whisp/dialogs/preferences.py:618
+msgid "This shortcut is already in use"
+msgstr "Este atalho já está em uso"
+
+#: src/whisp/dialogs/preferences.py:641
+msgid "Select Notes Directory"
+msgstr "Selecionar diretório de notas"
+
+#: src/whisp/dialogs/whats_new.py:51
+#, python-brace-format
+msgid "Released {date}"
+msgstr "Lançado em {date}"
+
+#: src/whisp/dialogs/whats_new.py:53
+msgid "Updates since your last visit"
+msgstr "Atualizações desde a última visita"
+
+#: src/whisp/dialogs/whats_new.py:102
+msgid "New Features"
+msgstr "Novos recursos"
+
+#: src/whisp/dialogs/whats_new.py:134
+msgid "Bug Fixes"
+msgstr "Correções de erros"
+
+#: src/whisp/dialogs/whats_new.py:170
+msgid ""
+"<span size='small' foreground='gray'>Thanks for reading, and have a great "
+"day!</span>"
+msgstr ""
+"<span size='small' foreground='gray'>Obrigado pela leitura, e tenha um ótimo "
+"dia!</span>"
+
+#: src/whisp/dialogs/whats_new.py:178
+msgid "Full Release Notes ↗"
+msgstr "Notas de lançamento completas ↗"
+
+#: src/whisp/dialogs/whats_new.py:202
+msgid "This release was made possible by users like you!"
+msgstr "Este lançamento foi possível graças a pessoas como você!"
+
+#: src/whisp/dialogs/whats_new.py:211
+msgid ""
+"I love making Whisp, but I cannot do it alone. Help support further "
+"development by donating."
+msgstr ""
+"Adoro desenvolver Whisp, mas não posso fazer isso sem ajuda. Apoie o "
+"desenvolvimento futuro fazendo uma doação."
+
+#: src/whisp/dialogs/whats_new.py:219
+msgid "❤ Support Whisp"
+msgstr "Apoie o Whisp ❤"
+
+#: src/whisp/editor.py:356
+msgid "Toggle AutoPaste clipboard collector"
+msgstr "Alternar colar automaticamente da área de trabalho"
+
+#: src/whisp/editor.py:357
+msgid "Insert word count of current note"
+msgstr "Inserir contagem de palavras da nota atual"
+
+#: src/whisp/editor.py:358 src/whisp/editor.py:362
+msgid "Current date"
+msgstr "Data atual"
+
+#: src/whisp/editor.py:359 src/whisp/editor.py:363
+msgid "Date offset (+/- days)"
+msgstr "Deslocamento de data (+/- dias)"
+
+#: src/whisp/editor.py:360
+msgid "Tomorrow's date"
+msgstr "Data de amanhã"
+
+#: src/whisp/editor.py:361
+msgid "Yesterday's date"
+msgstr "Data de ontem"
+
+#: src/whisp/editor.py:364
+msgid "Current date and time"
+msgstr "Data e hora atuais"
+
+#: src/whisp/editor.py:365 src/whisp/editor.py:366
+msgid "Current time"
+msgstr "Hora atual"
+
+#: src/whisp/editor.py:367
+msgid "Random numbers"
+msgstr "Números aleatórios"
+
+#: src/whisp/editor.py:368
+msgid "Random letters"
+msgstr "Letras aleatórias"
+
+#: src/whisp/editor.py:369
+msgid "Random alphanumeric"
+msgstr "Alfanumérico aleatório"
+
+#: src/whisp/editor.py:370
+msgid "Insert a random inspirational quote"
+msgstr "Inserir uma citação inspiradora aleatória"
+
+#: src/whisp/editor.py:371
+msgid "Open a random Wikipedia page"
+msgstr "Abrir uma página aleatória da Wikipedia"
+
+#: src/whisp/editor.py:372
+msgid "Ask the Magic 8-Ball"
+msgstr "Perguntar à Bola 8 Mágica"
+
+#: src/whisp/editor.py:373
+msgid "Insert standard placeholder text"
+msgstr "Inserir texto de preenchimento padrão"
+
+#: src/whisp/editor.py:374
+msgid "Generate a secure 16-char password"
+msgstr "Gerar uma senha segura de 16 caracteres"
+
+#: src/whisp/editor.py:375
+msgid "Generate a standard developer UUID"
+msgstr "Gerar um UUID padrão de desenvolvedor"
+
+#: src/whisp/editor.py:376
+msgid "Roll a 20-sided die"
+msgstr "Rolar um dado de 20 faces"
+
+#: src/whisp/editor.py:377
+msgid "Roll a d20 die"
+msgstr "Rolar um dado d20"
+
+#: src/whisp/editor.py:378
+msgid "Roll 4 d6 dice"
+msgstr "Rolar 4 dados d6"
+
+#: src/whisp/editor.py:379
+msgid "Convert document to uppercase"
+msgstr "Converter documento para maiúsculas"
+
+#: src/whisp/editor.py:380
+msgid "Convert document to lowercase"
+msgstr "Converter documento para minúsculas"
+
+#: src/whisp/editor.py:381
+msgid "Convert document to sentence case"
+msgstr "Converter documento para formato de frase"
+
+#: src/whisp/editor.py:382
+msgid "Convert document to title case"
+msgstr "Converter documento para formato de título"
+
+#: src/whisp/editor.py:383
+msgid "Capitalize first letter"
+msgstr "Capitalizar primeira letra"
+
+#: src/whisp/editor.py:384
+msgid "Strip surrounding quotes"
+msgstr "Remover aspas ao redor"
+
+#: src/whisp/editor.py:385
+msgid "Add text to the end of every line"
+msgstr "Adicionar texto ao final de cada linha"
+
+#: src/whisp/editor.py:386
+msgid "Add text to the beginning of every line"
+msgstr "Adicionar texto ao início de cada linha"
+
+#: src/whisp/editor.py:387
+msgid "Find and replace text"
+msgstr "Localizar e substituir texto"
+
+#: src/whisp/editor.py:388
+msgid "Sort lines alphabetically"
+msgstr "Ordenar linhas alfabeticamente"
+
+#: src/whisp/editor.py:389
+msgid "Sort lines by first number"
+msgstr "Ordenar linhas pelo primeiro número"
+
+#: src/whisp/editor.py:390
+msgid "Reverse line order"
+msgstr "Inverter ordem das linhas"
+
+#: src/whisp/editor.py:391
+msgid "Remove empty lines"
+msgstr "Remover linhas vazias"
+
+#: src/whisp/editor.py:392
+msgid "Remove lines containing text"
+msgstr "Remover linhas contendo texto"
+
+#: src/whisp/editor.py:393
+msgid "Remove lines not containing text"
+msgstr "Remover linhas que não contêm texto"
+
+#: src/whisp/editor.py:394
+msgid "Keep only lines containing text"
+msgstr "Manter apenas linhas contendo texto"
+
+#: src/whisp/editor.py:395
+msgid "Keep only lines not containing text"
+msgstr "Manter apenas linhas que não contêm texto"
+
+#: src/whisp/editor.py:396
+msgid "Trim whitespace from all lines"
+msgstr "Remover espaços em branco de todas as linhas"
+
+#: src/whisp/editor.py:397
+msgid "Remove duplicate lines"
+msgstr "Remover linhas duplicadas"
+
+#: src/whisp/editor.py:398
+msgid "Find and group duplicate lines"
+msgstr "Localizar e agrupar linhas duplicadas"
+
+#: src/whisp/editor.py:399
+msgid "Convert comma-separated items to list"
+msgstr "Converter itens separados por vírgula em lista"
+
+#: src/whisp/editor.py:400
+msgid "Convert commas to custom delimiter"
+msgstr "Converter vírgulas em delimitador personalizado"
+
+#: src/whisp/editor.py:401
+msgid "Convert lines to comma-separated"
+msgstr "Converter linhas em separadas por vírgula"
+
+#: src/whisp/editor.py:402
+msgid "Convert lines to custom delimiter"
+msgstr "Converter linhas em delimitador personalizado"
+
+#: src/whisp/editor.py:403
+msgid "Move checked items to bottom"
+msgstr "Mover itens marcados para o final"
+
+#: src/whisp/editor.py:404
+msgid "Remove all checked items"
+msgstr "Remover todos os itens marcados"
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "It is certain."
+msgstr "É certo."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "It is decidedly so."
+msgstr "É decididamente assim."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Without a doubt."
+msgstr "Sem dúvida."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Yes definitely."
+msgstr "Sim, definitivamente."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "You may rely on it."
+msgstr "Pode contar com isso."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "As I see it, yes."
+msgstr "Como eu vejo, sim."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Most likely."
+msgstr "Muito provável."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Outlook good."
+msgstr "Boas perspectivas."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Yes."
+msgstr "Sim."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Signs point to yes."
+msgstr "Os sinais apontam que sim."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Reply hazy, try again."
+msgstr "Resposta vaga, tente novamente."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Ask again later."
+msgstr "Pergunte de novo mais tarde."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Better not tell you now."
+msgstr "Melhor não dizer agora."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Cannot predict now."
+msgstr "Não é possível prever agora."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Concentrate and ask again."
+msgstr "Concentre-se e pergunte novamente."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Don't count on it."
+msgstr "Não conte com isso."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "My reply is no."
+msgstr "Minha resposta é não."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "My sources say no."
+msgstr "Minhas fontes dizem que não."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Outlook not so good."
+msgstr "Perspectivas não tão boas."
+
+#: src/whisp/editor_helpers/editor_expansions.py:289
+msgid "Very doubtful."
+msgstr "Muito duvidoso."
+
+#: src/whisp/editor_helpers/editor_expansions.py:367
+msgid "Converted to uppercase"
+msgstr "Convertido para maiúsculas"
+
+#: src/whisp/editor_helpers/editor_expansions.py:370
+msgid "Converted to lowercase"
+msgstr "Convertido para minúsculas"
+
+#: src/whisp/editor_helpers/editor_expansions.py:373
+msgid "Converted to Title Case"
+msgstr "Convertido para formato de título"
+
+#: src/whisp/editor_helpers/editor_expansions.py:378
+msgid "Converted to Sentence case"
+msgstr "Convertido para formato de frase"
+
+#: src/whisp/editor_helpers/editor_expansions.py:381
+msgid "Capitalized first letter"
+msgstr "Primeira letra capitalizada"
+
+#: src/whisp/editor_helpers/editor_expansions.py:384
+msgid "Stripped quotes"
+msgstr "Aspas removidas"
+
+#: src/whisp/editor_helpers/editor_expansions.py:415
+msgid "Sorted lines alphabetically"
+msgstr "Linhas ordenadas alfabeticamente"
+
+#: src/whisp/editor_helpers/editor_expansions.py:421
+msgid "Sorted lines numerically"
+msgstr "Linhas ordenadas numericamente"
+
+#: src/whisp/editor_helpers/editor_expansions.py:424
+msgid "Reversed line order"
+msgstr "Ordem das linhas invertida"
+
+#: src/whisp/editor_helpers/editor_expansions.py:427
+msgid "Removed empty lines"
+msgstr "Linhas vazias removidas"
+
+#: src/whisp/editor_helpers/editor_expansions.py:446
+msgid "Trimmed whitespace from all lines"
+msgstr "Espaços em branco removidos de todas as linhas"
+
+#: src/whisp/editor_helpers/editor_expansions.py:455
+msgid "Removed duplicate lines"
+msgstr "Linhas duplicadas removidas"
+
+#: src/whisp/editor_helpers/editor_expansions.py:466
+msgid "Found duplicate lines"
+msgstr "Linhas duplicadas localizadas"
+
+#: src/whisp/editor_helpers/editor_expansions.py:468
+msgid "No duplicates found"
+msgstr "Nenhuma duplicata localizada"
+
+#: src/whisp/editor_helpers/editor_expansions.py:472
+msgid "Converted commas to list"
+msgstr "Vírgulas convertidas em lista"
+
+#: src/whisp/editor_helpers/editor_expansions.py:480
+msgid "Converted lines to comma-separated"
+msgstr "Linhas convertidas em separadas por vírgula"
+
+#: src/whisp/editor_helpers/editor_expansions.py:495
+msgid "Moved checked items to bottom"
+msgstr "Itens marcados movidos para o final"
+
+#: src/whisp/editor_helpers/editor_expansions.py:500
+msgid "Removed all checked items"
+msgstr "Todos os itens marcados removidos"
+
+#: src/whisp/editor_helpers/editor_expansions.py:534
+msgid "Extracting text from image…"
+msgstr "Extraindo texto de imagem…"
+
+#: src/whisp/editor_helpers/editor_expansions.py:556
+msgid "No text found in image"
+msgstr "Nenhum texto localizado na imagem"
+
+#: src/whisp/editor_helpers/editor_expansions.py:568
+msgid "Failed to extract text from image"
+msgstr "Falha ao extrair texto da imagem"
+
+#: src/whisp/editor_helpers/editor_paste.py:101
+msgid "AutoPaste disabled"
+msgstr "Colar automaticamente desativado"
+
+#: src/whisp/editor_helpers/editor_paste.py:113
+msgid "AutoPaste active"
+msgstr "Colar automaticamente ativo"
+
+#: src/whisp/editor_helpers/editor_paste.py:115
+msgid "Stop"
+msgstr "Parar"
+
+#: src/whisp/window.py:245
+msgid "Keyboard Shortcuts"
+msgstr "Atalhos de teclado"
+
+#: src/whisp/window.py:247
+msgid "About Whisp"
+msgstr "Sobre o Whisp"
+
+#: src/whisp/window.py:251
+msgid "Donate to Whisp"
+msgstr "Doar para o Whisp"
+
+#: src/whisp/window.py:489
+msgid "Note pinned"
+msgstr "Nota fixada"
+
+#: src/whisp/window.py:520
+msgid "Note Unpinned"
+msgstr "Nota desafixada"
+
+#: src/whisp/window.py:536
+#, python-brace-format
+msgid ""
+"# 👋 Welcome to Whisp!\n"
+"\n"
+"Whisp is the frictionless anti-note. There are no save buttons or files to "
+"manage here.\n"
+"\n"
+"## Navigation\n"
+"👉 **Swipe left and right** on your touchpad (or use `Ctrl+[` and `Ctrl+]`) "
+"to switch between notes.\n"
+"➕ To create a new note, simply swipe past the last note!\n"
+"\n"
+"## Features\n"
+"☑ **Checklists**: Press `Ctrl+S` on any line to instantly create or toggle a "
+"checkbox.\n"
+"🔗 **Smart Links**: Paste any long URL, and Whisp will automatically shorten "
+"it to keep your notes clean.\n"
+"📋 **Plain Paste**: Use `Ctrl+Shift+V` to paste text cleanly without weird "
+"formatting.\n"
+"🎨 **Themes**: Open Preferences (`Ctrl+,`) to pick a paper background (like "
+"Grid or Dotted) and color scheme.\n"
+"\n"
+"📖 **Manual**: For a full list of features, check out the [User Manual]"
+"({url})\n"
+"\n"
+"🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
+msgstr ""
+"# 👋 Bem-vindo ao Whisp!\n"
+"\n"
+"Whisp é a antinota sem atrito. Não há botões de salvar ou arquivos para "
+"gerenciar aqui.\n"
+"\n"
+"## Navegação\n"
+"👉 **Deslize para a esquerda e para a direita** no touchpad (ou use `Ctrl+[` "
+"e `Ctrl+]`) para alternar entre notas.\n"
+"➕ Para criar uma nova nota, simplesmente deslize além da última nota!\n"
+"\n"
+"## Funcionalidades\n"
+"☑ **Listas de verificação**: Pressione `Ctrl+S` em qualquer linha para criar "
+"ou alternar instantaneamente uma caixa de seleção.\n"
+"🔗 **Links inteligentes**: Cole qualquer URL longa e Whisp a encurtará "
+"automaticamente para manter as notas limpas.\n"
+"📋 **Colar sem formatação**: Use `Ctrl+Shift+V` para colar texto de forma "
+"limpa, sem formatações estranhas.\n"
+"🎨 **Temas**: Abra Preferências (`Ctrl+,`) para escolher um fundo de papel "
+"(como grade ou pontilhado) e esquema de cores.\n"
+"📖 **Manual**: Para uma lista completa de funcionalidades, confira o [Manual]"
+"({url})\n"
+"🗑️ Pressione `Ctrl+D` para excluir esta nota quando terminar de lê-la!"
+
+#: src/whisp/window.py:630
+msgid "Whisp just got better!"
+msgstr "Whisp acabou de melhorar!"
+
+#: src/whisp/window.py:631
+msgid "Changelogs"
+msgstr "Registros de alterações"
+
+#: src/whisp/window.py:738
+msgid "Note Copied"
+msgstr "Nota copiada"
+
+#: src/whisp/window.py:760
+msgid "Note moved to front"
+msgstr "Nota movida para o topo"
+
+#: src/whisp/window.py:794
+msgid "Cannot delete the default empty note"
+msgstr "Não é possível excluir a nota vazia padrão"
+
+#: src/whisp/window.py:805
+msgid "Delete Note?"
+msgstr "Excluir nota?"
+
+#: src/whisp/window.py:806
+#, python-brace-format
+msgid ""
+"“{title}” will be moved to the trash. You can undo this with Ctrl+Shift+T."
+msgstr ""
+"“{title}” será movida para a lixeira. Pode ser desfeito com Ctrl+Shift+T."
+
+#: src/whisp/window.py:809
+msgid "Delete"
+msgstr "Excluir"
+
+#: src/whisp/window.py:834
+msgid "Note deleted"
+msgstr "Nota excluída"
+
+#: src/whisp/window.py:853
+#, python-brace-format
+msgid "Permanent delete fallback (Error: {error})"
+msgstr "Alternativa de exclusão permanente (erro: {error})"
+
+#: src/whisp/window.py:855
+#, python-brace-format
+msgid "Failed to delete completely: {error}"
+msgstr "Falha ao excluir completamente: {error}"
+
+#: src/whisp/window.py:1064
+msgid "Entered Slate mode"
+msgstr "Entrou em modo Slate"
+
+#: src/whisp/window.py:1064
+msgid "Exited Slate mode"
+msgstr "Saiu de modo Slate"
+
+#~ msgid "Whisp (Development)"
+#~ msgstr "Whisp (desenvolvimento)"
+
+#~ msgid "Note Pinned to front"
+#~ msgstr "Nota fixada no topo"
+
+#, python-brace-format
+#~ msgid "What's New in v{version}"
+#~ msgstr "O que há de novo em v{version}"

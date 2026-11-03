@@ -47,6 +47,8 @@ class Config:
             "paper_theme": "blank",
             "confirm_delete": True,
             "color_scheme": "system",
+            "window_background": "system",
+            "window_background_opacity": 0.8,
             "startup_behavior": "last_note",
             "run_in_background": False,
             "run_on_startup": False,

@@ -39,6 +39,26 @@ class TestPreferences(unittest.TestCase):
         self.assertEqual(config.get("line_spacing"), "1.5")
         self.mock_window.update_line_spacing.assert_called_once()
 
+    def test_window_background_changed(self):
+        dropdown = MagicMock()
+        dropdown.get_selected.return_value = 1
+        self.dialog.on_window_background_changed(dropdown, None)
+        self.assertEqual(config.get("window_background"), "transparent")
+        self.assertTrue(self.dialog.opacity_row.get_visible())
+        self.mock_window.update_window_background.assert_called_once()
+
+        dropdown.get_selected.return_value = 2
+        self.dialog.on_window_background_changed(dropdown, None)
+        self.assertEqual(config.get("window_background"), "opaque")
+        self.assertFalse(self.dialog.opacity_row.get_visible())
+
+    def test_window_opacity_changed(self):
+        spin_button = MagicMock()
+        spin_button.get_value.return_value = 0.6000000001
+        self.dialog.on_window_opacity_changed(spin_button)
+        self.assertEqual(config.get("window_background_opacity"), 0.6)
+        self.mock_window.update_window_background.assert_called_once()
+
     def test_confirm_delete_changed(self):
         switch = MagicMock()
         switch.get_active.return_value = False

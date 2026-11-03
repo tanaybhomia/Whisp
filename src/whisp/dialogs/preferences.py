@@ -138,6 +138,35 @@ class PreferencesDialog(Adw.PreferencesDialog):
         font_group.add(spacing_row)
         
         appearance_page.add(font_group)
+
+        window_group = Adw.PreferencesGroup(title=_("Window"))
+
+        background_row = Adw.ActionRow(title=_("Background"))
+        background_model = Gtk.StringList.new([_("Follow System"), _("Transparent"), _("Opaque")])
+        background_dropdown = Gtk.DropDown(model=background_model)
+        background_dropdown.set_valign(Gtk.Align.CENTER)
+
+        current_background = config.get("window_background", "system")
+        idx = {"transparent": 1, "opaque": 2}.get(current_background, 0)
+        background_dropdown.set_selected(idx)
+
+        background_dropdown.connect("notify::selected-item", self.on_window_background_changed)
+        background_row.add_suffix(background_dropdown)
+        window_group.add(background_row)
+
+        self.opacity_row = Adw.ActionRow(title=_("Background Opacity"))
+        opacity_adjustment = Gtk.Adjustment(
+            value=config.get("window_background_opacity", 0.8),
+            lower=0.1, upper=1.0, step_increment=0.1, page_increment=0.1
+        )
+        opacity_spin = Gtk.SpinButton(adjustment=opacity_adjustment, digits=1)
+        opacity_spin.set_valign(Gtk.Align.CENTER)
+        opacity_spin.connect("value-changed", self.on_window_opacity_changed)
+        self.opacity_row.add_suffix(opacity_spin)
+        self.opacity_row.set_visible(current_background == "transparent")
+        window_group.add(self.opacity_row)
+
+        appearance_page.add(window_group)
         self.add(appearance_page)
 
         # --- Behavior Page ---
@@ -487,6 +516,18 @@ class PreferencesDialog(Adw.PreferencesDialog):
             spacing = selected.get_string()
             config.set("line_spacing", spacing)
             self.parent_window.update_line_spacing()
+
+    def on_window_background_changed(self, dropdown, param):
+        idx = dropdown.get_selected()
+        mode = {1: "transparent", 2: "opaque"}.get(idx, "system")
+        config.set("window_background", mode)
+        self.opacity_row.set_visible(mode == "transparent")
+        self.parent_window.update_window_background()
+
+    def on_window_opacity_changed(self, spin_button):
+        # Rounded so the spin button's float noise (0.7000000000000001) stays out of the config and CSS
+        config.set("window_background_opacity", round(spin_button.get_value(), 1))
+        self.parent_window.update_window_background()
 
     def on_confirm_delete_changed(self, switch, param):
         config.set("confirm_delete", switch.get_active())

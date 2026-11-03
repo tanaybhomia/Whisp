@@ -166,6 +166,19 @@ class PreferencesDialog(Adw.PreferencesDialog):
         self.opacity_row.set_visible(current_background == "transparent")
         window_group.add(self.opacity_row)
 
+        self.blur_row = Adw.ActionRow(
+            title=_("Blur Background"),
+            subtitle=_("Blur what is behind the window, if the compositor supports it"),
+        )
+        blur_switch = Gtk.Switch()
+        blur_switch.set_valign(Gtk.Align.CENTER)
+        blur_switch.set_active(config.get("window_background_blur", True))
+        blur_switch.connect("notify::active", self.on_window_blur_changed)
+        self.blur_row.add_suffix(blur_switch)
+        self.blur_row.set_activatable_widget(blur_switch)
+        self.blur_row.set_visible(current_background == "transparent")
+        window_group.add(self.blur_row)
+
         appearance_page.add(window_group)
         self.add(appearance_page)
 
@@ -522,11 +535,16 @@ class PreferencesDialog(Adw.PreferencesDialog):
         mode = {1: "transparent", 2: "opaque"}.get(idx, "system")
         config.set("window_background", mode)
         self.opacity_row.set_visible(mode == "transparent")
+        self.blur_row.set_visible(mode == "transparent")
         self.parent_window.update_window_background()
 
     def on_window_opacity_changed(self, spin_button):
         # Rounded so the spin button's float noise (0.7000000000000001) stays out of the config and CSS
         config.set("window_background_opacity", round(spin_button.get_value(), 1))
+        self.parent_window.update_window_background()
+
+    def on_window_blur_changed(self, switch, param):
+        config.set("window_background_blur", switch.get_active())
         self.parent_window.update_window_background()
 
     def on_confirm_delete_changed(self, switch, param):

@@ -1064,12 +1064,14 @@ class WhispWindow(Adw.ApplicationWindow):
         mode = config.get("window_background", "system")
         if mode == "transparent":
             opacity = config.get("window_background_opacity", 0.8)
-            # GTK asks the compositor to blur only where a backdrop-filter is drawn
+            # GTK asks the compositor to blur only where a backdrop-filter is drawn.
+            # none rather than nothing when off, so a blur from the user's gtk.css doesn't sneak back in
+            blur = "blur(18px)" if config.get("window_background_blur", True) else "none"
             css = f"""
             window.whisp-main-window {{
                 background: alpha(@view_bg_color, {opacity});
                 background-color: alpha(@view_bg_color, {opacity});
-                backdrop-filter: blur(18px);
+                backdrop-filter: {blur};
             }}
             """
         elif mode == "opaque":

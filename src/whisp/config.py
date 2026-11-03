@@ -49,6 +49,7 @@ class Config:
             "color_scheme": "system",
             "window_background": "system",
             "window_background_opacity": 0.8,
+            "window_background_blur": True,
             "startup_behavior": "last_note",
             "run_in_background": False,
             "run_on_startup": False,

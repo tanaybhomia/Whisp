@@ -6,16 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: whisp main\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-13 13:41+0530\n"
-"PO-Revision-Date: 2026-09-27 17:05+0500\n"
+"Report-Msgid-Bugs-To: https://github.com/tanaybhomia/Whisp/issues\n"
+"POT-Creation-Date: 2026-10-18 02:43+0000\n"
+"PO-Revision-Date: 2026-11-05 20:52+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <Kazakh>\n"
 "Language: kk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #: data/io.github.tanaybhomia.Whisp.desktop.in:2
 msgid "Whisp"
@@ -31,7 +31,7 @@ msgstr "Ескертпелер жазуға арналған ықшам видж
 
 #: data/io.github.tanaybhomia.Whisp.desktop.in:10
 msgid "notes;markdown;notepad;mobile;touch;"
-msgstr ""
+msgstr "ескертпелер;markdown;блокнот;мобильді;сенсорлық;"
 
 #: src/whisp/dialogs/about.py:159
 msgid "translator-credits"
@@ -61,8 +61,7 @@ msgstr "Аудару"
 msgid "Donate"
 msgstr "Демеушілік ету"
 
-#: src/whisp/dialogs/export.py:19 src/whisp/dialogs/preferences.py:331
-#: src/whisp/window.py:241
+#: src/whisp/dialogs/export.py:19 src/whisp/dialogs/preferences.py:333 src/whisp/window.py:241
 msgid "Export Note"
 msgstr "Ескертпені экспорттау"
 
@@ -75,703 +74,712 @@ msgid "Note exported successfully"
 msgstr "Ескертпе сәтті экспортталды"
 
 #. --- Appearance Page ---
-#: src/whisp/dialogs/preferences.py:50
+#: src/whisp/dialogs/preferences.py:52
 msgid "Appearance"
 msgstr "Сыртқы көрініс"
 
 #. Appearance Group
-#: src/whisp/dialogs/preferences.py:53
+#: src/whisp/dialogs/preferences.py:55
 msgid "Text"
 msgstr "Мәтін"
 
-#: src/whisp/dialogs/preferences.py:54
+#: src/whisp/dialogs/preferences.py:56
 msgid "Editor Font"
 msgstr "Өңдегіш қарпі"
 
-#: src/whisp/dialogs/preferences.py:72
+#: src/whisp/dialogs/preferences.py:74
 msgid "System Default"
 msgstr "Жүйенің бастапқы мәні"
 
 #. Theme Snippets Group
-#: src/whisp/dialogs/preferences.py:92
+#: src/whisp/dialogs/preferences.py:94
 msgid "Paper Theme"
 msgstr "Қағаз темасы"
 
 #. Line Spacing
-#: src/whisp/dialogs/preferences.py:122
+#: src/whisp/dialogs/preferences.py:124
 msgid "Line Spacing"
 msgstr "Жол аралығы"
 
 #. --- Behavior Page ---
-#: src/whisp/dialogs/preferences.py:142
+#: src/whisp/dialogs/preferences.py:144
 msgid "Behavior"
 msgstr "Мінез-құлық"
 
 #. Behavior Group
-#: src/whisp/dialogs/preferences.py:145
+#: src/whisp/dialogs/preferences.py:147
 msgid "Workflow"
 msgstr "Жұмыс процесі"
 
-#: src/whisp/dialogs/preferences.py:148
+#: src/whisp/dialogs/preferences.py:150
 msgid "WYSIWYG Scope"
 msgstr "WYSIWYG көріну аймағы"
 
-#: src/whisp/dialogs/preferences.py:149
+#: src/whisp/dialogs/preferences.py:151
 msgid "Apply Live Formatting globally to all notes, or remember it per note."
 msgstr ""
-"Тікелей пішімдеуді барлық ескертпелерге глобалды түрде қолданыңыз немесе оны "
-"әр ескертпе үшін есте сақтаңыз."
+"Тікелей пішімдеуді барлық ескертпелерге глобалды түрде қолданыңыз немесе оны әр ескертпе үшін "
+"есте сақтаңыз."
 
-#: src/whisp/dialogs/preferences.py:151
+#: src/whisp/dialogs/preferences.py:153
 msgid "Global"
 msgstr "Глобалды"
 
-#: src/whisp/dialogs/preferences.py:151
+#: src/whisp/dialogs/preferences.py:153
 msgid "Per Note"
 msgstr "Әр ескертпе үшін"
 
-#: src/whisp/dialogs/preferences.py:163
+#: src/whisp/dialogs/preferences.py:165
 msgid "Startup Behavior"
 msgstr "Іске қосылу кезіндегі мінез-құлық"
 
-#: src/whisp/dialogs/preferences.py:164
+#: src/whisp/dialogs/preferences.py:166
 msgid "Restore last active note"
 msgstr "Соңғы белсенді ескертпені қалпына келтіру"
 
-#: src/whisp/dialogs/preferences.py:164
+#: src/whisp/dialogs/preferences.py:166
 msgid "Start with empty note"
 msgstr "Бос ескертпемен бастау"
 
-#: src/whisp/dialogs/preferences.py:177
+#: src/whisp/dialogs/preferences.py:179
 msgid "Auto-Archive Inactive Notes"
 msgstr "Белсенді емес ескертпелерді автоархивтеу"
 
-#: src/whisp/dialogs/preferences.py:178
-msgid ""
-"Notes are not deleted. They are simply hidden from the app to reduce "
-"clutter, but remain fully searchable via Ctrl+F."
-msgstr ""
-"Ескертпелер өшірілмейді. Олар ретсіздікті азайту үшін жай ғана қолданбадан "
-"жасырылады, бірақ Ctrl+F арқылы толық іздеуге қолжетімді болып қала береді."
-
 #: src/whisp/dialogs/preferences.py:180
+msgid ""
+"Notes are not deleted. They are simply hidden from the app to reduce clutter, but remain "
+"fully searchable via Ctrl+F."
+msgstr ""
+"Ескертпелер өшірілмейді. Олар ретсіздікті азайту үшін жай ғана қолданбадан жасырылады, бірақ "
+"Ctrl+F арқылы толық іздеуге қолжетімді болып қала береді."
+
+#: src/whisp/dialogs/preferences.py:182
 msgid "Never"
 msgstr "Ешқашан"
 
-#: src/whisp/dialogs/preferences.py:180
+#: src/whisp/dialogs/preferences.py:182
 msgid "1 Week"
 msgstr "1 апта"
 
-#: src/whisp/dialogs/preferences.py:180
+#: src/whisp/dialogs/preferences.py:182
 msgid "1 Month"
 msgstr "1 ай"
 
-#: src/whisp/dialogs/preferences.py:180
+#: src/whisp/dialogs/preferences.py:182
 msgid "1 Year"
 msgstr "1 жыл"
 
-#: src/whisp/dialogs/preferences.py:199
+#: src/whisp/dialogs/preferences.py:201
 msgid "Max Carousel Size"
 msgstr "Карусельдің макс. өлшемі"
 
-#: src/whisp/dialogs/preferences.py:200
-msgid ""
-"Limit the number of notes loaded into the swipable carousel. Older notes "
-"remain fully searchable."
-msgstr ""
-"Сырғытуға болатын карусельге жүктелетін ескертпелер санын шектеңіз. Ескі "
-"ескертпелер толық іздеуге қолжетімді болып қала береді."
-
 #: src/whisp/dialogs/preferences.py:202
+msgid ""
+"Limit the number of notes loaded into the swipable carousel. Older notes remain fully "
+"searchable."
+msgstr ""
+"Сырғытуға болатын карусельге жүктелетін ескертпелер санын шектеңіз. Ескі ескертпелер толық "
+"іздеуге қолжетімді болып қала береді."
+
+#: src/whisp/dialogs/preferences.py:204
 msgid "10 Notes"
 msgstr "10 ескертпе"
 
-#: src/whisp/dialogs/preferences.py:202
+#: src/whisp/dialogs/preferences.py:204
 msgid "25 Notes"
 msgstr "25 ескертпе"
 
-#: src/whisp/dialogs/preferences.py:202
+#: src/whisp/dialogs/preferences.py:204
 msgid "50 Notes"
 msgstr "50 ескертпе"
 
-#: src/whisp/dialogs/preferences.py:202
+#: src/whisp/dialogs/preferences.py:204
 msgid "Unlimited"
 msgstr "Шектеусіз"
 
-#: src/whisp/dialogs/preferences.py:221
+#: src/whisp/dialogs/preferences.py:223
 msgid "Confirm Before Deleting"
 msgstr "Өшіру алдында растау"
 
-#: src/whisp/dialogs/preferences.py:222
+#: src/whisp/dialogs/preferences.py:224
 msgid "Ask for confirmation when deleting a note"
 msgstr "Ескертпені өшіру кезінде растауды сұрау"
 
-#: src/whisp/dialogs/preferences.py:233
+#: src/whisp/dialogs/preferences.py:235
 msgid "Show Command Confirmations"
 msgstr "Команда растауларын көрсету"
 
-#: src/whisp/dialogs/preferences.py:234
-msgid ""
-"Display a small confirmation message when you use a text manipulation command"
-msgstr ""
-"Мәтінді өңдеу командасын пайдаланған кезде шағын растау хабарламасын көрсету"
+#: src/whisp/dialogs/preferences.py:236
+msgid "Display a small confirmation message when you use a text manipulation command"
+msgstr "Мәтінді өңдеу командасын пайдаланған кезде шағын растау хабарламасын көрсету"
 
-#: src/whisp/dialogs/preferences.py:249
+#: src/whisp/dialogs/preferences.py:251
 msgid "Enable Slate Mode on Startup"
 msgstr "Іске қосылғанда планшет режимін іске қосу"
 
-#: src/whisp/dialogs/preferences.py:250
+#: src/whisp/dialogs/preferences.py:252
 msgid "Always launch Whisp directly into Slate Mode"
 msgstr "Whisp қолданбасын әрқашан тікелей планшет режимінде іске қосу"
 
 #. --- Running Group ---
-#: src/whisp/dialogs/preferences.py:267
+#: src/whisp/dialogs/preferences.py:269
 msgid "Running"
 msgstr "Орындалуда"
 
-#: src/whisp/dialogs/preferences.py:270
+#: src/whisp/dialogs/preferences.py:272
 msgid "Keep Running in Background"
 msgstr "Фонда орындалуды сақтау"
 
-#: src/whisp/dialogs/preferences.py:271
+#: src/whisp/dialogs/preferences.py:273
 msgid "Hides the application when closed instead of terminating"
 msgstr "Жабылған кезде жұмысты тоқтатудың орнына қолданбаны жасырады"
 
-#: src/whisp/dialogs/preferences.py:282
+#: src/whisp/dialogs/preferences.py:284
 msgid "Run on Startup"
 msgstr "Іске қосылғанда орындау"
 
-#: src/whisp/dialogs/preferences.py:283
+#: src/whisp/dialogs/preferences.py:285
 msgid "Automatically launch the application when you log in"
 msgstr "Жүйеге кірген кезде қолданбаны автоматты түрде іске қосу"
 
-#: src/whisp/dialogs/preferences.py:294
+#: src/whisp/dialogs/preferences.py:296
 msgid "Start Hidden"
 msgstr "Жасырын күйде бастау"
 
-#: src/whisp/dialogs/preferences.py:295
+#: src/whisp/dialogs/preferences.py:297
 msgid "Launch in the background without opening a window"
 msgstr "Терезені ашпай, фонда іске қосу"
 
 #. --- Shortcuts Page ---
-#: src/whisp/dialogs/preferences.py:310
+#: src/whisp/dialogs/preferences.py:312
 msgid "Shortcuts"
 msgstr "Жарлықтар"
 
-#: src/whisp/dialogs/preferences.py:317
+#: src/whisp/dialogs/preferences.py:319
 msgid "Application"
 msgstr "Қолданба"
 
-#: src/whisp/dialogs/preferences.py:318
+#: src/whisp/dialogs/preferences.py:320
 msgid "New Note"
 msgstr "Жаңа ескертпе"
 
-#: src/whisp/dialogs/preferences.py:319
+#: src/whisp/dialogs/preferences.py:321
 msgid "Search Notes"
 msgstr "Ескертпелерді іздеу"
 
-#: src/whisp/dialogs/preferences.py:320 src/whisp/window.py:246
+#: src/whisp/dialogs/preferences.py:322 src/whisp/window.py:246
 msgid "Preferences"
 msgstr "Баптаулар"
 
-#: src/whisp/dialogs/preferences.py:321
+#: src/whisp/dialogs/preferences.py:323
 msgid "Show Shortcuts"
 msgstr "Жарлықтарды көрсету"
 
-#: src/whisp/dialogs/preferences.py:322
+#: src/whisp/dialogs/preferences.py:324
 msgid "Toggle Slate Mode"
 msgstr "Планшет режимін ауыстырып-қосу"
 
-#: src/whisp/dialogs/preferences.py:323
+#: src/whisp/dialogs/preferences.py:325
 msgid "Quit Application"
 msgstr "Қолданбадан шығу"
 
-#: src/whisp/dialogs/preferences.py:325
+#: src/whisp/dialogs/preferences.py:327
 msgid "Note Management"
 msgstr "Ескертпелерді басқару"
 
-#: src/whisp/dialogs/preferences.py:326
+#: src/whisp/dialogs/preferences.py:328
 msgid "Delete Note"
 msgstr "Ескертпені өшіру"
 
-#: src/whisp/dialogs/preferences.py:327
+#: src/whisp/dialogs/preferences.py:329
 msgid "Undo Delete"
 msgstr "Өшіруді болдырмау"
 
-#: src/whisp/dialogs/preferences.py:328
+#: src/whisp/dialogs/preferences.py:330
 msgid "Pin Note"
 msgstr "Ескертпені бекіту"
 
-#: src/whisp/dialogs/preferences.py:329
+#: src/whisp/dialogs/preferences.py:331
 msgid "Move Note to Front"
 msgstr "Ескертпені алдыңғы жаққа жылжыту"
 
-#: src/whisp/dialogs/preferences.py:330
+#: src/whisp/dialogs/preferences.py:332
 msgid "Copy Note"
 msgstr "Ескертпені көшіру"
 
-#: src/whisp/dialogs/preferences.py:332
+#: src/whisp/dialogs/preferences.py:334
 msgid "Toggle WYSIWYG"
 msgstr "WYSIWYG ауыстырып-қосу"
 
-#: src/whisp/dialogs/preferences.py:334
+#: src/whisp/dialogs/preferences.py:336
 msgid "Navigation"
 msgstr "Навигация"
 
-#: src/whisp/dialogs/preferences.py:335
+#: src/whisp/dialogs/preferences.py:337
 msgid "Previous Note"
 msgstr "Алдыңғы ескертпе"
 
-#: src/whisp/dialogs/preferences.py:336
+#: src/whisp/dialogs/preferences.py:338
 msgid "Next Note"
 msgstr "Келесі ескертпе"
 
-#: src/whisp/dialogs/preferences.py:337
+#: src/whisp/dialogs/preferences.py:339
 msgid "First Note"
 msgstr "Бірінші ескертпе"
 
-#: src/whisp/dialogs/preferences.py:338
+#: src/whisp/dialogs/preferences.py:340
 msgid "Last Note"
 msgstr "Соңғы ескертпе"
 
-#: src/whisp/dialogs/preferences.py:352
+#: src/whisp/dialogs/preferences.py:354
 msgid "Disabled"
 msgstr "Сөндірілген"
 
-#: src/whisp/dialogs/preferences.py:363 src/whisp/dialogs/preferences.py:389
+#: src/whisp/dialogs/preferences.py:365 src/whisp/dialogs/preferences.py:391
 msgid "Reset to Default"
 msgstr "Бастапқы күйге келтіру"
 
 #. --- Storage Page ---
-#: src/whisp/dialogs/preferences.py:380
+#: src/whisp/dialogs/preferences.py:382
 msgid "Storage"
 msgstr "Сақтау қоймасы"
 
-#: src/whisp/dialogs/preferences.py:381
+#: src/whisp/dialogs/preferences.py:383
 msgid "Data Location"
 msgstr "Деректердің орналасуы"
 
-#: src/whisp/dialogs/preferences.py:383
+#: src/whisp/dialogs/preferences.py:385
 msgid "Notes Directory"
 msgstr "Ескертпелер бумасы"
 
-#: src/whisp/dialogs/preferences.py:393
+#: src/whisp/dialogs/preferences.py:395
 msgid "Change…"
 msgstr "Өзгерту…"
 
-#: src/whisp/dialogs/preferences.py:549
+#: src/whisp/dialogs/preferences.py:551
 msgid "Set Shortcut"
 msgstr "Жарлықты орнату"
 
-#: src/whisp/dialogs/preferences.py:550
+#: src/whisp/dialogs/preferences.py:552
 #, python-brace-format
 msgid "Recording Shortcut for <b>{}</b>"
 msgstr "<b>{}</b> үшін жарлықты жазу"
 
-#: src/whisp/dialogs/preferences.py:559
+#: src/whisp/dialogs/preferences.py:561
 msgid "<span foreground='gray' size='small'>press backspace to disable</span>"
-msgstr ""
-"<span foreground='gray' size='small'>сөндіру үшін Backspace пернесін "
-"басыңыз</span>"
+msgstr "<span foreground='gray' size='small'>сөндіру үшін Backspace пернесін басыңыз</span>"
 
-#: src/whisp/dialogs/preferences.py:578 src/whisp/window.py:808
+#: src/whisp/dialogs/preferences.py:580 src/whisp/window.py:808
 msgid "Cancel"
 msgstr "Бас тарту"
 
-#: src/whisp/dialogs/preferences.py:616
+#: src/whisp/dialogs/preferences.py:618
 msgid "This shortcut is already in use"
 msgstr "Бұл жарлық әлдеқашан қолданыста"
 
-#: src/whisp/dialogs/preferences.py:639
+#: src/whisp/dialogs/preferences.py:641
 msgid "Select Notes Directory"
 msgstr "Ескертпелер бумасын таңдау"
 
 #: src/whisp/dialogs/whats_new.py:51
 #, python-brace-format
 msgid "Released {date}"
-msgstr ""
+msgstr "{date} күні шығарылды"
 
 #: src/whisp/dialogs/whats_new.py:53
 msgid "Updates since your last visit"
-msgstr ""
+msgstr "Соңғы кіргеніңізден бергі жаңартулар"
 
 #: src/whisp/dialogs/whats_new.py:102
-#, fuzzy
 msgid "New Features"
-msgstr "Жаңа ескертпе"
+msgstr "Жаңа мүмкіндіктер"
 
 #: src/whisp/dialogs/whats_new.py:134
 msgid "Bug Fixes"
-msgstr ""
+msgstr "Ақауларды түзету"
 
 #: src/whisp/dialogs/whats_new.py:170
-msgid ""
-"<span size='small' foreground='gray'>Thanks for reading, and have a great "
-"day!</span>"
-msgstr ""
+msgid "<span size='small' foreground='gray'>Thanks for reading, and have a great day!</span>"
+msgstr "<span size='small' foreground='gray'>Оқығаныңызға рақмет, күніңіз сәтті өтсін!</span>"
 
 #: src/whisp/dialogs/whats_new.py:178
 msgid "Full Release Notes ↗"
-msgstr ""
+msgstr "Шығарылымның толық ескертпелері ↗"
 
 #: src/whisp/dialogs/whats_new.py:202
 msgid "This release was made possible by users like you!"
-msgstr ""
+msgstr "Бұл шығарылым сіз сияқты пайдаланушылардың арқасында мүмкін болды!"
 
 #: src/whisp/dialogs/whats_new.py:211
 msgid ""
-"I love making Whisp, but I cannot do it alone. Help support further "
-"development by donating."
+"I love making Whisp, but I cannot do it alone. Help support further development by donating."
 msgstr ""
+"Мен Whisp-ті жасағанды ұнатамын, бірақ оны жалғыз істей алмаймын. Демеушілік жасап, одан әрі "
+"әзірлеуге қолдау көрсетіңіз."
 
 #: src/whisp/dialogs/whats_new.py:219
-#, fuzzy
 msgid "❤ Support Whisp"
-msgstr "Whisp жобасын қолдау ❤️"
+msgstr "❤ Whisp-ті қолдау"
 
 #: src/whisp/editor.py:356
+msgid "Toggle AutoPaste clipboard collector"
+msgstr "AutoPaste алмасу буфері жинағышын қосу/сөндіру"
+
+#: src/whisp/editor.py:357
 msgid "Insert word count of current note"
 msgstr "Ағымдағы ескертпенің сөз санын кірістіру"
 
-#: src/whisp/editor.py:357 src/whisp/editor.py:361
+#: src/whisp/editor.py:358 src/whisp/editor.py:362
 msgid "Current date"
 msgstr "Ағымдағы күн"
 
-#: src/whisp/editor.py:358 src/whisp/editor.py:362
+#: src/whisp/editor.py:359 src/whisp/editor.py:363
 msgid "Date offset (+/- days)"
 msgstr "Күн ығысуы (+/- күн)"
 
-#: src/whisp/editor.py:359
+#: src/whisp/editor.py:360
 msgid "Tomorrow's date"
 msgstr "Ертеңгі күн"
 
-#: src/whisp/editor.py:360
+#: src/whisp/editor.py:361
 msgid "Yesterday's date"
 msgstr "Кешегі күн"
 
-#: src/whisp/editor.py:363
+#: src/whisp/editor.py:364
 msgid "Current date and time"
 msgstr "Ағымдағы күн мен уақыт"
 
-#: src/whisp/editor.py:364 src/whisp/editor.py:365
+#: src/whisp/editor.py:365 src/whisp/editor.py:366
 msgid "Current time"
 msgstr "Ағымдағы уақыт"
 
-#: src/whisp/editor.py:366
+#: src/whisp/editor.py:367
 msgid "Random numbers"
 msgstr "Кездейсоқ сандар"
 
-#: src/whisp/editor.py:367
+#: src/whisp/editor.py:368
 msgid "Random letters"
 msgstr "Кездейсоқ әріптер"
 
-#: src/whisp/editor.py:368
+#: src/whisp/editor.py:369
 msgid "Random alphanumeric"
 msgstr "Кездейсоқ әріптік-сандық"
 
-#: src/whisp/editor.py:369
+#: src/whisp/editor.py:370
 msgid "Insert a random inspirational quote"
 msgstr "Кездейсоқ жігерлендіретін дәйексөз кірістіру"
 
-#: src/whisp/editor.py:370
+#: src/whisp/editor.py:371
 msgid "Open a random Wikipedia page"
 msgstr "Кездейсоқ Wikipedia бетін ашу"
 
-#: src/whisp/editor.py:371
+#: src/whisp/editor.py:372
 msgid "Ask the Magic 8-Ball"
 msgstr "Сиқырлы 8-доптан сұрау"
 
-#: src/whisp/editor.py:372
+#: src/whisp/editor.py:373
 msgid "Insert standard placeholder text"
 msgstr "Стандартты орынбасар мәтінді кірістіру"
 
-#: src/whisp/editor.py:373
+#: src/whisp/editor.py:374
 msgid "Generate a secure 16-char password"
 msgstr "Қауіпсіз 16 таңбалы парольді генерациялау"
 
-#: src/whisp/editor.py:374
+#: src/whisp/editor.py:375
 msgid "Generate a standard developer UUID"
 msgstr "Стандартты әзірлеуші UUID-ін генерациялау"
 
-#: src/whisp/editor.py:375
+#: src/whisp/editor.py:376
 msgid "Roll a 20-sided die"
 msgstr "20 қырлы сүйекті лақтыру"
 
-#: src/whisp/editor.py:376
+#: src/whisp/editor.py:377
 msgid "Roll a d20 die"
 msgstr "d20 сүйегін лақтыру"
 
-#: src/whisp/editor.py:377
+#: src/whisp/editor.py:378
 msgid "Roll 4 d6 dice"
 msgstr "4 d6 сүйегін лақтыру"
 
-#: src/whisp/editor.py:378
+#: src/whisp/editor.py:379
 msgid "Convert document to uppercase"
 msgstr "Құжатты бас әріптерге түрлендіру"
 
-#: src/whisp/editor.py:379
+#: src/whisp/editor.py:380
 msgid "Convert document to lowercase"
 msgstr "Құжатты кіші әріптерге түрлендіру"
 
-#: src/whisp/editor.py:380
+#: src/whisp/editor.py:381
 msgid "Convert document to sentence case"
 msgstr "Құжатты сөйлем регистріне түрлендіру"
 
-#: src/whisp/editor.py:381
+#: src/whisp/editor.py:382
 msgid "Convert document to title case"
 msgstr "Құжатты тақырып регистріне түрлендіру"
 
-#: src/whisp/editor.py:382
+#: src/whisp/editor.py:383
 msgid "Capitalize first letter"
 msgstr "Бірінші әріпті бас әріппен жазу"
 
-#: src/whisp/editor.py:383
+#: src/whisp/editor.py:384
 msgid "Strip surrounding quotes"
 msgstr "Айналасындағы тырнақшаларды алып тастау"
 
-#: src/whisp/editor.py:384
+#: src/whisp/editor.py:385
 msgid "Add text to the end of every line"
 msgstr "Әр жолдың соңына мәтін қосу"
 
-#: src/whisp/editor.py:385
+#: src/whisp/editor.py:386
 msgid "Add text to the beginning of every line"
 msgstr "Әр жолдың басына мәтін қосу"
 
-#: src/whisp/editor.py:386
+#: src/whisp/editor.py:387
 msgid "Find and replace text"
 msgstr "Мәтінді табу және алмастыру"
 
-#: src/whisp/editor.py:387
+#: src/whisp/editor.py:388
 msgid "Sort lines alphabetically"
 msgstr "Жолдарды әліпби бойынша сұрыптау"
 
-#: src/whisp/editor.py:388
+#: src/whisp/editor.py:389
 msgid "Sort lines by first number"
 msgstr "Жолдарды бірінші сан бойынша сұрыптау"
 
-#: src/whisp/editor.py:389
+#: src/whisp/editor.py:390
 msgid "Reverse line order"
 msgstr "Жолдар ретін кері өзгерту"
 
-#: src/whisp/editor.py:390
+#: src/whisp/editor.py:391
 msgid "Remove empty lines"
 msgstr "Бос жолдарды өшіру"
 
-#: src/whisp/editor.py:391
+#: src/whisp/editor.py:392
 msgid "Remove lines containing text"
 msgstr "Мәтінді қамтитын жолдарды өшіру"
 
-#: src/whisp/editor.py:392
+#: src/whisp/editor.py:393
 msgid "Remove lines not containing text"
 msgstr "Мәтінді қамтымайтын жолдарды өшіру"
 
-#: src/whisp/editor.py:393
+#: src/whisp/editor.py:394
 msgid "Keep only lines containing text"
 msgstr "Тек мәтінді қамтитын жолдарды сақтау"
 
-#: src/whisp/editor.py:394
+#: src/whisp/editor.py:395
 msgid "Keep only lines not containing text"
 msgstr "Тек мәтінді қамтымайтын жолдарды сақтау"
 
-#: src/whisp/editor.py:395
+#: src/whisp/editor.py:396
 msgid "Trim whitespace from all lines"
 msgstr "Барлық жолдардағы бос орындарды қию"
 
-#: src/whisp/editor.py:396
+#: src/whisp/editor.py:397
 msgid "Remove duplicate lines"
 msgstr "Қайталанатын жолдарды өшіру"
 
-#: src/whisp/editor.py:397
+#: src/whisp/editor.py:398
 msgid "Find and group duplicate lines"
 msgstr "Қайталанатын жолдарды табу және топтастыру"
 
-#: src/whisp/editor.py:398
+#: src/whisp/editor.py:399
 msgid "Convert comma-separated items to list"
 msgstr "Үтірмен бөлінген элементтерді тізімге түрлендіру"
 
-#: src/whisp/editor.py:399
+#: src/whisp/editor.py:400
 msgid "Convert commas to custom delimiter"
 msgstr "Үтірлерді пайдаланушылық бөлгішке түрлендіру"
 
-#: src/whisp/editor.py:400
+#: src/whisp/editor.py:401
 msgid "Convert lines to comma-separated"
 msgstr "Жолдарды үтірмен бөлінген мәтінге түрлендіру"
 
-#: src/whisp/editor.py:401
+#: src/whisp/editor.py:402
 msgid "Convert lines to custom delimiter"
 msgstr "Жолдарды пайдаланушылық бөлгішке түрлендіру"
 
-#: src/whisp/editor.py:402
+#: src/whisp/editor.py:403
 msgid "Move checked items to bottom"
 msgstr "Белгіленген элементтерді төменге жылжыту"
 
-#: src/whisp/editor.py:403
+#: src/whisp/editor.py:404
 msgid "Remove all checked items"
 msgstr "Барлық белгіленген элементтерді өшіру"
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "It is certain."
 msgstr "Бұл анық."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "It is decidedly so."
 msgstr "Бұл сөзсіз солай."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Without a doubt."
 msgstr "Шүбәсіз."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Yes definitely."
 msgstr "Иә, әрине."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "You may rely on it."
 msgstr "Бұған сенуге болады."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "As I see it, yes."
 msgstr "Меніңше, иә."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Most likely."
 msgstr "Үлкен ықтималдықпен."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Outlook good."
 msgstr "Болжам жақсы."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Yes."
 msgstr "Иә."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Signs point to yes."
 msgstr "Барлық белгілер «иә» дегенді көрсетеді."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Reply hazy, try again."
 msgstr "Жауап бұлыңғыр, қайталап көріңіз."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Ask again later."
 msgstr "Кейінірек қайта сұраңыз."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Better not tell you now."
 msgstr "Қазір айтпаған жақсы."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Cannot predict now."
 msgstr "Қазір болжау мүмкін емес."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Concentrate and ask again."
 msgstr "Зейін қойып, қайта сұраңыз."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Don't count on it."
 msgstr "Бұған үміт артпаңыз."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "My reply is no."
 msgstr "Менің жауабым — жоқ."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "My sources say no."
 msgstr "Дереккөздерім «жоқ» дейді."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Outlook not so good."
 msgstr "Болжам онша жақсы емес."
 
-#: src/whisp/editor_helpers/editor_expansions.py:286
+#: src/whisp/editor_helpers/editor_expansions.py:289
 msgid "Very doubtful."
 msgstr "Өте күмәнді."
 
-#: src/whisp/editor_helpers/editor_expansions.py:355
+#: src/whisp/editor_helpers/editor_expansions.py:367
 msgid "Converted to uppercase"
 msgstr "Бас әріптерге түрлендірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:358
+#: src/whisp/editor_helpers/editor_expansions.py:370
 msgid "Converted to lowercase"
 msgstr "Кіші әріптерге түрлендірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:361
+#: src/whisp/editor_helpers/editor_expansions.py:373
 msgid "Converted to Title Case"
 msgstr "Тақырып регистріне түрлендірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:366
+#: src/whisp/editor_helpers/editor_expansions.py:378
 msgid "Converted to Sentence case"
 msgstr "Сөйлем регистріне түрлендірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:369
+#: src/whisp/editor_helpers/editor_expansions.py:381
 msgid "Capitalized first letter"
 msgstr "Бірінші әріп бас әріпке өзгертілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:372
+#: src/whisp/editor_helpers/editor_expansions.py:384
 msgid "Stripped quotes"
 msgstr "Тырнақшалар алынып тасталды"
 
-#: src/whisp/editor_helpers/editor_expansions.py:403
+#: src/whisp/editor_helpers/editor_expansions.py:415
 msgid "Sorted lines alphabetically"
 msgstr "Жолдар әліпби бойынша сұрыпталды"
 
-#: src/whisp/editor_helpers/editor_expansions.py:409
+#: src/whisp/editor_helpers/editor_expansions.py:421
 msgid "Sorted lines numerically"
 msgstr "Жолдар сандар бойынша сұрыпталды"
 
-#: src/whisp/editor_helpers/editor_expansions.py:412
+#: src/whisp/editor_helpers/editor_expansions.py:424
 msgid "Reversed line order"
 msgstr "Жолдар реті кері өзгертілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:415
+#: src/whisp/editor_helpers/editor_expansions.py:427
 msgid "Removed empty lines"
 msgstr "Бос жолдар өшірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:434
+#: src/whisp/editor_helpers/editor_expansions.py:446
 msgid "Trimmed whitespace from all lines"
 msgstr "Барлық жолдардағы бос орындар қиылды"
 
-#: src/whisp/editor_helpers/editor_expansions.py:443
+#: src/whisp/editor_helpers/editor_expansions.py:455
 msgid "Removed duplicate lines"
 msgstr "Қайталанатын жолдар өшірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:454
+#: src/whisp/editor_helpers/editor_expansions.py:466
 msgid "Found duplicate lines"
 msgstr "Қайталанатын жолдар табылды"
 
-#: src/whisp/editor_helpers/editor_expansions.py:456
+#: src/whisp/editor_helpers/editor_expansions.py:468
 msgid "No duplicates found"
 msgstr "Қайталанатын элементтер табылмады"
 
-#: src/whisp/editor_helpers/editor_expansions.py:460
+#: src/whisp/editor_helpers/editor_expansions.py:472
 msgid "Converted commas to list"
 msgstr "Үтірлер тізімге түрлендірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:468
+#: src/whisp/editor_helpers/editor_expansions.py:480
 msgid "Converted lines to comma-separated"
 msgstr "Жолдар үтірмен бөлінген мәтінге түрлендірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:483
+#: src/whisp/editor_helpers/editor_expansions.py:495
 msgid "Moved checked items to bottom"
 msgstr "Белгіленген элементтер төменге жылжытылды"
 
-#: src/whisp/editor_helpers/editor_expansions.py:488
+#: src/whisp/editor_helpers/editor_expansions.py:500
 msgid "Removed all checked items"
 msgstr "Барлық белгіленген элементтер өшірілді"
 
-#: src/whisp/editor_helpers/editor_expansions.py:522
+#: src/whisp/editor_helpers/editor_expansions.py:534
 msgid "Extracting text from image…"
 msgstr "Суреттен мәтінді шығарып алу…"
 
-#: src/whisp/editor_helpers/editor_expansions.py:544
+#: src/whisp/editor_helpers/editor_expansions.py:556
 msgid "No text found in image"
 msgstr "Суреттен ешқандай мәтін табылмады"
 
-#: src/whisp/editor_helpers/editor_expansions.py:556
+#: src/whisp/editor_helpers/editor_expansions.py:568
 msgid "Failed to extract text from image"
 msgstr "Суреттен мәтінді шығарып алу сәтсіз аяқталды"
+
+#: src/whisp/editor_helpers/editor_paste.py:101
+msgid "AutoPaste disabled"
+msgstr "AutoPaste сөндірілген"
+
+#: src/whisp/editor_helpers/editor_paste.py:113
+msgid "AutoPaste active"
+msgstr "AutoPaste белсенді"
+
+#: src/whisp/editor_helpers/editor_paste.py:115
+msgid "Stop"
+msgstr "Тоқтату"
 
 #: src/whisp/window.py:245
 msgid "Keyboard Shortcuts"
@@ -786,9 +794,8 @@ msgid "Donate to Whisp"
 msgstr "Whisp жобасына демеушілік ету"
 
 #: src/whisp/window.py:489
-#, fuzzy
 msgid "Note pinned"
-msgstr "Ескертпе бекітуден босатылды"
+msgstr "Ескертпе бекітілді"
 
 #: src/whisp/window.py:520
 msgid "Note Unpinned"
@@ -799,52 +806,46 @@ msgstr "Ескертпе бекітуден босатылды"
 msgid ""
 "# 👋 Welcome to Whisp!\n"
 "\n"
-"Whisp is the frictionless anti-note. There are no save buttons or files to "
-"manage here.\n"
+"Whisp is the frictionless anti-note. There are no save buttons or files to manage here.\n"
 "\n"
 "## Navigation\n"
-"👉 **Swipe left and right** on your touchpad (or use `Ctrl+[` and `Ctrl+]`) "
-"to switch between notes.\n"
+"👉 **Swipe left and right** on your touchpad (or use `Ctrl+[` and `Ctrl+]`) to switch between "
+"notes.\n"
 "➕ To create a new note, simply swipe past the last note!\n"
 "\n"
 "## Features\n"
-"☑ **Checklists**: Press `Ctrl+S` on any line to instantly create or toggle a "
-"checkbox.\n"
-"🔗 **Smart Links**: Paste any long URL, and Whisp will automatically shorten "
-"it to keep your notes clean.\n"
-"📋 **Plain Paste**: Use `Ctrl+Shift+V` to paste text cleanly without weird "
-"formatting.\n"
-"🎨 **Themes**: Open Preferences (`Ctrl+,`) to pick a paper background (like "
-"Grid or Dotted) and color scheme.\n"
+"☑ **Checklists**: Press `Ctrl+S` on any line to instantly create or toggle a checkbox.\n"
+"🔗 **Smart Links**: Paste any long URL, and Whisp will automatically shorten it to keep your "
+"notes clean.\n"
+"📋 **Plain Paste**: Use `Ctrl+Shift+V` to paste text cleanly without weird formatting.\n"
+"🎨 **Themes**: Open Preferences (`Ctrl+,`) to pick a paper background (like Grid or Dotted) "
+"and color scheme.\n"
 "\n"
-"📖 **Manual**: For a full list of features, check out the [User Manual]"
-"({url})\n"
+"📖 **Manual**: For a full list of features, check out the [User Manual]({url})\n"
 "\n"
 "🗑️ Press `Ctrl+D` to delete this note when you're done reading it!"
 msgstr ""
 "# 👋 Whisp қолданбасына қош келдіңіз!\n"
 "\n"
-"Whisp — қиындықсыз «анти-ескертпе» қолданбасы. Мұнда сақтау батырмалары "
-"немесе басқаратын файлдар жоқ.\n"
+"Whisp — қиындықсыз «анти-ескертпе» қолданбасы. Мұнда сақтау батырмалары немесе басқаратын "
+"файлдар жоқ.\n"
 "\n"
 "## Навигация\n"
-"👉 Ескертпелер арасында ауысу үшін тачпадта **солға және оңға сырғытыңыз** "
-"(немесе `Ctrl+[` және `Ctrl+]` пайдаланыңыз).\n"
-"➕ Жаңа ескертпе жасау үшін жай ғана соңғы ескертпеден әрі қарай "
-"сырғытыңыз!\n"
+"👉 Ескертпелер арасында ауысу үшін тачпадта **солға және оңға сырғытыңыз** (немесе `Ctrl+[` "
+"және `Ctrl+]` пайдаланыңыз).\n"
+"➕ Жаңа ескертпе жасау үшін жай ғана соңғы ескертпеден әрі қарай сырғытыңыз!\n"
 "\n"
 "## Мүмкіндіктер\n"
-"☑ **Бақылау тізімдері**: Құсбелгіні бірден жасау немесе ауыстырып-қосу үшін "
-"кез келген жолда `Ctrl+S` басыңыз.\n"
-"🔗 **Ақылды сілтемелер**: Кез келген ұзын URL сілтемесін кірістіріңіз, сонда "
-"Whisp ескертпелеріңіздің жинақы болуы үшін оны автоматты түрде қысқартады.\n"
-"📋 **Жай кірістіру**: Мәтінді оғаш пішімдеусіз таза кірістіру үшін "
-"`Ctrl+Shift+V` пайдаланыңыз.\n"
-"🎨 **Темалар**: Қағаз фонын (Тор немесе Нүктелі сияқты) және түс сұлбасын "
-"таңдау үшін Баптауларды (`Ctrl+,`) ашыңыз.\n"
+"☑ **Бақылау тізімдері**: Құсбелгіні бірден жасау немесе ауыстырып-қосу үшін кез келген жолда "
+"`Ctrl+S` басыңыз.\n"
+"🔗 **Ақылды сілтемелер**: Кез келген ұзын URL сілтемесін кірістіріңіз, сонда Whisp "
+"ескертпелеріңіздің жинақы болуы үшін оны автоматты түрде қысқартады.\n"
+"📋 **Жай кірістіру**: Мәтінді оғаш пішімдеусіз таза кірістіру үшін `Ctrl+Shift+V` "
+"пайдаланыңыз.\n"
+"🎨 **Темалар**: Қағаз фонын (Тор немесе Нүктелі сияқты) және түс сұлбасын таңдау үшін "
+"Баптауларды (`Ctrl+,`) ашыңыз.\n"
 "\n"
-"📖 **Нұсқаулық**: Мүмкіндіктердің толық тізімін [Пайдаланушы нұсқаулығынан]"
-"({url}) қараңыз\n"
+"📖 **Нұсқаулық**: Мүмкіндіктердің толық тізімін [Пайдаланушы нұсқаулығынан]({url}) қараңыз\n"
 "\n"
 "🗑️ Оқып болған соң, бұл ескертпені өшіру үшін `Ctrl+D` басыңыз!"
 
@@ -874,11 +875,9 @@ msgstr "Ескертпені өшіру керек пе?"
 
 #: src/whisp/window.py:806
 #, python-brace-format
-msgid ""
-"“{title}” will be moved to the trash. You can undo this with Ctrl+Shift+T."
+msgid "“{title}” will be moved to the trash. You can undo this with Ctrl+Shift+T."
 msgstr ""
-"«{title}» қоқыс шелегіне жылжытылады. Бұл әрекетті Ctrl+Shift+T арқылы "
-"болдырмауға болады."
+"«{title}» қоқыс шелегіне жылжытылады. Бұл әрекетті Ctrl+Shift+T арқылы болдырмауға болады."
 
 #: src/whisp/window.py:809
 msgid "Delete"
@@ -898,11 +897,11 @@ msgstr "Толық өшірудің резервтік нұсқасы (Қате:
 msgid "Failed to delete completely: {error}"
 msgstr "Толығымен өшіру сәтсіз аяқталды: {error}"
 
-#: src/whisp/window.py:1052
+#: src/whisp/window.py:1064
 msgid "Entered Slate mode"
 msgstr "Планшет режиміне өтті"
 
-#: src/whisp/window.py:1052
+#: src/whisp/window.py:1064
 msgid "Exited Slate mode"
 msgstr "Планшет режимінен шықты"
 
@@ -920,15 +919,14 @@ msgstr "Планшет режимінен шықты"
 #~ msgstr "Глобалды жарлықты орнату"
 
 #~ msgid "Recording Global Shortcut to launch <b>Whisp</b>"
-#~ msgstr ""
-#~ "<b>Whisp</b> қолданбасын іске қосуға арналған глобалды жарлықты жазу"
+#~ msgstr "<b>Whisp</b> қолданбасын іске қосуға арналған глобалды жарлықты жазу"
 
 #~ msgid ""
-#~ "<span foreground='gray' size='small'>press shortcut (e.g. Super+N) or "
-#~ "backspace to disable</span>"
+#~ "<span foreground='gray' size='small'>press shortcut (e.g. Super+N) or backspace to "
+#~ "disable</span>"
 #~ msgstr ""
-#~ "<span foreground='gray' size='small'>жарлықты (мыс., Super+N) немесе "
-#~ "сөндіру үшін backspace пернесін басыңыз</span>"
+#~ "<span foreground='gray' size='small'>жарлықты (мыс., Super+N) немесе сөндіру үшін "
+#~ "backspace пернесін басыңыз</span>"
 
 #~ msgid "App Trigger"
 #~ msgstr "Қолданба триггері"
@@ -939,29 +937,23 @@ msgstr "Планшет режимінен шықты"
 #~ msgid ""
 #~ "<b>Export and Better OCR</b>\n"
 #~ "\n"
-#~ "• Export your current note instantly using the new 'Export Note' button "
-#~ "in the main menu.\n"
+#~ "• Export your current note instantly using the new 'Export Note' button in the main menu.\n"
 #~ "• Create list items seamlessly using standard markdown syntax.\n"
-#~ "• Fixed hard indentation issues when extracting text using Smart Paste "
-#~ "OCR.\n"
+#~ "• Fixed hard indentation issues when extracting text using Smart Paste OCR.\n"
 #~ "• Fixed Preferences dialog getting cut off on narrow window sizes.\n"
 #~ "\n"
-#~ "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full "
-#~ "changelog</a>"
+#~ "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Read full changelog</a>"
 #~ msgstr ""
 #~ "<b>Экспорттау және жақсартылған OCR</b>\n"
 #~ "\n"
-#~ "• Негізгі мәзірдегі жаңа «Ескертпені экспорттау» батырмасы арқылы "
-#~ "ағымдағы ескертпеңізді бірден экспорттаңыз.\n"
-#~ "• Стандартты markdown синтаксисін пайдаланып, тізім элементтерін оңай "
-#~ "жасаңыз.\n"
-#~ "• Smart Paste OCR көмегімен мәтінді шығарып алу кезіндегі қатаң шегініс "
-#~ "мәселелері түзетілді.\n"
-#~ "• Терезе өлшемі тар болған кезде Баптаулар сұхбат терезесінің қиылып "
-#~ "қалуы түзетілді.\n"
+#~ "• Негізгі мәзірдегі жаңа «Ескертпені экспорттау» батырмасы арқылы ағымдағы ескертпеңізді "
+#~ "бірден экспорттаңыз.\n"
+#~ "• Стандартты markdown синтаксисін пайдаланып, тізім элементтерін оңай жасаңыз.\n"
+#~ "• Smart Paste OCR көмегімен мәтінді шығарып алу кезіндегі қатаң шегініс мәселелері "
+#~ "түзетілді.\n"
+#~ "• Терезе өлшемі тар болған кезде Баптаулар сұхбат терезесінің қиылып қалуы түзетілді.\n"
 #~ "\n"
-#~ "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Толық "
-#~ "өзгерістер журналын оқу</a>"
+#~ "<a href=\"https://github.com/tanaybhomia/Whisp/releases\">Толық өзгерістер журналын оқу</a>"
 
 #~ msgid "Export Current Note…"
 #~ msgstr "Ағымдағы ескертпені экспорттау…"

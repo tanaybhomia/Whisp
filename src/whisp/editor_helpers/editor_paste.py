@@ -237,16 +237,35 @@ class EditorPasteMixin:
             return False
 
         if _START_PASTE_LINE_RE.match(line_text):
-            self.buffer.place_cursor(line_end)
-            self.buffer.insert_at_cursor("\n")
-            new_cursor = self.buffer.get_iter_at_mark(insert_mark)
-            old_mark = getattr(self, "_autopaste_mark", None)
-            if old_mark is not None:
-                self.buffer.delete_mark(old_mark)
-            self._autopaste_mark = self.buffer.create_mark("autopaste_target", new_cursor, left_gravity=False)
-            self.start_autopaste()
-            GLib.idle_add(lambda: self.textview.scroll_mark_onscreen(self.buffer.get_insert()) or False)
-            return True
+            self.buffer.begin_user_action()
+            try:
+                if line_start.get_offset() > 0:
+                    prev_iter = line_start.copy()
+                    prev_iter.backward_char()
+                    if prev_iter.get_offset() > 0:
+                        prev2_iter = prev_iter.copy()
+                        prev2_iter.backward_char()
+                        if prev2_iter.get_char() != '\n':
+                            self.buffer.insert(line_start, '\n')
+                    else:
+                        self.buffer.insert(line_start, '\n')
+
+                cursor_iter = self.buffer.get_iter_at_mark(insert_mark)
+                line_end = cursor_iter.copy()
+                line_end.forward_to_line_end()
+
+                self.buffer.place_cursor(line_end)
+                self.buffer.insert_at_cursor("\n")
+                new_cursor = self.buffer.get_iter_at_mark(insert_mark)
+                old_mark = getattr(self, "_autopaste_mark", None)
+                if old_mark is not None:
+                    self.buffer.delete_mark(old_mark)
+                self._autopaste_mark = self.buffer.create_mark("autopaste_target", new_cursor, left_gravity=False)
+                self.start_autopaste()
+                GLib.idle_add(lambda: self.textview.scroll_mark_onscreen(self.buffer.get_insert()) or False)
+                return True
+            finally:
+                self.buffer.end_user_action()
 
         return False
 
@@ -350,7 +369,7 @@ class EditorPasteMixin:
         threading.Thread(target=run_ocr, daemon=True).start()
 
     def _insert_autopaste_text(self, text: str):
-        """Insert AutoPaste text at the target mark separated by a blank line."""
+        """Insert AutoPaste text at the target mark separated by an empty line between instances."""
         self.buffer.begin_user_action()
         try:
             mark = getattr(self, "_autopaste_mark", None)
@@ -369,8 +388,6 @@ class EditorPasteMixin:
                     prev2_iter.backward_char()
                     if prev2_iter.get_char() != '\n':
                         self.buffer.insert(target_iter, '\n')
-                else:
-                    self.buffer.insert(target_iter, '\n')
 
             if mark is not None and not mark.get_deleted():
                 target_iter = self.buffer.get_iter_at_mark(mark)

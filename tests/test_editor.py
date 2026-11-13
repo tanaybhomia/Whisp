@@ -152,7 +152,7 @@ class TestEditor(unittest.TestCase):
         text2 = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
         self.assertEqual(text2, "paste\n")
 
-    def test_autopaste_text_read_appends_with_empty_line(self):
+    def test_autopaste_text_read_separates_instances_with_empty_line(self):
         class DummyClipboard:
             def __init__(self, text):
                 self.text = text
@@ -199,10 +199,35 @@ class TestEditor(unittest.TestCase):
 
         editor._on_autopaste_text_read(DummyClipboard("Middle clipped item"), None)
         full_text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
-        self.assertIn("paste\n\nMiddle clipped item", full_text)
+        self.assertIn("paste\n\nMiddle clipped item\n", full_text)
         self.assertIn("## Footer\nEnd of note", full_text)
 
         editor.stop_autopaste(silent=True)
+
+    def test_highlight_multiple_paste_keywords_in_note(self):
+        editor = NoteEditor()
+        editor.buffer.set_text(":paste\n\nFirst copied line\n\n:paste\n\nSecond copied line")
+        editor.highlighter.highlight()
+
+        # First :paste is tagged
+        iter0 = editor.buffer.get_iter_at_offset(0)
+        self.assertTrue(iter0.has_tag(editor.highlighter.tag_paste_keyword))
+
+        # Body text below first :paste is not tagged
+        content = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        offset_body1 = content.find("First copied line")
+        iter_body1 = editor.buffer.get_iter_at_offset(offset_body1)
+        self.assertFalse(iter_body1.has_tag(editor.highlighter.tag_paste_keyword))
+
+        # Second :paste is tagged
+        offset2 = content.find("\n:paste") + 1
+        iter2 = editor.buffer.get_iter_at_offset(offset2)
+        self.assertTrue(iter2.has_tag(editor.highlighter.tag_paste_keyword))
+
+        # Body text below second :paste is not tagged
+        offset_body2 = content.find("Second copied line")
+        iter_body2 = editor.buffer.get_iter_at_offset(offset_body2)
+        self.assertFalse(iter_body2.has_tag(editor.highlighter.tag_paste_keyword))
 
     def test_autopaste_undo(self):
         class DummyClipboard:
@@ -250,6 +275,19 @@ class TestEditor(unittest.TestCase):
         self.assertTrue(editor.handle_paste_return())
         self.assertFalse(editor.is_autopaste_active)
 
+    def test_autopaste_activation_ensures_empty_line_above(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("First paragraph.\n:paste")
+        end_iter = editor.buffer.get_end_iter()
+        editor.buffer.place_cursor(end_iter)
+
+        handled = editor.handle_paste_return()
+        self.assertTrue(handled)
+        self.assertTrue(editor.is_autopaste_active)
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "First paragraph.\n\n:paste\n")
+        editor.stop_autopaste(silent=True)
+
     def test_autopaste_sync_and_ocr_dedup(self):
         class DummyFormats:
             def __init__(self, has_texture):
@@ -273,13 +311,20 @@ class TestEditor(unittest.TestCase):
                 return DummyBytes(self._payload)
 
         class DummyClipboard:
-            def __init__(self, payload=b"img-1", text=None):
+            def __init__(self, payload=None, text=None):
                 self.payload = payload
                 self.text = text
-                self.has_texture = payload is not None
+                self._handler = None
+
+            def connect(self, sig, cb):
+                self._handler = cb
+                return 1
+
+            def disconnect(self, handler_id):
+                self._handler = None
 
             def get_formats(self):
-                return DummyFormats(self.has_texture)
+                return DummyFormats(self.payload is not None)
 
             def read_texture_async(self, cancellable, callback):
                 callback(self, None)
@@ -300,11 +345,7 @@ class TestEditor(unittest.TestCase):
             def start(self):
                 self._target()
 
-        editor = NoteEditor()
-        editor.buffer.set_text("paste\n")
-        editor.start_autopaste()
-
-        clip = DummyClipboard(payload=b"screenshot-bytes")
+        clip = DummyClipboard(payload=None, text="initial")
         fake_display = MagicMock()
         fake_display.get_clipboard.return_value = clip
 
@@ -313,6 +354,11 @@ class TestEditor(unittest.TestCase):
              patch.object(editor_paste, "Image", MagicMock()), \
              patch.object(editor_paste, "extract_text_from_image", return_value="Captured OCR line") as mock_ocr, \
              patch.object(editor_paste.threading, "Thread", ImmediateThread):
+            editor = NoteEditor()
+            editor.buffer.set_text("paste\n")
+            editor.start_autopaste()
+
+            clip.payload = b"screenshot-bytes"
             editor.sync_autopaste_from_clipboard()
             while GLib.MainContext.default().pending():
                 GLib.MainContext.default().iteration(False)
@@ -327,7 +373,7 @@ class TestEditor(unittest.TestCase):
                 GLib.MainContext.default().iteration(False)
             self.assertEqual(mock_ocr.call_count, 1)
 
-        editor.stop_autopaste(silent=True)
+            editor.stop_autopaste(silent=True)
 
     def test_strip_markdown_full(self):
         md = (

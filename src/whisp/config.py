@@ -26,7 +26,7 @@ class Config:
         "win.preferences": ["<Ctrl>comma"],
         "win.toggle-wysiwyg": ["<Ctrl>e"],
         "win.undo-delete": ["<Ctrl><Shift>t"],
-        "win.show-shortcuts": ["<Ctrl>slash"],
+        "win.show-shortcuts": ["<Ctrl>slash", "<Ctrl>question"],
         "win.nav-next": ["<Ctrl>bracketright"],
         "win.nav-prev": ["<Ctrl>bracketleft"],
         "win.search": ["<Ctrl>f"],

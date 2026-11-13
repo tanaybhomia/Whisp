@@ -15,6 +15,7 @@ from whisp.dialogs.about import (
     show_about_dialog,
     open_donate_url
 )
+from whisp.dialogs.shortcuts import show_shortcuts_dialog
 from whisp.dialogs.export import export_note
 from whisp.editor import NoteEditor
 
@@ -46,6 +47,15 @@ class TestAboutAndExport(unittest.TestCase):
         about = show_about_dialog(None)
         self.assertIsInstance(about, Adw.AboutDialog)
         self.assertEqual(about.get_developer_name(), "Tanay Bhomia")
+
+    def test_show_shortcuts_dialog(self):
+        dialog = show_shortcuts_dialog(None)
+        self.assertIsInstance(dialog, Adw.ShortcutsDialog)
+
+    def test_show_shortcuts_dialog_with_parent(self):
+        parent = Adw.ApplicationWindow()
+        dialog = show_shortcuts_dialog(parent)
+        self.assertIsInstance(dialog, Adw.ShortcutsDialog)
 
     def test_open_donate_url(self):
         # Ensure open_donate_url doesn't raise exceptions

@@ -38,7 +38,10 @@ class WhispApp(Adw.Application):
         shortcuts = config.get("shortcuts")
         if shortcuts and isinstance(shortcuts, dict):
             for action, accels in shortcuts.items():
-                self.set_accels_for_action(action, accels)
+                if action == "win.show-shortcuts" and "<Ctrl>question" not in accels and ("<Ctrl>slash" in accels or "<Primary>slash" in accels):
+                    self.set_accels_for_action(action, list(accels) + ["<Ctrl>question"])
+                else:
+                    self.set_accels_for_action(action, accels)
 
         # Cohesive Background CSS
         css_provider = Gtk.CssProvider()

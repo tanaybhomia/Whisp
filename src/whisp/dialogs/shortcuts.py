@@ -1,6 +1,6 @@
 import gettext
 from typing import cast
-from gi.repository import Gtk
+from gi.repository import Gtk, Adw
 
 _ = gettext.gettext
 
@@ -184,9 +184,15 @@ SHORTCUTS_XML = """
 </interface>
 """
 
-def show_shortcuts_dialog(parent_win: Gtk.Window) -> None:
+def show_shortcuts_dialog(parent_win: Gtk.Window | None) -> Adw.ShortcutsDialog | Gtk.Window | None:
     builder = Gtk.Builder.new_from_string(SHORTCUTS_XML, -1)
-    dialog = cast(Gtk.Window | None, builder.get_object("shortcuts_dialog"))
+    dialog = builder.get_object("shortcuts_dialog")
     if dialog:
-        dialog.set_transient_for(parent_win)
-        dialog.present()
+        target_parent = parent_win if isinstance(parent_win, Gtk.Window) else None
+        if isinstance(dialog, Adw.Dialog):
+            dialog.present(target_parent)
+        else:
+            if hasattr(dialog, "set_transient_for") and target_parent:
+                dialog.set_transient_for(target_parent)
+            dialog.present()
+    return dialog

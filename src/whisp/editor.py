@@ -145,6 +145,8 @@ class NoteEditor(Gtk.Overlay, EditorListMixin, EditorPasteMixin, EditorExpansion
             return True
         add_sc(Gdk.KEY_l, Gdk.ModifierType.CONTROL_MASK, cb_link)
         add_sc(Gdk.KEY_L, Gdk.ModifierType.CONTROL_MASK, cb_link)
+        add_sc(Gdk.KEY_l, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK, cb_link)
+        add_sc(Gdk.KEY_L, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK, cb_link)
         
         def cb_up(w, a):
             return self.move_line(-1)
@@ -690,81 +692,6 @@ class NoteEditor(Gtk.Overlay, EditorListMixin, EditorPasteMixin, EditorExpansion
         bound_iter = insert_iter.copy()
         bound_iter.forward_chars(len(new_text))
         self.buffer.select_range(insert_iter, bound_iter)
-
-    def paste_plain_text(self):
-        clipboard = self.textview.get_clipboard()
-        clipboard.read_text_async(None, self.on_clipboard_read)
-
-    def on_clipboard_read(self, clipboard, result):
-        try:
-            text = clipboard.read_text_finish(result)
-            if text:
-                # Strip markdown syntax for plain text paste
-                text = re.sub(r'#{1,6}\s+', '', text)
-                text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
-                text = re.sub(r'(?<!\*)\*(.*?)\*(?!\*)', r'\1', text)
-                text = re.sub(r'__(.*?)__', r'\1', text)
-                text = re.sub(r'(?<!_)_(.*?)_(?!_)', r'\1', text)
-                text = re.sub(r'`(.*?)`', r'\1', text)
-                text = re.sub(r'~~(.*?)~~', r'\1', text)
-                text = re.sub(r'\[(.*?)\]\(.*?\)', r'\1', text)
-                text = re.sub(r'^\s*[-*+]\s+', '', text, flags=re.MULTILINE)
-                text = re.sub(r'^\s*\d+\.\s+', '', text, flags=re.MULTILINE)
-                text = re.sub(r'^\s*[☐☑]\s*', '', text, flags=re.MULTILINE)
-                
-                def do_insert():
-                    self.buffer.delete_selection(True, self.textview.get_editable())
-                    self.buffer.insert_at_cursor(text)
-                    return False
-                GLib.idle_add(do_insert)
-        except GLib.Error:
-            pass
-
-    def shorten_link(self):
-        bounds = self.buffer.get_selection_bounds()
-        start = end = None
-        url = ""
-        
-        if bounds:
-            start, end = bounds
-            url = self.buffer.get_text(start, end, False).strip()
-        else:
-            # Grab word under cursor
-            insert_iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
-            start = insert_iter.copy()
-            end = insert_iter.copy()
-            
-            # Move start to beginning of word (or non-whitespace)
-            while start.backward_char():
-                if start.get_char() in (' ', '\n', '\t'):
-                    start.forward_char()
-                    break
-                    
-            # Move end to end of word
-            while end.forward_char():
-                if end.get_char() in (' ', '\n', '\t'):
-                    break
-                    
-            url = self.buffer.get_text(start, end, False).strip()
-            
-        if re.match(r'^https?://[^\s]+$', url) and len(url) > 30:
-            display_url = url.replace("https://", "").replace("http://", "").replace("www.", "")
-            if len(display_url) > 25:
-                display_url = display_url[:25] + "…"
-            markdown_link = f"[{display_url}]({url})"
-            
-            start_mark = self.buffer.create_mark(None, start, True)
-            end_mark = self.buffer.create_mark(None, end, False)
-            GLib.idle_add(self.replace_mark_range, start_mark, end_mark, markdown_link)
-
-    def replace_mark_range(self, start_mark, end_mark, new_text):
-        start = self.buffer.get_iter_at_mark(start_mark)
-        end = self.buffer.get_iter_at_mark(end_mark)
-        self.buffer.delete(start, end)
-        self.buffer.insert(start, new_text)
-        self.buffer.delete_mark(start_mark)
-        self.buffer.delete_mark(end_mark)
-        return False
 
     def load_file(self):
         if self.file_path.exists():

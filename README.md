@@ -33,7 +33,7 @@ Most note-taking apps force you into a heavy workflow of creating files, managin
 - **Spatial Navigation**: Fluidly swipe between your recent notes using 1:1 touchpad gestures via Adwaita Carousel.
 - **WYSIWYG Markdown**: Real-time rendering of Markdown. Toggle WYSIWYG mode to instantly hide Markdown syntax symbols and view clean rich text.
 - **Paper Themes**: Native dynamic styling. Choose between Dotted, Grid, or Blank backgrounds to mimic physical engineering paper or scratchpads.
-- **Smart Paste & OCR**: Copy any image or screenshot containing text and press `Ctrl+V` to run rapid, offline OCR that automatically extracts and inserts the text while mathematically preserving exact code indentation! Alternatively, paste a URL to automatically shrink it via TinyURL in the background, or use `Ctrl+Shift+V` to strip Markdown formatting when pasting rich text.
+- **Smart Paste, AutoPaste & OCR**: Copy any image or screenshot containing text and press `Ctrl+V` to run rapid, offline OCR that automatically extracts and inserts the text while preserving code indentation. Start a note with `paste` and press `Enter` for hands-free AutoPaste clipboard capture, press `Ctrl+Shift+L` to shorten a long URL into a clean local Markdown link, or use `Ctrl+Shift+V` to strip Markdown formatting when pasting rich text.
 - **Keyboard-Centric Workflow**:
   - `Ctrl+N` to instantly create a new note.
   - `Ctrl+B`, `Ctrl+I`, `Ctrl+U` for quick text formatting.

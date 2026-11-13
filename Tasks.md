@@ -1,8 +1,8 @@
 ## For Sure 
 
-- [ ] Auto paste 
+- [x] Auto paste 
 - [ ] CheckLists 
-- [ ] Remove markdown format fully 
+- [x] Remove markdown format fully 
 - [ ] Math: Note for auto calculations
 
 ## Maybe

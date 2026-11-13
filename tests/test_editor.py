@@ -8,8 +8,11 @@ import gi
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Gtk
+from unittest.mock import MagicMock, patch
+from gi.repository import GLib, Gtk
 from whisp.editor import NoteEditor
+from whisp.editor_helpers import editor_paste
+from whisp.editor_helpers.editor_paste import strip_markdown
 
 class TestEditor(unittest.TestCase):
     @classmethod
@@ -221,6 +224,139 @@ class TestEditor(unittest.TestCase):
             self.assertEqual(editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False), "paste\n")
 
         editor.stop_autopaste(silent=True)
+
+    def test_autopaste_titled_header_and_midline_return(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("# paste: Research Links")
+        mid_iter = editor.buffer.get_iter_at_offset(7)
+        editor.buffer.place_cursor(mid_iter)
+
+        handled = editor.handle_paste_return()
+        self.assertTrue(handled)
+        self.assertTrue(editor.is_autopaste_active)
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "# paste: Research Links\n")
+
+        # Titled line should not accidentally stop AutoPaste when active
+        top_iter = editor.buffer.get_start_iter()
+        editor.buffer.place_cursor(top_iter)
+        self.assertFalse(editor.handle_paste_return())
+        self.assertTrue(editor.is_autopaste_active)
+
+        # Standalone paste command on end line stops AutoPaste
+        end_iter = editor.buffer.get_end_iter()
+        editor.buffer.insert(end_iter, "paste")
+        editor.buffer.place_cursor(editor.buffer.get_end_iter())
+        self.assertTrue(editor.handle_paste_return())
+        self.assertFalse(editor.is_autopaste_active)
+
+    def test_autopaste_sync_and_ocr_dedup(self):
+        class DummyFormats:
+            def __init__(self, has_texture):
+                self.has_texture = has_texture
+
+            def contain_gtype(self, gtype):
+                return self.has_texture
+
+        class DummyBytes:
+            def __init__(self, data):
+                self._data = data
+
+            def get_data(self):
+                return self._data
+
+        class DummyTexture:
+            def __init__(self, payload):
+                self._payload = payload
+
+            def save_to_png_bytes(self):
+                return DummyBytes(self._payload)
+
+        class DummyClipboard:
+            def __init__(self, payload=b"img-1", text=None):
+                self.payload = payload
+                self.text = text
+                self.has_texture = payload is not None
+
+            def get_formats(self):
+                return DummyFormats(self.has_texture)
+
+            def read_texture_async(self, cancellable, callback):
+                callback(self, None)
+
+            def read_texture_finish(self, res):
+                return DummyTexture(self.payload)
+
+            def read_text_async(self, cancellable, callback):
+                callback(self, None)
+
+            def read_text_finish(self, res):
+                return self.text
+
+        class ImmediateThread:
+            def __init__(self, target=None, daemon=None):
+                self._target = target
+
+            def start(self):
+                self._target()
+
+        editor = NoteEditor()
+        editor.buffer.set_text("paste\n")
+        editor.start_autopaste()
+
+        clip = DummyClipboard(payload=b"screenshot-bytes")
+        fake_display = MagicMock()
+        fake_display.get_clipboard.return_value = clip
+
+        with patch.object(editor_paste.Gdk.Display, "get_default", return_value=fake_display), \
+             patch.object(editor_paste, "HAS_OCR", True), \
+             patch.object(editor_paste, "Image", MagicMock()), \
+             patch.object(editor_paste, "extract_text_from_image", return_value="Captured OCR line") as mock_ocr, \
+             patch.object(editor_paste.threading, "Thread", ImmediateThread):
+            editor.sync_autopaste_from_clipboard()
+            while GLib.MainContext.default().pending():
+                GLib.MainContext.default().iteration(False)
+
+            self.assertEqual(mock_ocr.call_count, 1)
+            full_text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+            self.assertIn("Captured OCR line", full_text)
+
+            # Refocus sync with identical screenshot must not run OCR or paste again
+            editor.sync_autopaste_from_clipboard()
+            while GLib.MainContext.default().pending():
+                GLib.MainContext.default().iteration(False)
+            self.assertEqual(mock_ocr.call_count, 1)
+
+        editor.stop_autopaste(silent=True)
+
+    def test_strip_markdown_full(self):
+        md = (
+            "# Title ###\n"
+            "> > Nested quote\n"
+            "```python\n"
+            "def f(x_val):\n"
+            "    return x_val\n"
+            "```\n"
+            "- [x] Done task\n"
+            "1. First item\n"
+            "Text with **bold**, _italic_, `code`, ~~old~~, ==mark==, "
+            "![alt](https://example.com/a.png), [link][ref], <https://whisp.app> and \\*escaped\\*.\n"
+            "[ref]: https://example.com\n"
+            "---\n"
+            "<span>Inline HTML</span><br/>"
+        )
+        cleaned = strip_markdown(md)
+        self.assertIn("Title\n", cleaned)
+        self.assertIn("Nested quote\n", cleaned)
+        self.assertIn("def f(x_val):", cleaned)
+        self.assertIn("Done task\n", cleaned)
+        self.assertIn("First item\n", cleaned)
+        self.assertIn("Text with bold, italic, code, old, mark, alt, link, https://whisp.app and *escaped*.", cleaned)
+        self.assertIn("Inline HTML", cleaned)
+        self.assertNotIn("```", cleaned)
+        self.assertNotIn("[ref]:", cleaned)
+        self.assertNotIn("---", cleaned)
+        self.assertNotIn("<span>", cleaned)
 
 
 if __name__ == "__main__":

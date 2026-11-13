@@ -50,6 +50,7 @@ class WhispWindow(Adw.ApplicationWindow):
             
         self.set_title("Whisp")
         self.connect("close-request", self.on_close_request)
+        self.connect("notify::is-active", self.on_window_active_changed)
         
         if config.get("run_in_background", False):
             self.set_hide_on_close(True)
@@ -927,6 +928,13 @@ class WhispWindow(Adw.ApplicationWindow):
             return None
         idx = max(0, min(self.get_current_page_index(), n_pages - 1))
         return cast(NoteEditor, self.carousel.get_nth_page(idx))
+
+    def on_window_active_changed(self, *args):
+        if not self.is_active():
+            return
+        editor = self.get_current_editor()
+        if editor and getattr(editor, "is_autopaste_active", False):
+            editor.sync_autopaste_from_clipboard()
 
     def on_search_shortcut(self, action=None, param=None):
         self.search_btn.set_active(True)

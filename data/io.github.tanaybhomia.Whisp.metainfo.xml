@@ -75,6 +75,24 @@
   <content_rating type="oars-1.1" />
 
   <releases>
+    <release version="1.7.0" date="2026-11-13">
+      <description>
+        <p><em>Smart Paste Module,Linux Mobile Support and Dynamic Lists</em></p>
+        <p><em>New Features</em></p>
+        <ul>
+          <li>Smart Paste Module (:paste): Type <code>:paste</code> or <code>paste</code> to activate AutoPaste, automatically collecting copied text and clipboard screenshots into your note as you browse or research.</li>
+          <li>Refocus Synchronization &amp; OCR Deduplication: Automatically syncs text and screenshots copied in other windows when returning to Whisp, with cryptographic hashing to prevent duplicate OCR text extraction.</li>
+          <li>Plain Text Paste &amp; Link Formatting: Paste clean unformatted text using <code>Ctrl+Shift+V</code> and instantly format URLs as clean markdown links using <code>Ctrl+Shift+L</code>.</li>
+          <li>Whisp is now available for Linux Mobile devices as well</li>
+        </ul>
+        <p><em>Fixes &amp; Polish</em></p>
+        <ul>
+          <li>Keyboard Shortcuts Dialog: Fixed an issue where the shortcuts overview dialog failed to open via <code>Ctrl+/</code>.</li>
+          <li>Keyboard Shortcut Panel: Now updates to changed shortcuts quickly</li>
+          <li>Dynamic Numbered Lists: Numbered lists now automatically renumber when items are deleted, added, or moved with Alt+Up/Down.</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.6.1" date="2026-10-06">
       <description>
         <p><em>Hotfix for Startup Crash on Non-GNOME Desktops</em></p>

@@ -404,6 +404,81 @@ class TestEditor(unittest.TestCase):
         self.assertNotIn("---", cleaned)
         self.assertNotIn("<span>", cleaned)
 
+    def test_auto_renumber_ordered_lists_on_deletion(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. First\n2. Second\n3. Third")
+        _, start = editor.buffer.get_iter_at_line(1)
+        _, end = editor.buffer.get_iter_at_line(2)
+        editor.buffer.delete(start, end)
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "1. First\n2. Third")
+
+    def test_auto_renumber_ordered_lists_on_first_item_deletion(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. First\n2. Second\n3. Third")
+        _, start = editor.buffer.get_iter_at_line(0)
+        _, end = editor.buffer.get_iter_at_line(1)
+        editor.buffer.delete(start, end)
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "1. Second\n2. Third")
+
+    def test_auto_renumber_ordered_lists_on_insert(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. First\n2. Second")
+        _, insert_pos = editor.buffer.get_iter_at_line(1)
+        editor.buffer.insert(insert_pos, "2. \n")
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "1. First\n2. \n3. Second")
+
+    def test_auto_renumber_nested_sublists(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. Parent 1\n    1. Child 1\n    2. Child 2\n2. Parent 2")
+        _, start = editor.buffer.get_iter_at_line(1)
+        _, end = editor.buffer.get_iter_at_line(2)
+        editor.buffer.delete(start, end)
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "1. Parent 1\n    1. Child 2\n2. Parent 2")
+
+    def test_auto_renumber_ignores_code_blocks(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. First\n```python\n1. Inside\n2. Inside\n```\n3. Second")
+        _, start = editor.buffer.get_iter_at_line(0)
+        _, end = editor.buffer.get_iter_at_line(1)
+        editor.buffer.delete(start, end)
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "```python\n1. Inside\n2. Inside\n```\n1. Second")
+
+    def test_auto_renumber_loose_lists_and_resets(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. First\n\n3. Second\n\n\n5. Third")
+        editor.auto_renumber_ordered_lists()
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "1. First\n\n2. Second\n\n\n1. Third")
+
+    def test_auto_renumber_undo(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. First\n2. Second\n3. Third")
+        editor.buffer.begin_user_action()
+        _, start = editor.buffer.get_iter_at_line(1)
+        _, end = editor.buffer.get_iter_at_line(2)
+        editor.buffer.delete(start, end)
+        editor.buffer.end_user_action()
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "1. First\n2. Third")
+        editor.buffer.undo()
+        text_undo = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text_undo, "1. First\n2. Second\n3. Third")
+
+    def test_auto_renumber_move_line(self):
+        editor = NoteEditor()
+        editor.buffer.set_text("1. First\n2. Second\n3. Third")
+        _, iter_line1 = editor.buffer.get_iter_at_line(1)
+        editor.buffer.place_cursor(iter_line1)
+        res = editor.move_line(1)
+        self.assertTrue(res)
+        text = editor.buffer.get_text(editor.buffer.get_start_iter(), editor.buffer.get_end_iter(), False)
+        self.assertEqual(text, "1. First\n2. Third\n3. Second")
+
 
 if __name__ == "__main__":
     unittest.main()

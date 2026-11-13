@@ -308,6 +308,7 @@ class NoteEditor(Gtk.Overlay, EditorListMixin, EditorPasteMixin, EditorExpansion
 
     def on_buffer_changed(self, buffer):
         self.convert_markdown_checkboxes()
+        self.auto_renumber_ordered_lists()
         if self.save_timeout_id:
             GLib.source_remove(self.save_timeout_id)
         self.save_timeout_id = GLib.timeout_add(1000, self.save_file)

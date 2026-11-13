@@ -157,6 +157,7 @@ class EditorListMixin:
             return False
 
         # Perform block swap
+        self._moving_line = True
         self.buffer.begin_user_action()
         try:
             _, u_s = self.buffer.get_iter_at_line(upper_start)
@@ -171,22 +172,32 @@ class EditorListMixin:
                 l_e.forward_to_line_end()
             lower_text = self.buffer.get_text(l_s, l_e, False)
 
-            # Replace lower block first, then upper block
+            s_u_mark = self.buffer.create_mark(None, u_s, True)
             s_l_mark = self.buffer.create_mark(None, l_s, True)
-            e_l_mark = self.buffer.create_mark(None, l_e, False)
-            self.buffer.delete(l_s, l_e)
+
+            _, l_s_fresh = self.buffer.get_iter_at_line(lower_start)
+            _, l_e_fresh = self.buffer.get_iter_at_line(lower_end)
+            if not l_e_fresh.ends_line():
+                l_e_fresh.forward_to_line_end()
+            self.buffer.delete(l_s_fresh, l_e_fresh)
             self.buffer.insert(self.buffer.get_iter_at_mark(s_l_mark), upper_text)
 
-            s_u_mark = self.buffer.create_mark(None, u_s, True)
-            e_u_mark = self.buffer.create_mark(None, u_e, False)
-            self.buffer.delete(u_s, u_e)
+            _, u_s_fresh = self.buffer.get_iter_at_line(upper_start)
+            _, u_e_fresh = self.buffer.get_iter_at_line(upper_end)
+            if not u_e_fresh.ends_line():
+                u_e_fresh.forward_to_line_end()
+            self.buffer.delete(u_s_fresh, u_e_fresh)
             self.buffer.insert(self.buffer.get_iter_at_mark(s_u_mark), lower_text)
 
-            # Place cursor at start of moved line/subtree
+            self.buffer.delete_mark(s_u_mark)
+            self.buffer.delete_mark(s_l_mark)
+
             new_line = lower_start if direction == -1 else upper_start + (lower_end - lower_start + 1)
             _, new_iter = self.buffer.get_iter_at_line(new_line)
             self.buffer.place_cursor(new_iter)
         finally:
+            self._moving_line = False
+            self.auto_renumber_ordered_lists()
             self.buffer.end_user_action()
         return True
 
@@ -247,54 +258,88 @@ class EditorListMixin:
             return True
         return False
 
-    def recalculate_list_number(self, line_start_iter):
-        line_start = line_start_iter.copy()
-        line_start.set_line_offset(0)
-        line_end = line_start.copy()
-        line_end.forward_to_line_end()
-        text = self.buffer.get_text(line_start, line_end, False)
-        
-        m_ol = re.match(r'^(\s*)(\d+)\.(\s+.*)$', text)
-        if not m_ol:
+    def auto_renumber_ordered_lists(self):
+        if getattr(self, "_renumbering_lists", False) or getattr(self, "_moving_line", False):
             return
-            
-        current_indent_len = len(m_ol.group(1))
-        
-        search_iter = line_start.copy()
-        prev_num = 0
-        while search_iter.backward_line():
-            s_end = search_iter.copy()
-            s_end.forward_to_line_end()
-            s_text = self.buffer.get_text(search_iter, s_end, False)
-            
-            if not s_text.strip():
-                continue
-            
-            m_search = re.match(r'^(\s*)(\d+)\.\s+.*$', s_text)
-            if m_search:
-                s_indent_len = len(m_search.group(1))
-                if s_indent_len == current_indent_len:
-                    prev_num = int(m_search.group(2))
-                    break
-                elif s_indent_len < current_indent_len:
-                    break
-            else:
-                m_other = re.match(r'^(\s*)', s_text)
-                if m_other and len(m_other.group(1)) < current_indent_len:
-                    break
-                    
-        new_num = prev_num + 1
-        current_num_str = m_ol.group(2)
-        new_num_str = str(new_num)
-        
-        if current_num_str != new_num_str:
-            num_start = line_start.copy()
-            num_start.forward_chars(current_indent_len)
-            num_end = num_start.copy()
-            num_end.forward_chars(len(current_num_str))
-            
-            self.buffer.delete(num_start, num_end)
-            self.buffer.insert(num_start, new_num_str)
+
+        start_iter, end_iter = self.buffer.get_bounds()
+        text = self.buffer.get_text(start_iter, end_iter, False)
+        if not re.search(r'^\s*\d+\.[ \t]', text, re.MULTILINE):
+            return
+
+        self._renumbering_lists = True
+        user_action_started = False
+        try:
+            ol_pattern = re.compile(r"^(\s*)(\d+)\.([ \t]+.*)$")
+            active_lists = {}
+            blank_count = 0
+            in_code_block = False
+            line_count = self.buffer.get_line_count()
+
+            for line_idx in range(line_count):
+                _, line_start = self.buffer.get_iter_at_line(line_idx)
+                line_end = line_start.copy()
+                if not line_end.ends_line():
+                    line_end.forward_to_line_end()
+                line_text = self.buffer.get_text(line_start, line_end, False)
+
+                stripped = line_text.strip()
+                if stripped.startswith("```") or stripped.startswith("~~~"):
+                    in_code_block = not in_code_block
+                    active_lists.clear()
+                    continue
+                if in_code_block:
+                    continue
+
+                if not stripped:
+                    blank_count += 1
+                    if blank_count >= 2:
+                        active_lists.clear()
+                    continue
+
+                blank_count = 0
+                m = ol_pattern.match(line_text)
+                if m:
+                    indent_str = m.group(1)
+                    indent_level = len(indent_str.replace("\t", "    "))
+                    num_str = m.group(2)
+
+                    deeper = [i for i in active_lists if i > indent_level]
+                    for i in deeper:
+                        del active_lists[i]
+
+                    expected_num = active_lists[indent_level] + 1 if indent_level in active_lists else 1
+                    active_lists[indent_level] = expected_num
+                    expected_num_str = str(expected_num)
+
+                    if num_str != expected_num_str:
+                        if not user_action_started:
+                            self.buffer.begin_user_action()
+                            user_action_started = True
+                        num_start = line_start.copy()
+                        num_start.forward_chars(len(indent_str))
+                        num_end = num_start.copy()
+                        num_end.forward_chars(len(num_str))
+                        mark = self.buffer.create_mark(None, num_start, True)
+                        self.buffer.delete(num_start, num_end)
+                        self.buffer.insert(self.buffer.get_iter_at_mark(mark), expected_num_str)
+                        self.buffer.delete_mark(mark)
+                else:
+                    m_ind = re.match(r"^(\s*)", line_text)
+                    line_ind = len(m_ind.group(1).replace("\t", "    ")) if m_ind else 0
+                    if line_text.lstrip().startswith("#"):
+                        active_lists.clear()
+                    else:
+                        closed = [i for i in active_lists if i >= line_ind]
+                        for i in closed:
+                            del active_lists[i]
+        finally:
+            if user_action_started:
+                self.buffer.end_user_action()
+            self._renumbering_lists = False
+
+    def recalculate_list_number(self, line_start_iter=None):
+        self.auto_renumber_ordered_lists()
 
     def toggle_checkbox(self):
         insert_mark = self.buffer.get_insert()

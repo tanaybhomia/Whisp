@@ -76,6 +76,22 @@ class TestAboutAndExport(unittest.TestCase):
         except Exception as e:
             self.fail(f"export_note raised unexpected exception: {e}")
 
+    def test_meson_build_includes_all_python_sources(self):
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        meson_file = os.path.join(project_root, 'src', 'meson.build')
+        with open(meson_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        src_dir = os.path.join(project_root, 'src')
+        missing = []
+        for root, _, files in os.walk(src_dir):
+            for file in files:
+                if file.endswith('.py'):
+                    rel_path = os.path.relpath(os.path.join(root, file), src_dir)
+                    if f"'{rel_path}'" not in content and f'"{rel_path}"' not in content:
+                        missing.append(rel_path)
+        self.assertEqual(missing, [], f"Python files in src/ missing from src/meson.build: {missing}")
+
 
 if __name__ == "__main__":
     unittest.main()

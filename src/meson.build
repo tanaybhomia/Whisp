@@ -41,6 +41,7 @@ whisp_editor_helpers_sources = [
   'whisp/editor_helpers/__init__.py',
   'whisp/editor_helpers/editor_lists.py',
   'whisp/editor_helpers/editor_expansions.py',
+  'whisp/editor_helpers/editor_paste.py',
 ]
 
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())

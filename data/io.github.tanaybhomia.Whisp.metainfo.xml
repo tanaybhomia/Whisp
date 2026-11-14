@@ -80,7 +80,7 @@
         <p><em>Smart Paste Module, Linux Mobile Support, and Dynamic Lists</em></p>
         <p><em>New Features</em></p>
         <ul>
-          <li>Smart Paste Module: Activate with <code>:paste</code> to auto-collect clipboard text and screenshots.</li>
+          <li>Smart Paste Module: Activate with <code>:paste</code> to auto-collect clipboard text</li>
           <li>Refocus Sync &amp; OCR: Syncs external copies on window refocus and deduplicates screenshots.</li>
           <li>Paste &amp; Link Shortcuts: Paste plain text with <code>Ctrl+Shift+V</code> and format links with <code>Ctrl+Shift+L</code>.</li>
           <li>Linux Mobile Support: Adaptive layout for Linux mobile and handheld devices.</li>

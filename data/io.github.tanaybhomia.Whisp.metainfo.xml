@@ -77,19 +77,19 @@
   <releases>
     <release version="1.7.0" date="2026-11-13">
       <description>
-        <p><em>Smart Paste Module,Linux Mobile Support and Dynamic Lists</em></p>
+        <p><em>Smart Paste Module, Linux Mobile Support, and Dynamic Lists</em></p>
         <p><em>New Features</em></p>
         <ul>
-          <li>Smart Paste Module (:paste): Type <code>:paste</code> or <code>paste</code> to activate AutoPaste, automatically collecting copied text and clipboard screenshots into your note as you browse or research.</li>
-          <li>Refocus Synchronization &amp; OCR Deduplication: Automatically syncs text and screenshots copied in other windows when returning to Whisp, with cryptographic hashing to prevent duplicate OCR text extraction.</li>
-          <li>Plain Text Paste &amp; Link Formatting: Paste clean unformatted text using <code>Ctrl+Shift+V</code> and instantly format URLs as clean markdown links using <code>Ctrl+Shift+L</code>.</li>
-          <li>Whisp is now available for Linux Mobile devices as well</li>
+          <li>Smart Paste Module: Activate with <code>:paste</code> to auto-collect clipboard text and screenshots.</li>
+          <li>Refocus Sync &amp; OCR: Syncs external copies on window refocus and deduplicates screenshots.</li>
+          <li>Paste &amp; Link Shortcuts: Paste plain text with <code>Ctrl+Shift+V</code> and format links with <code>Ctrl+Shift+L</code>.</li>
+          <li>Linux Mobile Support: Adaptive layout for Linux mobile and handheld devices.</li>
         </ul>
         <p><em>Fixes &amp; Polish</em></p>
         <ul>
-          <li>Keyboard Shortcuts Dialog: Fixed an issue where the shortcuts overview dialog failed to open via <code>Ctrl+/</code>.</li>
-          <li>Keyboard Shortcut Panel: Now updates to changed shortcuts quickly</li>
-          <li>Dynamic Numbered Lists: Numbered lists now automatically renumber when items are deleted, added, or moved with Alt+Up/Down.</li>
+          <li>Shortcuts Dialog: Fixed the shortcuts overview window failing to open via <code>Ctrl+/</code>.</li>
+          <li>Live Shortcut Sync: Custom shortcuts update immediately in the shortcuts window.</li>
+          <li>Dynamic Lists: Automatically renumbers ordered lists when items are added, deleted, or moved.</li>
         </ul>
       </description>
     </release>

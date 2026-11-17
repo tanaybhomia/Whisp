@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # install-dev.sh - Installs the Development version of Whisp to your system launcher
+# install-dev.sh --uninstall to undo all changes
 
 # Ensure we're in the right directory
 cd "$(dirname "$0")"
@@ -18,7 +19,35 @@ else
     PROVIDER_DIR="/usr/local/share/gnome-shell/search-providers"
 fi
 
+# Uninstallation
+
+uninstall() {
+    echo "Uninstalling Whisp (Development)..."
+
+    rm -f "$DESKTOP_DIR/io.github.tanaybhomia.Whisp.Devel.desktop"
+    echo "Removed desktop launcher."
+
+    rm -f "$ICON_DIR/io.github.tanaybhomia.Whisp.Devel.svg"
+    echo "Removed development icon."
+
+    rm -f "$SERVICE_DIR/io.github.tanaybhomia.Whisp.Devel.service"
+    rm -f "$SERVICE_DIR/io.github.tanaybhomia.Whisp.SearchProvider.service"
+    echo "Removed D-Bus service files."
+
+    rm -f "$PROVIDER_DIR/io.github.tanaybhomia.Whisp-search-provider.ini"
+    echo "Removed search provider registration."
+
+    # Refresh GNOME databases
+    update-desktop-database "$DESKTOP_DIR" 2>/dev/null
+    gtk-update-icon-cache -f -t "$HOME/.local/share/icons/hicolor" 2>/dev/null
+
+    echo ""
+    echo "Done! Whisp (Development) has been removed from your app launcher."
+    echo "Note: log out and back in for GNOME Shell to fully remove the search provider."
+}
+
 # Installation
+
 install() {
     echo "Installing Whisp (Development)..."
 
@@ -97,11 +126,17 @@ EOF
 # Entry point 
 
 case "${1:-}" in
+    --uninstall)
+        uninstall
+        ;;
     "")
         install
         ;;
     *)
-        echo "Usage: $0"
+        echo "Usage: $0 [--uninstall]"
+        echo ""
+        echo "  (no arguments)   Install the Whisp development environment"
+        echo "  --uninstall      Remove all files created by this script"
         exit 1
         ;;
 esac

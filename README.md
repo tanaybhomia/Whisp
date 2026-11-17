@@ -154,6 +154,12 @@ If you want to use the official Flathub release for your daily notes, but also w
 
 This script creates a separate "Whisp (Development)" entry in your GNOME app grid. It uses a custom development icon and saves your test notes to a completely isolated folder (`~/.local/share/Whisp/`), keeping your official Flatpak notes safe. Any code changes you make in your IDE will instantly be reflected the next time you click the Development app icon.
 
+To remove all the files and entries it created, run:
+
+```bash
+./install-dev.sh --uninstall
+```
+
 
 ## License
 

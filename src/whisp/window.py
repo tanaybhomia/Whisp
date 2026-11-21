@@ -65,6 +65,17 @@ class WhispWindow(Adw.ApplicationWindow):
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             )
         self.apply_theme()
+
+        # Above the user's gtk.css, so Transparent and Opaque win over it and Follow System leaves it be
+        self.add_css_class("whisp-main-window")
+        self.background_css_provider = Gtk.CssProvider()
+        if display:
+            Gtk.StyleContext.add_provider_for_display(
+                display,
+                self.background_css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_USER + 1
+            )
+        self.update_window_background()
         
         DATA_DIR.mkdir(parents=True, exist_ok=True)
         import json
@@ -1057,6 +1068,33 @@ class WhispWindow(Adw.ApplicationWindow):
         except GLib.Error:
             pass
 
+    def update_window_background(self):
+        mode = config.get("window_background", "system")
+        if mode == "transparent":
+            opacity = config.get("window_background_opacity", 0.8)
+            # GTK asks the compositor to blur only where a backdrop-filter is drawn.
+            # none rather than nothing when off, so a blur from the user's gtk.css doesn't sneak back in
+            blur = "blur(18px)" if config.get("window_background_blur", True) else "none"
+            css = f"""
+            window.whisp-main-window {{
+                background: alpha(@view_bg_color, {opacity});
+                background-color: alpha(@view_bg_color, {opacity});
+                backdrop-filter: {blur};
+            }}
+            """
+        elif mode == "opaque":
+            css = """
+            window.whisp-main-window {
+                background: @view_bg_color;
+                background-color: @view_bg_color;
+            }
+            """
+        else:
+            css = ""
+        try:
+            self.background_css_provider.load_from_data(css.encode('utf-8'))
+        except GLib.Error:
+            pass
 
     def toggle_visibility(self):
         if not self.is_visible():
